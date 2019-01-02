@@ -92,21 +92,18 @@ class ContractController extends Controller
 
     public function updateContract(Request $request, $id){
     	//Validad formulario
-    /*	$validateData = $this->validate($request, [
-    			
-    			'servicio' => 'required',
-    			'entidad' => 'required',
-    			'cate_general' => 'required',
-				'cate_especifica' => 'required',
-				'tipo' => 'required'
+	    /*	$validateData = $this->validate($request, [
+	    			
+	    			'servicio' => 'required',
+	    			'entidad' => 'required',
+	    			'cate_general' => 'required',
+					'cate_especifica' => 'required',
+					'tipo' => 'required'
 
-    	]);
-	*/
-
-		$contract = new Contract();
+	    	]);
+		*/
+	
 		$contract = Contract::find($id);
-    	$user = \Auth::user();
-    	//$contract-> user_id = $user->id;
     	$contract->code = $request->input('codigo');
     	$contract->general_category_id = $request->cate_general;
     	$contract->specific_category_id = $request->cate_especifica;
@@ -124,6 +121,7 @@ class ContractController extends Controller
 	public function destroyContract($id){
     
 		$contract = Contract::find($id);
+		//$deletedRows = App\Flight::where('active', 0)->delete();
 		$contract->delete(); //DELETE
 		
     	return back()->with(array(

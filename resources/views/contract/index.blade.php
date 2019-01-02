@@ -78,7 +78,7 @@
 
 	<div class="row">
 	  <div class="col-md-4">{{ $contracts->links() }}</div>
-	  <div class="col-md-4 text-left">Número de filas {{ $contracts->count() }}</div>
+	  <div class="col-md-4 text-left"></div>
 	  <div class="col-md-3"></div>
 	  
 	</div>
