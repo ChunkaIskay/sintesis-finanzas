@@ -20,7 +20,7 @@
 			<button type="submit" class="btn btn-info">
 				<span >Buscar</span>
 			</button>
-			<a href="{{ route('createService') }}" type="submit" class="btn btn-info">
+			<a href="{{ route('createEntity') }}" type="submit" class="btn btn-info">
 				<span >Crear Nueva Entidad</span>
 			</a>
 			
