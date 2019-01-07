@@ -42,22 +42,20 @@
 			            <td class="text-center">{{ $key+1 }}</td>
 			            <td>{{ $value->name }}</td>
 			            <td>{{ $value->status }}</td>
-			           			          
-			            
-			            <td class="td-actions text-right">
-			               <!-- <form method="post" action="{{ url('/'.$value->contract_id) }}"> 
+			       		<td class="td-actions text-right">
+			               <form method="post" action="{{ url('/'.$value->service_id.'/destroy') }}"> 
 				            	{{ csrf_field() }}   
-				            	{{ method_field('DELETE') }} -->
-							<a type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
-								<i class="fa fa-user">Ver</i>
-							</a>
-			                <a href="{{ url('/'.$value->service_id.'/edit-service') }}" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
-			                    <i class="fa fa-edit">Editar</i>
-			                </a>
-			                <button type="submit" rel="tooltip" title="Eliminar contrato" class="btn btn-danger btn-simple btn-xs">
-			                    <i class="fa fa-times">Eliminar</i>
-			                </button>
-				           <!--  </form>-->
+				            	{{ method_field('DELETE') }}
+								<a type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
+									<i class="fa fa-user">Ver</i>
+								</a>
+				                <a href="{{ url('/'.$value->service_id.'/edit-service') }}" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
+				                    <i class="fa fa-edit">Editar</i>
+				                </a>
+				                <button type="submit" rel="tooltip" title="Eliminar contrato" class="btn btn-danger btn-simple btn-xs">
+				                    <i class="fa fa-times">Eliminar</i>
+				                </button>
+				           </form>
 
 			            </td>
 			        </tr>
@@ -65,8 +63,6 @@
 			       
 			    </tbody>
 			</table>
-
-	
 	</div>
 
 	<div class="row">

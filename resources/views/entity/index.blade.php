@@ -11,7 +11,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de los contratos</h2>
+		<h2> Listado de Entidades</h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
 			<div class="form-group">
@@ -20,8 +20,8 @@
 			<button type="submit" class="btn btn-info">
 				<span >Buscar</span>
 			</button>
-			<a href="{{ route('createContract') }}" type="submit" class="btn btn-info">
-				<span >Crear Nuevo Contrato</span>
+			<a href="{{ route('createService') }}" type="submit" class="btn btn-info">
+				<span >Crear Nueva Entidad</span>
 			</a>
 			
 		</form>
@@ -30,41 +30,36 @@
 			    <thead>
 			        <tr>
 			            <th class="text-center">#</th>
-			            <th>Código del Contrato</th>
-			            <th>Servicio</th>
 			            <th>Entidad</th>
-			            <th class="text-right">Categoria general</th>
-			            <th class="text-right">Categoria especifica</th>
-			            <th class="text-right">Tipo</th>
+			            <th>Cuenta</th>
+			            <th>Ciudad</th>
+			            <th class="text-right">Dirección</th>
 			            <th class="text-right">Acciones</th>
 			        </tr>
 			    </thead>
 			    <tbody>
-			   
-					@foreach($contracts as $key => $value) 
+			    
+					@foreach($entities as $key => $value) 
 			        <tr>
 			            <td class="text-center">{{ $key+1 }}</td>
-			            <td>{{ $value->code }}</td>
 			            <td>{{ $value->name }}</td>
-			            <td>{{ $value->nameEntity }}</td>  
-			            <td class="text-right">
-		                	{{ !empty($categorizations[$value->general_category_id]->name)? $categorizations[$value->general_category_id]->name : 'otros' }}</td>
-			            <td class="text-right">{{ !empty($categorizations[$value->specific_category_id]->name)? $categorizations[$value->specific_category_id]->name : 'otros' }}</td>
-			            <td class="text-right">{{ !empty($typeContracts[$value->type_id]->name)? $typeContracts[$value->type_id]->name : 'otros' }}</td>
-						<td class="td-actions text-right">
-			                <form method="post" action="{{ url('/'.$value->contract_id) }}"> 
+			            <td>{{ $value->bank_account }}</td>
+			            <td>{{ $value->city }}</td>
+			            <td>{{ $value->address }}</td>
+			       		<td class="td-actions text-right">
+			               <form method="post" action="{{ url('/'.$value->entity_id.'/entity') }}"> 
 				            	{{ csrf_field() }}   
-				            	{{ method_field('DELETE') }} 
+				            	{{ method_field('DELETE') }}
 								<a type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
 									<i class="fa fa-user">Ver</i>
 								</a>
-				                <a href="{{ url('/'.$value->contract_id.'/edit-contract') }}" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
+				                <a href="{{ url('/'.$value->entity_id.'/edit-entity') }}" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
 				                    <i class="fa fa-edit">Editar</i>
 				                </a>
 				                <button type="submit" rel="tooltip" title="Eliminar contrato" class="btn btn-danger btn-simple btn-xs">
 				                    <i class="fa fa-times">Eliminar</i>
 				                </button>
-				             </form>
+				           </form>
 
 			            </td>
 			        </tr>
@@ -72,12 +67,10 @@
 			       
 			    </tbody>
 			</table>
-
-	
 	</div>
 
 	<div class="row">
-	  <div class="col-md-4">{{ $contracts->links() }}</div>
+	  <div class="col-md-4">{{ $entities->links() }}</div>
 	  <div class="col-md-4 text-left"></div>
 	  <div class="col-md-3"></div>
 	  

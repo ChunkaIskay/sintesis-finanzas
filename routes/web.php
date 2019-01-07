@@ -105,3 +105,15 @@ Route::post('/{id}/update-service', array(
 		'uses' => 'ServiceController@updateService'	
 ));
 
+Route::delete('/{id}/destroy', array(
+		'as' => 'destroyService',
+		'middleware' => 'auth',	
+		'uses' => 'ServiceController@destroyService'	
+));
+
+// Rutas Entiad
+Route::get('/list-entity', array(
+		'as' => 'listEntity',
+		'middleware' => 'auth',	
+		'uses' => 'EntityController@index'	
+));

@@ -9,46 +9,40 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Entity;
 
-use App\Service;
-
-
-
-
-class ServiceController extends Controller
+class EntityController extends Controller
 {
-    
-
-	public function index(){
+    public function index(){
 	
-		$services = Service::paginate(5);
+		$entities = Entity::paginate(5);
 
-		return view('service.index')->with(compact('services'));
+		return view('entity.index')->with(compact('entities'));
 
 	}
 
-    public function createService(){
-    	$services = Service::orderBy('service_id','desc')->get();
-    	$serviceId = $services[0]['service_id']+1;
-    	return view('service.createService')->with(array( 'serviceId' =>$serviceId ));
+    public function createEntity(){
+    	$entities = Entity::orderBy('entity_id','desc')->get();
+    	$entityId = $entities[0]['entity_id']+1;
+    	return view('entity.createEntity')->with(array( 'entityId' =>$entityId ));
 
     }
 
-    public function saveService(Request $request){
+    public function saveEntity(Request $request){
 
-		$this->validate($request, Service::$rules, Service::$messages);
+		$this->validate($request, Entity::$rules, Entity::$messages);
 
-		$service = new Service();
-    	$services = Service::orderBy('service_id','desc')->get();
-    	$serviceId = $services[0]['service_id']+1;
+		$entity = new Entity();
+    	$entities = Entity::orderBy('entity_id','desc')->get();
+    	$entityId = $entities[0]['entity_id']+1;
 
-    	if($request->input('serviceId') == $serviceId){
+    	if($request->input('entityId') == $entityId){
 
-	        $service->service_id= $serviceId;
-	    	$service->name = $request->input('name');
-	    	$service->description = $request->description;
-	    	$service->status = $request->status;
-	    	$service->save(); 
+	        $entity->entity_id= $entityId;
+	    	$entity->name = $request->input('name');
+	    	$entity->description = $request->description;
+	    	$entity->status = $request->status;
+	    	$entity->save(); 
     	
     	}else{
     			return back()->with(array(
@@ -57,7 +51,7 @@ class ServiceController extends Controller
     	}
 
     	return redirect()->route('listService')->with(array(
-    		'message' => 'El servicio se ha creado correctamente!!'
+    		'message' => 'La entidad se ha creado correctamente!!'
     	));
     }
 
@@ -98,5 +92,4 @@ class ServiceController extends Controller
     		'message' => 'El servicio fue eliminado correctamente!!'
     	));
     }
-
 }
