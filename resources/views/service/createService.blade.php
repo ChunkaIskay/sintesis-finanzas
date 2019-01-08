@@ -26,7 +26,6 @@
 				<label for="name">Nombre del servicio</label>
 				<input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
 				<input type="hidden"  id="serviceId" name="serviceId" value="{{ $serviceId }}">
-				serviceId
 			</div>
 			<div class="form-group">
 				<label for="description">Descripción del servicio</label>

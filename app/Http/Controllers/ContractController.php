@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
-
 use App\Contract;
 use App\Entity;
 use App\Service;
@@ -17,12 +15,9 @@ use App\TypeContract;
 
 class ContractController extends Controller
 {
-   	public $arrayServiceEntity = array(); //array
-	
+   	public $arrayServiceEntity = array(); 
 
 	public function index(){
-	
-		//return("aute".auth()->user()->id); print id user
 		
 		$contracts = DB::table('contracts')
 		->join('services','services.service_id', '=' , 'contracts.service_id')
@@ -45,7 +40,6 @@ class ContractController extends Controller
     	$entities = Entity::orderBy('name')->get();
         $categorizations = Categorization::orderBy('type','name')->get();
         $typeContracts = TypeContract::orderBy('name')->get();
-
 
     	return view('contract.createContract')->with(compact('services','entities','categorizations','typeContracts'));
 
@@ -72,7 +66,6 @@ class ContractController extends Controller
     		'message' => 'El contrato se ha creado correctamente!!'
     	));
     }
-
 
 	public function editContract($id){
 
@@ -104,12 +97,11 @@ class ContractController extends Controller
     	));
     }
 
-//eliminación fisica
 	public function destroyContract($id){
     
 		$contract = Contract::find($id);
 		//$deletedRows = App\Flight::where('active', 0)->delete();
-		$contract->delete(); //DELETE
+		$contract->delete(); 
 		
     	return back()->with(array(
     		'message' => 'El contrato fue eliminado correctamente!!'

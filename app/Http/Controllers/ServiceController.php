@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
-
-
 use App\Service;
 
 
@@ -77,11 +74,10 @@ class ServiceController extends Controller
 	    
 		$this->validate($request, Service::$rules, Service::$messages);
 		$Service = Service::find($id);
-		//$service = Service::where('service_id', '=', $id)->get();
 		$Service->name = $request->input('name');
     	$Service->description = $request->description;
     	$Service->status = $request->status;
-		$Service->save();  // update 
+		$Service->save();  
 
     	return redirect()->route('listService')->with(array(
     		'message' => 'El contrato se modifico correctamente!!'

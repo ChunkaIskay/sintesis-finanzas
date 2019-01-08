@@ -27,6 +27,9 @@ class Entity extends Model
     	
     	 return $this->belongsTo('App\Contract');
     }
+     public function countries(){
+        return $this->hasMany('App\Country', 'country_id');
+    }
     
 }
 

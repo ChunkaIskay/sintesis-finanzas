@@ -40,7 +40,8 @@ class Contract extends Model
     public function typeContracts(){
         return $this->hasMany('App\TypeContract','type_id');
     }
-    // 
+    
+   // 
     public function getServiceNameAttribute()
     {
         if($this->service)

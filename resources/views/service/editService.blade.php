@@ -30,9 +30,6 @@
 			<div class="form-group">
 				<label for="status">Estado</label>
 				<select class="form-control form-control-large"  name="status" required="">
-					
-					<option value="activo" selected="selected">{{ $services[0]['status'] }}</option>
-
 					 @foreach($status as $value)
 			              <option value="{{  $value->status }}" @if( $services[0]['status'] == old('status', $value->status)) selected @endif>{{ $value->status }}</option>
 					 @endforeach

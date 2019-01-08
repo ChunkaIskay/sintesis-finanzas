@@ -4,27 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
-
 use App\Entity;
+use App\Country;
+
 
 class EntityController extends Controller
 {
+    
     public function index(){
-	
-		$entities = Entity::paginate(5);
 
-		return view('entity.index')->with(compact('entities'));
+        $entities = DB::table('entities')
+        ->join('countries','countries.country_id', '=' , 'entities.city')
+        ->select('entities.entity_id','entities.name','entities.bank_name','entities.bank_account','entities.address','countries.city')
+        ->paginate(5);
+        $entity_id = DB::table('countries')->get();
+        return view('entity.index',  array('entities' => $entities));
+
 
 	}
 
     public function createEntity(){
     	$entities = Entity::orderBy('entity_id','desc')->get();
     	$entityId = $entities[0]['entity_id']+1;
-    	return view('entity.createEntity')->with(array( 'entityId' =>$entityId ));
+        $countries = Country::orderBy('city')->get();
+    	return view('entity.createEntity')->with(array( 'entityId' =>$entityId, 'countries' => $countries));
 
     }
 
@@ -40,9 +46,12 @@ class EntityController extends Controller
 
 	        $entity->entity_id= $entityId;
 	    	$entity->name = $request->input('name');
-	    	$entity->description = $request->description;
-	    	$entity->status = $request->status;
-	    	$entity->save(); 
+            $entity->bank_name = $request->input('bank_name');
+            $entity->bank_account = $request->input('bank_account');
+            $entity->address = $request->input('address');        
+            $entity->description = $request->description;
+            $entity->city = $request->city;
+            $entity->save(); 
     	
     	}else{
     			return back()->with(array(
@@ -50,46 +59,44 @@ class EntityController extends Controller
 			   ));
     	}
 
-    	return redirect()->route('listService')->with(array(
+    	return redirect()->route('listEntity')->with(array(
     		'message' => 'La entidad se ha creado correctamente!!'
     	));
     }
 
 
-	public function editService($id){
+	public function editEntity(Entity $entity){
+
+        $entety = Entity::find($entity);
+        $countries = Country::orderBy('country_id','desc')->get();
         
-        $services = Service::where('service_id', '=', $id)->get();
-        $status =  DB::table('services')
-        ->distinct() 
-        ->select('services.status')
-        ->get();
-        
-        return view('service.editService')->with(compact('services','status'));
+        return view('entity.editEntity')->with(compact('entity','countries'));
     }
 
-    public function updateService(Request $request, $id){
+    public function updateEntity(Request $request, $id){
 	    
-		$this->validate($request, Service::$rules, Service::$messages);
-		$Service = Service::find($id);
-		//$service = Service::where('service_id', '=', $id)->get();
-		$Service->name = $request->input('name');
-    	$Service->description = $request->description;
-    	$Service->status = $request->status;
-		$Service->save();  // update 
-
-    	return redirect()->route('listService')->with(array(
-    		'message' => 'El contrato se modifico correctamente!!'
+		$this->validate($request, Entity::$rules, Entity::$messages);
+		$entity = Entity::find($id);
+	    $entity->name = $request->input('name');
+        $entity->bank_name = $request->input('bank_name');
+        $entity->bank_account = $request->input('bank_account');
+        $entity->address = $request->input('address');        
+        $entity->description = $request->description;
+        $entity->city = $request->city;
+        $entity->save();  
+		
+    	return redirect()->route('listEntity')->with(array(
+    		'message' => 'La entidad se modifico correctamente!!'
     	));
     }
 
-    public function destroyService($id){
+    public function destroyEntity($id){
     
-		$service = Service::find($id);
-		//$deletedRows = App\Flight::where('active', 0)->delete();
-		$service->delete(); //DELETE
-		
-    	return back()->with(array(
-    		'message' => 'El servicio fue eliminado correctamente!!'
-    	));
+		$entity = Entity::find($id);
+        $entity->delete(); 
+        
+        return back()->with(array(
+            'message' => 'La entidad fue eliminado correctamente!!'
+		));
     }
 }

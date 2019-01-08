@@ -50,7 +50,7 @@
                               <li><a href="{{ route('createService') }}">Crear Servicios</a></li>
                               <li><a href="{{ route('listService') }}">Listado Servicos</a></li>
                               <li class="divider"></li>
-                              <li><a href="">Crear Entidades</a></li>
+                              <li><a href="{{ route('createEntity') }}">Crear Entidades</a></li>
                               <li><a href="{{ route('listEntity') }}">Listado de Entidades</a></li>
                             </ul>
                         </li>

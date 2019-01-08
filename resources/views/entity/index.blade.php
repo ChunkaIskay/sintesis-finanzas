@@ -20,7 +20,7 @@
 			<button type="submit" class="btn btn-info">
 				<span >Buscar</span>
 			</button>
-			<a href="" type="submit" class="btn btn-info">
+			<a href="{{ route('createEntity') }}" type="submit" class="btn btn-info">
 				<span >Crear Nueva Entidad</span>
 			</a>
 			
@@ -32,6 +32,7 @@
 			            <th class="text-center">#</th>
 			            <th>Entidad</th>
 			            <th>Cuenta</th>
+			            <th>Banco</th>
 			            <th>Ciudad</th>
 			            <th class="text-right">Dirección</th>
 			            <th class="text-right">Acciones</th>
@@ -44,6 +45,7 @@
 			            <td class="text-center">{{ $key+1 }}</td>
 			            <td>{{ $value->name }}</td>
 			            <td>{{ $value->bank_account }}</td>
+			             <td>{{ $value->bank_name }}</td>
 			            <td>{{ $value->city }}</td>
 			            <td>{{ $value->address }}</td>
 			       		<td class="td-actions text-right">
