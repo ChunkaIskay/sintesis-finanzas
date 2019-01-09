@@ -43,8 +43,8 @@
 			<div class="form-group">
 				<label for="city">Ciudad</label>
 				<select class="form-control form-control-large"  name="city" required="">
-					 @foreach($countries as $value)
-			              <option value="{{ $value->country_id }}" @if( $entity->city == old('city', $value->country_id)) selected @endif>{{ $value->city }}</option>
+					 @foreach($countries as $value)   @if( $value->country_id == old('city')) selected @endif
+			              <option value="{{ $value->country_id }}" @if( $value->country_id == old('city', $entity->city)) selected @endif>{{ $value->city }}</option>
 					 @endforeach
 
 				</select>

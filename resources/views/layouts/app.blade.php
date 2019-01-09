@@ -47,11 +47,14 @@
                               <li><a href="{{ route('listContract') }}">Listado de Contratos</a></li>
                               <li><a href="{{ route('createContract') }}">Crear Contrato</a></li>
                               <li class="divider"></li>
-                              <li><a href="{{ route('createService') }}">Crear Servicios</a></li>
-                              <li><a href="{{ route('listService') }}">Listado Servicos</a></li>
+                              <li><a href="{{ route('listService') }}">Listado de Servicos</a></li>
+                              <li><a href="{{ route('createService') }}">Crear Servicio</a></li>
                               <li class="divider"></li>
-                              <li><a href="{{ route('createEntity') }}">Crear Entidades</a></li>
                               <li><a href="{{ route('listEntity') }}">Listado de Entidades</a></li>
+                              <li><a href="{{ route('createEntity') }}">Crear Entidades</a></li>
+                              <li class="divider"></li>
+                              <li><a href="{{ route('listContact') }}">Listado de Contactos</a></li>
+                              <li><a href="{{ route('createContact') }}">Crear Contacto</a></li>
                             </ul>
                         </li>
                         @endguest

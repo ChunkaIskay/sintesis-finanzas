@@ -23,7 +23,6 @@ class EntityController extends Controller
         $entity_id = DB::table('countries')->get();
         return view('entity.index',  array('entities' => $entities));
 
-
 	}
 
     public function createEntity(){
