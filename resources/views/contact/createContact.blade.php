@@ -5,13 +5,13 @@
 
 <div class="container">
 	<div class="row">
-		<h2> Crear nuevo Contrato</h2>
+		<h2> Crear nuevo Contacto</h2>
 		@if(session('message'))
                 <div class="alert alert-success">
                     {{ session('message') }}
                 </div>
          @endif
-		<form action="{{ route('saveContract') }}" method="post" enctype="multipart/form-data" class="col-lg-7">
+		<form action="{{ route('saveContact') }}" method="post" enctype="multipart/form-data" class="col-lg-7">
 			{{ csrf_field() }}
 			@if($errors->any())
 				<div class="alert alert-danger">
@@ -24,63 +24,40 @@
 			@endif
 
 			<div class="form-group">
-				<label for="codigo">Código del Contrato</label>
-				<input type="text" class="form-control" id="codigo" name="codigo" value="{{ old('codigo') }}">
+				<label for="nombre">Nombre del Contacto</label>
+				<input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre') }}">
 			</div>
 			<div class="form-group">
-				<label for="description">Descripción del contrato</label>
-				<textarea class="form-control" name="description" placeholder="Ingrese la descripción del contrato" rows="5">{{ old('description') }}</textarea>
+				<label for="apellido">Apellido</label>
+				<input type="text" class="form-control" id="apellido" name="apellido" value="{{ old('apellido') }}">
 			</div>
 			<div class="form-group">
-				<label for="servicio">Servicios</label>
-				<select class="form-control form-control-large"  name="servicio"required="">
-					  @foreach($services as $service)
-			              <option value="{{ $service->service_id }}">{{ $service->name }}</option>
-					  @endforeach			        
-				</select>
+				<label for="telefono">Teléfono</label>
+				<input type="number" class="form-control" id="telefono" name="telefono" value="{{ old('telefono') }}">
+			</div>
+			<div class="form-group">
+				<label for="celular">Celular</label>
+				<input type="number" class="form-control" id="celular" name="celular" value="{{ old('celular') }}">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+			</div>
+			<div class="form-group">
+				<label for="cargo">Cargo</label>
+				<input type="text" class="form-control" id="cargo" name="cargo" value="{{ old('cargo') }}">
 			</div>
 			<div class="form-group">
 				<label for="entidad">Entidad</label>
 				<select class="form-control form-control-large"  name="entidad" required="">
 					 @foreach($entities as $entity)
-			              <option value="{{ $entity->entity_id }}">{{ $entity->name }}</option>
+			              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad')) selected @endif>{{ $entity->name }}</option>
 					 @endforeach
 				</select>
 			</div>
-				<div class="row">
-		          <div class="col-md-4 mb-3">
-		            <label for="cate_general">Categorización General</label>
-		            <select class="custom-select form-control"  name="cate_general" required="">
-		            	 @foreach($categorizations as $categorizationg)
-		            	 	@if( $categorizationg->type == 'especifica' )	
-			              		<option value="{{ $entity->entity_id }}">{{ $categorizationg->name }}</option>
-			              	@endif
-			             @endforeach
-		            </select>
-		          </div>
-		   
-		          <div class="col-md-4 mb-3">
-		            <label for="cate_especifica">Categorización Específica</label>
-		            <select class="custom-select form-control" name="cate_especifica" required="">
-			              @foreach($categorizations as $categorizatione)
-			              	@if( $categorizatione->type == 'general' )	
-				              <option value="{{ $entity->entity_id }}">{{ $categorizatione->name }}</option>
-				          	@endif
-				          @endforeach
-		            </select>
-		          </div>
-		           <div class="col-md-4 mb-3">
-		            <label for="tipo">Tipo de Contrato</label>
-		            <select class="custom-select form-control" name="tipo" required="">
-		              @foreach($typeContracts as $typeContract)
-			              <option value="{{ $entity->entity_id }}">{{ $typeContract->name }}</option>
-			          @endforeach
-		            </select>
-		          </div>
-		        </div>
-		        	
+    	
 			<br><br><br>
-			<button type="submit" class="btn btn-success">Crear Contrato</button>	
+			<button type="submit" class="btn btn-success">Crear Contacto</button>	
 
 		</form>
 

@@ -58,4 +58,4 @@ Route::get('/{id}/edit-contact', array('as' => 'editContact',	'middleware' => 'a
 
 Route::post('/{id}/update-contact', array('as' => 'updateContact','middleware' => 'auth',	'uses' => 'ContactController@updateContact'));
 /*Route::post('/{id}/delete', array('as' => 'destroyContact','middleware' => 'auth',	'uses' => 'ContactController@destroyContact'	));*/
-Route::delete('/{id}', array('as' => 'destroyContact',	'middleware' => 'auth',	'uses' => 'ContactController@destroyContact' ));
+Route::delete('/{id}/contact', array('as' => 'destroyContact',	'middleware' => 'auth',	'uses' => 'ContactController@destroyContact' ));

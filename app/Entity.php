@@ -31,13 +31,18 @@ class Entity extends Model
 
     ];
 
-    // relacion one to many
     public function contracts(){
     	
     	 return $this->belongsTo('App\Contract');
     }
+
      public function countries(){
         return $this->hasMany('App\Country', 'country_id');
+    }
+    
+     public function contacts(){
+        
+         return $this->belongsTo('App\Contact');
     }
     
 }

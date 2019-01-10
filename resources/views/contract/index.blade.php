@@ -11,7 +11,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de los contratos</h2>
+		<h2> Listado de contratos</h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
 			<div class="form-group">
