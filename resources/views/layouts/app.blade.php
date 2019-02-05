@@ -57,6 +57,13 @@
                               <li><a href="{{ route('createContact') }}">Crear Contacto</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestión Operativa<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                              <li><a href="{{ route('createdManagement') }}">Gestionar contratos</a></li>
+                              <li class="divider"></li>
+                            </ul>
+                        </li>
                         @endguest
                     </ul>
 

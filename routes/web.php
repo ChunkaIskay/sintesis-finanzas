@@ -1,9 +1,8 @@
 <?php
 
 
-
-
 Route::get('/', function () {  return view('welcome');});
+
 
 Auth::routes();
 
@@ -47,15 +46,31 @@ Route::get('/{entity}/edit-entity', array('as' => 'editEntity',	'middleware' => 
 Route::post('/{id}/update-entity', array('as' => 'updateEntity','middleware' => 'auth',	'uses' => 'EntityController@updateEntity'));
 
 Route::delete('/{id}/entity', array('as' => 'destroyEntity', 'middleware' => 'auth', 'uses' => 'EntityController@destroyEntity'));
-// Rutas del controlador de Contract
+
 Route::get('/list-contact', array(	'as' => 'listContact',	'middleware' => 'auth',	'uses' => 'ContactController@index'));
 
 Route::get('/create-contact', array('as' => 'createContact','middleware' => 'auth','uses' => 'ContactController@createContact'	));
 
 Route::post('/save-contact', array('as' => 'saveContact',	'middleware' => 'auth',	'uses' => 'ContactController@saveContact'	));
 
-Route::get('/{id}/edit-contact', array('as' => 'editContact',	'middleware' => 'auth',	'uses' => 'ContactController@editContact'	));
+Route::get('/{id}/edit-contact', array('as' => 'editContact',	'middleware' => 'auth',	'uses' => 'ContactController@editContact'));
 
 Route::post('/{id}/update-contact', array('as' => 'updateContact','middleware' => 'auth',	'uses' => 'ContactController@updateContact'));
-/*Route::post('/{id}/delete', array('as' => 'destroyContact','middleware' => 'auth',	'uses' => 'ContactController@destroyContact'	));*/
+
 Route::delete('/{id}/contact', array('as' => 'destroyContact',	'middleware' => 'auth',	'uses' => 'ContactController@destroyContact' ));
+
+Route::get('/management', array('as' => 'createdManagement','middleware' => 'auth',	'uses' => 'OperationalManagementController@index'));
+
+Route::get('/search-contract', array('as' => 'searchContract','middleware' => 'auth',	'uses' => 'OperationalManagementController@search'));
+Route::post('/search-contract', array('as' => 'searchList','middleware' => 'auth',	'uses' => 'OperationalManagementController@search'));
+
+Route::get('/{id}/management', array('as' => 'list','middleware' => 'auth','uses' => 'OperationalManagementController@managementContract'));
+//Route::post('/{id}/management', array('as' => 'opertional',	'middleware' => 'auth',	'uses' => 'OperationalManagementController@managementContract'));
+
+
+
+/*
+Route::get('/managmente/{link}',function($link){
+      return view('management.index', ['link' => $link]);
+});
+*/

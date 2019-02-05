@@ -19,17 +19,60 @@
 			@endif
 
 			<div class="form-group">
+				<label for="code">Código de la entidad</label>
+				<input type="text" class="form-control" id="code" name="code" value="{{ old('code', $entity->code) }}">
+			</div>
+			<div class="form-group">
 				<label for="name">Nombre de la entidad</label>
 				<input type="text" class="form-control" id="name" name="name" value="{{ old('name', $entity->name) }}">
 			</div>
-			<div class="form-group">
-				<label for="bank_account">Número de cuenta</label>
-				<input type="text" class="form-control" id="bank_account" name="bank_account" value="{{ old('bank_account', $entity->bank_account) }}">
-			</div>
-			<div class="form-group">
-				<label for="bank_name">Banco</label>
-				<input type="text" class="form-control" id="bank_name" name="bank_name" value="{{ old('bank_name', $entity->bank_name) }}">
-			</div>
+			@foreach($accounts as $key => $account)
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="number_account_{{ $key}}"># Cuenta {{ $key +1 }}</label>
+							@if(!empty($account->number_account))
+								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="{{ old('number_account', $account->number_account) }}">
+							@else
+								<input type="text" class="form-control" id="number_account" name="number_account" value="">
+							@endif
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="bank_{{ $key}}">Banco</label>
+							<select class="form-control form-control-large"  name="bank_{{ $key}}" required="">
+								 @foreach($bank as $value)   
+								 	  <option value="{{ $value->bank_id }}" @if( $value->bank_id == old('bank_id_{{ $key}}', $account->bank_id)) selected @endif>{{ $value->short_name }}
+						              </option>
+								 @endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="bank_type_{{ $key}}">Tipo</label>
+							<select class="form-control form-control-large"  name="bank_type_{{ $key}}" required="">
+								 @foreach($type as $k => $value)   
+								 	  <option value="{{ $k }}" @if( $k == old('bank_type_{{ $key}}', $account->type_account)) selected @endif>{{ $value }}
+						              </option>
+								 @endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+							<label for="bank_coin_{{ $key}}">Moneda</label>
+							<select class="form-control form-control-large"  name="bank_coin_{{ $key}}" required="">
+								 @foreach($coin as $value)   
+								 	  <option value="{{ $value }}" @if( $value == old('bank_coin_{{ $key}}', $account->coin)) selected @endif>{{ $value }}
+						              </option>
+								 @endforeach
+							</select>
+					</div>
+				</div>
+			@endforeach
+
+
 			<div class="form-group">
 				<label for="description">Descripción de la entidad</label>
 				<textarea class="form-control" name="description" placeholder="Ingrese la descripción de la entidad" rows="5">{{  old('description', $entity->description) }}</textarea>
@@ -59,4 +102,5 @@
 
 	</div>
 </div>
+@include('includes.footer')
 @endsection

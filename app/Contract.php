@@ -22,12 +22,10 @@ class Contract extends Model
 
     ];
     
-    
-    // relacion one to many
     public function entities(){
     	return $this->hasMany('App\Entity', 'entity_id');
     }
-    // relacion one to many
+    
     public function services(){
     	return $this->hasMany('App\Service','service_id');
     }
@@ -39,8 +37,12 @@ class Contract extends Model
     public function typeContracts(){
         return $this->hasMany('App\TypeContract','type_id');
     }
+
+    public function operationalManagement(){
+        
+         return $this->belongsTo('App\Contract');
+    }
     
-   // 
     public function getServiceNameAttribute()
     {
         if($this->service)

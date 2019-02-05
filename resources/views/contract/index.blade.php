@@ -14,17 +14,16 @@
 		<h2> Listado de contratos</h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Buscar contratos" name="search" size="50" maxlength="30"/>
-			</div>
-			<button type="submit" class="btn btn-info">
-				<span >Buscar</span>
-			</button>
-			<a href="{{ route('createContract') }}" type="submit" class="btn btn-info">
-				<span >Crear Nuevo Contrato</span>
-			</a>
-			
-		</form>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Buscar contratos" name="search" size="50" maxlength="30"/>
+				</div>
+				<button type="submit" class="btn btn-info">
+					<span >Buscar</span>
+				</button>
+				<a href="{{ route('createContract') }}" type="submit" class="btn btn-info">
+					<span >Crear Nuevo Contrato</span>
+				</a>
+			</form>
 		</div>
 			<table class="table">
 			    <thead>
@@ -55,8 +54,8 @@
 			                <form method="post" action="{{ url('/'.$value->contract_id) }}"> 
 				            	{{ csrf_field() }}   
 				            	{{ method_field('DELETE') }} 
-								<a type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
-									<i class="fa fa-user">Ver</i>
+								<a href="{{ url('/'.$value->contract_id.'/management') }}"  type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
+									<i class="fa fa-user">Gestionar contrato</i>
 								</a>
 				                <a href="{{ url('/'.$value->contract_id.'/edit-contract') }}" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
 				                    <i class="fa fa-edit">Editar</i>
@@ -84,4 +83,5 @@
 	</div>
 
 </div>
+@include('includes.footer')
 @endsection
