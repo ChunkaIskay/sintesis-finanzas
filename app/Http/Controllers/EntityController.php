@@ -20,6 +20,7 @@ class EntityController extends Controller
 
         $entities = DB::table('entities')
         ->join('countries','countries.country_id', '=' , 'entities.city')
+    
         ->select('entities.entity_id','entities.name','entities.bank_name','entities.bank_account','entities.address','countries.city')
         ->paginate(5);
         $entity_id = DB::table('countries')->get();
@@ -71,7 +72,7 @@ class EntityController extends Controller
             $entety = Entity::find($entity);
             $accounts = BankAccount::where('entity_id','=', $entity->entity_id )->get();
             $bank = Bank::orderBy('short_name')->get();
-            $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    
             $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
             $coin =  collect(['Dolar','BS']);
 
