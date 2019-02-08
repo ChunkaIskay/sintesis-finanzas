@@ -34,7 +34,7 @@
 							@if(!empty($account->number_account))
 								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="{{ old('number_account', $account->number_account) }}">
 							@else
-								<input type="text" class="form-control" id="number_account" name="number_account" value="">
+								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="">
 							@endif
 						</div>
 					</div>

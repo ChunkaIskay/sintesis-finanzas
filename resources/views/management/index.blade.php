@@ -56,7 +56,7 @@
 					<ul class="nav nav-tabs ">
 						<li class="active">
 							<a href="#tab_default_1" data-toggle="tab">
-							Elaborar contrato</a>
+							Solicitar contrato</a>
 						</li>
 						<li class="disabled">
 							<a href="#" data-toggle="tab">

@@ -31,9 +31,13 @@ class EntityController extends Controller
     public function createEntity(){
 
     	$entities = Entity::orderBy('entity_id','desc')->get();
-    	$entityId = $entities[0]['entity_id']+1;
+        $entityId = $entities[0]['entity_id']+1;
+        $bank = Bank::orderBy('short_name')->get();
+        $type =  collect(['caja_de_ahorro'=>'Caja de ahorro','cuenta_corriente'=>'Cuenta corriente']);
+        $coin =  collect(['BS','Dolar']);
+        $entityId =  collect(['entityId' =>$entityId]);
         $countries = Country::orderBy('city')->get();
-    	return view('entity.createEntity')->with(array( 'entityId' =>$entityId, 'countries' => $countries));
+        return view('entity.createEntity')->with(compact('entityId','countries','bank','type','coin'));
 
     }
 
@@ -45,22 +49,58 @@ class EntityController extends Controller
     	$entities = Entity::orderBy('entity_id','desc')->get();
     	$entityId = $entities[0]['entity_id']+1;
 
-    	if($request->input('entityId') == $entityId){
+        try {
 
-	        $entity->entity_id= $entityId;
-	    	$entity->name = $request->input('name');
-            $entity->bank_name = $request->input('bank_name');
-            $entity->bank_account = $request->input('bank_account');
-            $entity->address = $request->input('address');        
-            $entity->description = $request->description;
-            $entity->city = $request->city;
-            $entity->save(); 
-    	
-    	}else{
-    			return back()->with(array(
-			    		'message' => 'Error intente nuevamente por favor!!'
-			   ));
-    	}
+            if($request->input('entityId') == $entityId){
+
+                    $entity->entity_id= $entityId;
+                    $entity->code = $request->input('code');
+                    $entity->name = $request->input('name');
+                    $entity->address = $request->input('address');        
+                    $entity->description = $request->description;
+                    $entity->city = $request->city;
+                   
+                    $bankAccount =  new BankAccount();
+                    $bankAccount->entity_id = $entityId;
+                    $bankAccount->number_account = $request->input('number_account_0');
+                    $bankAccount->bank_id = $request->bank_0;
+                    $bankAccount->type_account = $request->bank_type_0;
+                    $bankAccount->coin = $request->bank_coin_0;
+                   
+                    $bankAccount1 =  new BankAccount();
+                    $bankAccount1->entity_id = $entityId;
+                    $bankAccount1->number_account = $request->input('number_account_1');
+                    $bankAccount1->bank_id = $request->bank_1;
+                    $bankAccount1->type_account = $request->bank_type_1;
+                    $bankAccount1->coin = $request->bank_coin_1;
+                   
+                    $bankAccount2 =  new BankAccount();
+                    $bankAccount2->entity_id = $entityId;
+                    $bankAccount2->number_account = $request->input('number_account_2');
+                    $bankAccount2->bank_id = $request->bank_2;
+                    $bankAccount2->type_account = $request->bank_type_2;
+                    $bankAccount2->coin = $request->bank_coin_2;
+                    
+                    $bankAccount->save();
+                    $bankAccount1->save();
+                    $bankAccount2->save();
+                    $entity->save();
+
+                    
+                
+                }else{
+                        return back()->with(array(
+                                'message' => 'Error intente nuevamente por favor!!'
+                       ));
+                }
+            
+        } catch (Exception $e) {
+            
+            return back()->with(array(
+                                'message' => 'Error intente nuevamente por favor!!'
+                       ));
+        }
+            	
 
     	return redirect()->route('listEntity')->with(array(
     		'message' => 'La entidad se ha creado correctamente!!'

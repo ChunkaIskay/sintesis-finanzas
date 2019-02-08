@@ -40,27 +40,39 @@ class ContractController extends Controller
     	$entities = Entity::orderBy('name')->get();
         $categorizations = Categorization::orderBy('type','name')->get();
         $typeContracts = TypeContract::orderBy('name')->get();
+        $levels =  collect(['cajas'=>'Cajas','portales'=>'Portales','web'=>'Web']);
 
-    	return view('contract.createContract')->with(compact('services','entities','categorizations','typeContracts'));
+    	return view('contract.createContract')->with(compact('services','entities','categorizations','typeContracts', 'levels'));
 
     }
 
     public function saveContract(Request $request){
     	
-        $this->validate($request, Contract::$rules, Contract::$messages);
-
+        //$this->validate($request, Contract::$rules, Contract::$messages);
+        $level="";
 		$contract = new Contract();
     	$user = \Auth::user();
     	//$contract-> user_id = $user->id;
+        $contract->folder_code = $request->input('codigo_carpeta');
     	$contract->code = $request->input('codigo');
+        if($contract->automatica == 'yes')
+            $contract->number_month = $request->input('numero_mes');
+    
     	$contract->description = $request->description;
         $contract->general_category_id = $request->cate_general;
     	$contract->specific_category_id = $request->cate_especifica;
 		$contract->type_id = $request->tipo;
 		$contract->entity_id = $request->entidad;
     	$contract->service_id = $request->servicio;
-
-    	$contract->save(); 
+        
+        if(count($request->enable_level)>0){
+            foreach ($request->enable_level as $value) {
+               $level .= $value.',';
+            }
+            $contract->enable_level = trim($level, ',');
+        }
+        
+        $contract->save(); 
 
     	return redirect()->route('listContract')->with(array(
     		'message' => 'El contrato se ha creado correctamente!!'
