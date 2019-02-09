@@ -190,8 +190,6 @@
 
 				</select>
 			</div>
-
-			
 	      	<br><br><br>			
 			<button type="submit" class="btn btn-success">Crear Entidad</button>	
 

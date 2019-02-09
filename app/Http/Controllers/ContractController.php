@@ -55,7 +55,8 @@ class ContractController extends Controller
     	//$contract-> user_id = $user->id;
         $contract->folder_code = $request->input('codigo_carpeta');
     	$contract->code = $request->input('codigo');
-        if($contract->automatica == 'yes')
+
+        if($request->automatica == 'yes')
             $contract->number_month = $request->input('numero_mes');
     
     	$contract->description = $request->description;
@@ -71,7 +72,7 @@ class ContractController extends Controller
             }
             $contract->enable_level = trim($level, ',');
         }
-        
+
         $contract->save(); 
 
     	return redirect()->route('listContract')->with(array(
