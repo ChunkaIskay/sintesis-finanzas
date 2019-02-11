@@ -37,9 +37,12 @@
 
 		
 				<div class="row">
+					<div class="col-md-12"><label for="number_account_0">Abono de lo recauda a la siguiente cuenta:</label>
+					</div>						
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="number_account_0"># Cuenta 1</label>
+
+							<label for="number_account_0">Nª de Cuenta 1</label>
 							@if(!empty($account->number_account))
 								<input type="text" class="form-control" id="number_account_0" name="number_account_0}" value="{{ old('number_account')}}">
 							@else
@@ -83,7 +86,7 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="number_account_1"># Cuenta 2</label>
+							<label for="number_account_1">Nª de Cuenta 2</label>
 							@if(!empty($account->number_account))
 								<input type="text" class="form-control" id="number_account_1" name="number_account_1}" value="{{ old('number_account')}}">
 							@else
@@ -127,7 +130,7 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="number_account_2"># Cuenta 3</label>
+							<label for="number_account_2">Nª de Cuenta 3</label>
 							@if(!empty($account->number_account))
 								<input type="text" class="form-control" id="number_account_2" name="number_account_2}" value="{{ old('number_account')}}">
 							@else
@@ -168,14 +171,6 @@
 					</div>
 				</div>
 		
-
-
-
-			<div class="form-group">
-				<label for="description">Descripción de la entidad</label>
-				<textarea class="form-control" name="description" placeholder="Ingrese la descripción de la entidad" rows="5">{{  old('description') }}</textarea>
-			</div>
-
 			<div class="form-group">
 				<label for="address">Dirección</label>
 				<input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}">
@@ -190,6 +185,11 @@
 
 				</select>
 			</div>
+			<div class="form-group">
+				<label for="description">Descripción de la entidad</label>
+				<textarea class="form-control" name="description" placeholder="Ingrese la descripción de la entidad" rows="5">{{  old('description') }}</textarea>
+			</div>
+
 	      	<br><br><br>			
 			<button type="submit" class="btn btn-success">Crear Entidad</button>	
 

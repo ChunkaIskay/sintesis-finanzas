@@ -1,5 +1,4 @@
 <style type="text/css">
-	
 	.hide {
 	  display: none;
 	}
@@ -22,7 +21,6 @@
 		    background-image: none;
 		    border: 1px solid #ccd0d2;
 		    border-radius: 4px;
-
 	}
 </style>
 
@@ -78,7 +76,7 @@
 				<div  class="form-group">
 					<label for="control-label">Renovación automática</label>
 					<div class="radio" style="left: 30px;">
-						<input type="radio" name="automatica" value="yes" onclick="show2();" />
+						<input type="radio" name="automatica" value="yes"  onclick="showMonth();" />
 						SI
 						<div id="div1" style="display: none;">
 							<label class="control-label">Meses consecutivos</label>
@@ -86,10 +84,9 @@
 						</div>
 					</div>
 					<div class="radio" style="left: 30px;">
-						<input type="radio" name="automatica" value="no" checked="true" onclick="show1();" />
+						<input type="radio" name="automatica" value="no" onclick="notShowMonth();" />
 						No
 					</div>
-				
 				</div>
 				<div class="row">
 		          <div class="col-md-4 mb-3">
@@ -133,9 +130,7 @@
 						</select>
 					</div>
 					<div class="col-md-4 mb-6">&nbsp;
-				        
 					</div>
-
 				</div>
 			<br/>
 		        <div class="form-group">
@@ -151,10 +146,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	function show1(){ 
+	function notShowMonth(){ 
 	  document.getElementById('div1').style.display ='none';
 	}
-	function show2(){ 
+	function showMonth(){ 
 	  document.getElementById('div1').style.display ='block';
 	}
 </script>

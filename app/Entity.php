@@ -48,9 +48,9 @@ class Entity extends Model
             'number_account_1' => 'max:12',
             'number_account_2' => 'max:12',
 
-            'bank_0' => 'max:1',
-            'bank_1' => 'max:1',
-            'bank_2' => 'max:1',
+            'bank_0' => 'max:2',
+            'bank_1' => 'max:2',
+            'bank_2' => 'max:2',
 
             'bank_type_0' => 'required|between:13,16',
             'bank_type_1' => 'required|between:13,16',
@@ -59,7 +59,6 @@ class Entity extends Model
             'bank_coin_0' => 'required|between:2,5',
             'bank_coin_1' => 'required|between:2,5',
             'bank_coin_2' => 'required|between:2,5',
-
            
             'description' => 'max:150',
             'address' => 'max:120',

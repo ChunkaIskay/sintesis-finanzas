@@ -48,7 +48,8 @@ class ContractController extends Controller
 
     public function saveContract(Request $request){
     	
-        //$this->validate($request, Contract::$rules, Contract::$messages);
+        $this->validate($request, Contract::$rules, Contract::$messages);
+              
         $level="";
 		$contract = new Contract();
     	$user = \Auth::user();
@@ -87,22 +88,46 @@ class ContractController extends Controller
     	$entities = Entity::orderBy('name')->get();
         $categorizations = Categorization::orderBy('type','name')->get();
         $typeContracts = TypeContract::orderBy('name')->get(); 
-    	return view('contract.editContract')->with(compact('contracts','services','entities','categorizations','typeContracts'));
-
+        $levels =  array('cajas' => array('Cajas', ''), 'portales'=>array('Portales','') , 'web'=> array('Web',''));
+  
+        if(!empty($contracts->enable_level)){
+            $level = explode(",", $contracts->enable_level);
+        }else{
+                 $level = Array();
+            }
+        $levels = collect($this->addSelected($level, $levels));
+      
+    	return view('contract.editContract')->with(compact('contracts','services','entities','categorizations','typeContracts','levels'));
     }
 
     public function updateContract(Request $request, $id){
     	
         $this->validate($request, Contract::$rules, Contract::$messages);
 
-		$contract = Contract::find($id);
-    	$contract->code = $request->input('codigo');
+        $level="";
+        $contract = Contract::find($id);
+        //$user = \Auth::user();
+        //$contract-> user_id = $user->id;
+        $contract->folder_code = $request->input('codigo_carpeta');
+        $contract->code = $request->input('codigo');
+
+        if($request->automatica == 'yes')
+            $contract->number_month = $request->input('numero_mes');
+
         $contract->description = $request->description;
-    	$contract->general_category_id = $request->cate_general;
-    	$contract->specific_category_id = $request->cate_especifica;
-		$contract->type_id = $request->tipo;
-		$contract->entity_id = $request->entidad;
-    	$contract->service_id = $request->servicio;
+        $contract->general_category_id = $request->cate_general;
+        $contract->specific_category_id = $request->cate_especifica;
+        $contract->type_id = $request->tipo;
+        $contract->entity_id = $request->entidad;
+        $contract->service_id = $request->servicio;
+
+        if(count($request->enable_level)>0){
+            foreach ($request->enable_level as $value) {
+               $level .= $value.',';
+            }
+            $contract->enable_level = trim($level, ',');
+        }
+
     	$contract->save();  // update 
 
     	return redirect()->route('listContract')->with(array(
@@ -119,6 +144,20 @@ class ContractController extends Controller
     	return back()->with(array(
     		'message' => 'El contrato fue eliminado correctamente!!'
     	));
+    }
+
+    public function addSelected($level, $levels){
+
+        for($i=0; $i<count($level) ; $i++) { 
+                foreach ($levels as $key => $value) {
+                    if($level[$i] == $key ){
+                        $levels[$key][1]= "selected";     
+                     }
+                }
+        }
+
+        return $levels;
+
     }
 
 
