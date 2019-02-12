@@ -66,6 +66,7 @@ class EntityController extends Controller
                     $bankAccount->bank_id = $request->bank_0;
                     $bankAccount->type_account = $request->bank_type_0;
                     $bankAccount->coin = $request->bank_coin_0;
+                    $bankAccount->account_name = $request->nombre_cuenta_0;
                    
                     $bankAccount1 =  new BankAccount();
                     $bankAccount1->entity_id = $entityId;
@@ -73,6 +74,7 @@ class EntityController extends Controller
                     $bankAccount1->bank_id = $request->bank_1;
                     $bankAccount1->type_account = $request->bank_type_1;
                     $bankAccount1->coin = $request->bank_coin_1;
+                    $bankAccount1->account_name = $request->nombre_cuenta_1;
                    
                     $bankAccount2 =  new BankAccount();
                     $bankAccount2->entity_id = $entityId;
@@ -80,6 +82,7 @@ class EntityController extends Controller
                     $bankAccount2->bank_id = $request->bank_2;
                     $bankAccount2->type_account = $request->bank_type_2;
                     $bankAccount2->coin = $request->bank_coin_2;
+                    $bankAccount2->account_name = $request->nombre_cuenta_2;
                     
                     $bankAccount->save();
                     $bankAccount1->save();
@@ -133,21 +136,24 @@ class EntityController extends Controller
                 $bankAccount->bank_id = $request->bank_0;
                 $bankAccount->type_account = $request->bank_type_0;
                 $bankAccount->coin = $request->bank_coin_0;
+                $bankAccount->account_name = $request->nombre_cuenta_0;
                 $bankAccount->save();
 
-                $bankAccount =  BankAccount::find($bankAccountId['1']['account_id']);
-                $bankAccount->number_account = $request->input('number_account_1');
-                $bankAccount->bank_id = $request->bank_1;
-                $bankAccount->type_account = $request->bank_type_1;
-                $bankAccount->coin = $request->bank_coin_1;
-                $bankAccount->save();
+                $bankAccount1 =  BankAccount::find($bankAccountId['1']['account_id']);
+                $bankAccount1->number_account = $request->input('number_account_1');
+                $bankAccount1->bank_id = $request->bank_1;
+                $bankAccount1->type_account = $request->bank_type_1;
+                $bankAccount1->coin = $request->bank_coin_1;
+                $bankAccount1->account_name = $request->nombre_cuenta_1;
+                $bankAccount1->save();
 
-                $bankAccount =  BankAccount::find($bankAccountId['2']['account_id']);
-                $bankAccount->number_account = $request->input('number_account_2');
-                $bankAccount->bank_id = $request->bank_2;
-                $bankAccount->type_account = $request->bank_type_2;
-                $bankAccount->coin = $request->bank_coin_2;
-                $bankAccount->save();
+                $bankAccount2 =  BankAccount::find($bankAccountId['2']['account_id']);
+                $bankAccount2->number_account = $request->input('number_account_2');
+                $bankAccount2->bank_id = $request->bank_2;
+                $bankAccount2->type_account = $request->bank_type_2;
+                $bankAccount2->coin = $request->bank_coin_2;
+                $bankAccount2->account_name = $request->nombre_cuenta_2;
+                $bankAccount2->save();
 
                 $entity = Entity::find($id);
                 $entity->code = $request->input('code');

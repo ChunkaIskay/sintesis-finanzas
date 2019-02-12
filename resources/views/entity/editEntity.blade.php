@@ -28,11 +28,24 @@
 			</div>
 			@foreach($accounts as $key => $account)
 				<div class="row">
+					<div class="col-md-10">
+						<label for="number_account_0">
+							@if($key == 0)<h5>Abono de lo recaudado a la siguiente cuenta:</h5> @endif
+							@if($key == 1)<h5><h5>Abono por el pago de las comisiones a la siguiente cuenta:</h5></h5> @endif
+							@if($key == 2)<h5>Otra cuanta:</h5> @endif
+						</label>
+						<div class="form-group">
+							<label for="nombre_cuenta_{{ $key}}">Nombre de la cuenta {{ $key +1 }}</label>
+								<input type="text" class="form-control" id="nombre_cuenta_{{$key}}" name="nombre_cuenta_{{$key}}" value="{{ old('nombre_cuenta_$key', $account->account_name) }}">
+						</div>
+					</div>
+				</div>	
+				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="number_account_{{ $key}}"># Cuenta {{ $key +1 }}</label>
 							@if(!empty($account->number_account))
-								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="{{ old('number_account', $account->number_account) }}">
+								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="{{ old('number_account_$key', $account->number_account) }}">
 							@else
 								<input type="text" class="form-control" id="number_account_{{ $key}}" name="number_account_{{ $key}}" value="">
 							@endif

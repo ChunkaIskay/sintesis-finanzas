@@ -11,6 +11,7 @@ class Entity extends Model
 
   
     public static $messages =[
+        
             'code.required' => 'Ingrese el código de la entidad.',
             'code.between' => 'El código debe tener entre 1 y 4 caracteres.',
             'name.required' => 'Ingrese el nombre de la entidad.',
@@ -20,7 +21,10 @@ class Entity extends Model
 
             'number_account_1.between' => 'El número de cuenta 2, debe tener entre 10 y 12 caracteres.',
             'number_account_2.between' => 'El número de cuenta 3, debe tener entre 10 y 12 caracteres.',
-           
+ 
+            'nombre_cuenta_0.required' => 'Ingrese el nombre de la cuenta.',
+            'nombre_cuenta_0.between' => 'El nombre de la cuenta 1, debe tener entre 5 y 60 caracteres.',            
+
             'bank_0.max' => 'Verifique el campo del banco 1 ingresado por favor!',
             'bank_1.max' => 'Verifique el campo del banco 2 ingresado por favor!',
             'bank_2.max' => 'Verifique el campo del banco 3 ingresado por favor',
@@ -32,7 +36,6 @@ class Entity extends Model
             'bank_coin_0.between' => 'Verifique el campo Moneda 1 por favor!',
             'bank_coin_1.between' => 'Verifique el campo Moneda 2 por favor!',
             'bank_coin_2.between' => 'Verifique el campo Moneda 3 por favor!',
-            
 
             'description.max' => 'La descripción solo admite hasta 150 caracteres.',
             'address.max' => 'La dirección solo admite hasta 120 caracteres.',
@@ -47,6 +50,10 @@ class Entity extends Model
             'number_account_0' => 'required|between:10,12',
             'number_account_1' => 'max:12',
             'number_account_2' => 'max:12',
+
+            'nombre_cuenta_0' => 'required|between:10,12',
+            'nombre_cuenta_1' => 'max:12',
+            'nombre_cuenta_2' => 'max:12',
 
             'bank_0' => 'max:2',
             'bank_1' => 'max:2',

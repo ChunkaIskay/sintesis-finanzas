@@ -22,8 +22,7 @@
 					</ul>
 				</div>
 			@endif
-
-			
+		
 			<div class="form-group">
 				<label for="code">Código de la entidad</label>
 				<input type="text" class="form-control" id="code" name="code" value="{{ old('code') }}">
@@ -35,18 +34,25 @@
 				<input type="hidden"  id="entityId" name="entityId" value="{{ $entityId['entityId'] }}">
 			</div>
 
-		
+				
+
+				
+				
 				<div class="row">
-					<div class="col-md-12"><label for="number_account_0">Abono de lo recauda a la siguiente cuenta:</label>
-					</div>						
+					<div class="col-md-10">
+						<label for="number_account_0"><h5>Abono de lo recaudado a la siguiente cuenta:</h5></label>
+						<div class="form-group">
+							<label for="nombre_cuenta_0">Nombre de la cuenta 1</label>
+								<input type="text" class="form-control" id="nombre_cuenta_0" name="nombre_cuenta_0" value="{{ old('nombre_cuenta_0') }}">
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-
 							<label for="number_account_0">Nª de Cuenta 1</label>
 							@if(!empty($account->number_account))
-								<input type="text" class="form-control" id="number_account_0" name="number_account_0}" value="{{ old('number_account')}}">
+								<input type="text" class="form-control" id="number_account_0" name="number_account_0}" value="{{ old('number_account_0')}}">
 							@else
-								<input type="text" class="form-control" id="number_account_0" name="number_account_0" value="{{ old('number_account') }}">
+								<input type="text" class="form-control" id="number_account_0" name="number_account_0" value="{{ old('number_account_0') }}">
 							@endif
 						</div>
 					</div>
@@ -84,13 +90,20 @@
 				</div>
 
 				<div class="row">
+					<div class="col-md-10">
+						<label for="number_account_1"><h5>Abono por el pago de las comisiones a la siguiente cuenta:</h5></label>
+						<div class="form-group">
+							<label for="nombre_cuenta_1">Nombre de la cuenta 2</label>
+								<input type="text" class="form-control" id="nombre_cuenta_1" name="nombre_cuenta_1" value="{{ old('nombre_cuenta_1') }}">
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="number_account_1">Nª de Cuenta 2</label>
 							@if(!empty($account->number_account))
-								<input type="text" class="form-control" id="number_account_1" name="number_account_1}" value="{{ old('number_account')}}">
+								<input type="text" class="form-control" id="number_account_1" name="number_account_1}" value="{{ old('number_account_1')}}">
 							@else
-								<input type="text" class="form-control" id="number_account_1" name="number_account_1" value="{{ old('number_account') }}">
+								<input type="text" class="form-control" id="number_account_1" name="number_account_1" value="{{ old('number_account_1') }}">
 							@endif
 						</div>
 					</div>
@@ -128,13 +141,20 @@
 				</div>
 
 				<div class="row">
+					<div class="col-md-10">
+						<label for="number_account_2"><h5>Otra cuenta:</h5></label>
+						<div class="form-group">
+							<label for="nombre_cuenta_2">Nombre de la cuenta 3</label>
+								<input type="text" class="form-control" id="nombre_cuenta_2" name="nombre_cuenta_2" value="{{ old('nombre_cuenta_2') }}">
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="number_account_2">Nª de Cuenta 3</label>
 							@if(!empty($account->number_account))
-								<input type="text" class="form-control" id="number_account_2" name="number_account_2}" value="{{ old('number_account')}}">
+								<input type="text" class="form-control" id="number_account_2" name="number_account_2}" value="{{ old('number_account_2')}}">
 							@else
-								<input type="text" class="form-control" id="number_account_2" name="number_account_2" value="{{ old('number_account') }}">
+								<input type="text" class="form-control" id="number_account_2" name="number_account_2" value="{{ old('number_account_2') }}">
 							@endif
 						</div>
 					</div>

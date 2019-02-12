@@ -80,7 +80,6 @@ class OperationalManagementController extends Controller
 				return redirect()->route('createdManagement')->with(array(
     					'message' => 'Verifique los datos del Contrato, por favor!!'
     				));
-
 			
 		}		
 	}
