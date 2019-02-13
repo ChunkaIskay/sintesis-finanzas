@@ -34,10 +34,6 @@
 				<input type="hidden"  id="entityId" name="entityId" value="{{ $entityId['entityId'] }}">
 			</div>
 
-				
-
-				
-				
 				<div class="row">
 					<div class="col-md-10">
 						<label for="number_account_0"><h5>Abono de lo recaudado a la siguiente cuenta:</h5></label>

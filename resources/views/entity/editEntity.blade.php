@@ -99,18 +99,15 @@
 			<div class="form-group">
 				<label for="city">Ciudad</label>
 				<select class="form-control form-control-large"  name="city" required="">
-					 @foreach($countries as $value)   @if( $value->country_id == old('city')) selected @endif
+					 @foreach($countries as $value) 
 			              <option value="{{ $value->country_id }}" @if( $value->country_id == old('city', $entity->city)) selected @endif>{{ $value->city }}</option>
 					 @endforeach
 
 				</select>
 			</div>
-
-	      	
 			<br><br><br>
 			<button type="submit" class="btn btn-success">Modificar Entidad</button>	
 			<a href="{{ route('listEntity') }}" class="btn btn-default">Cancelar</a>	
-
 		</form>
 
 	</div>

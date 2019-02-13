@@ -115,10 +115,8 @@ class EntityController extends Controller
             $entety = Entity::find($entity);
             $accounts = BankAccount::where('entity_id','=', $entity->entity_id )->get();
             $bank = Bank::orderBy('short_name')->get();
-    
             $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
             $coin =  collect(['Dolar','BS']);
-
             $countries = Country::orderBy('country_id','desc')->get();
         
             return view('entity.editEntity')->with(compact('entity','countries','accounts','bank','type','coin'));

@@ -14,6 +14,9 @@ use App\Categorization;
 use App\TypeContract;
 use App\Country;
 use App\Contact;
+use App\Bank;
+use App\BankAccount;
+
 
 
 class OperationalManagementController extends Controller
@@ -52,9 +55,14 @@ class OperationalManagementController extends Controller
 	   		
 	   		if(count($contract->entity_id) != 0){
 		   		$entity = Entity::find($contract->entity_id);
-		   		$country = Country::find($entity->city);
+		   		//$countries = Country::find($entity->city);
+
 		   		$contact = Contact::find($entity->entity_id);
-				
+				$bank = Bank::orderBy('short_name')->get();
+				$accounts = BankAccount::where('entity_id','=', $entity->entity_id )->get();
+                $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
+        		$coin =  collect(['Dolar','BS']);
+				$countries = Country::orderBy('country_id','desc')->get();
 	   		}else{
 
 	   			return redirect()->route('createdManagement')->with(array(
@@ -72,8 +80,8 @@ class OperationalManagementController extends Controller
 
 	    	$categorizations = Categorization::orderBy('type','name')->get();
 	       
-	    	return view('management.index')->with(compact('contract','service','entity','categorizations','typeContract','country','contact'));
-			/*return view('management.index')->with(
+return view('management.index')->with(compact('contract','service','entity','categorizations','typeContract','countries','contact','bank','accounts','type','coin'));
+			/*return view('management.index')->with(type
 												array( 'management' => $management,
 													   'link' =>$management[0]['contract_id'] ));*/
 		}else{
