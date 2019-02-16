@@ -22,6 +22,24 @@
 					</ul>
 				</div>
 			@endif
+		<div class="form-group">
+			<label for="entidad">Entidad</label>
+			<select class="form-control form-control-large"  name="entidad" required="">
+				
+	             @foreach($entities as $entity)
+		              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad', $contacts->entity_id)) selected @endif>{{ $entity->name }}</option>
+				 @endforeach
+			</select>
+		</div>
+		<div class="form-group">
+					<label for="tipo_contacto">Tipo contacto</label>
+					<select class="form-control form-control-large"  name="tipo_contacto" required="">
+						 @foreach($contactType as $val => $value)   
+						 	  <option value="{{ $val }}" @if( $val == old('tipo_contacto', $contacts->type)) selected @endif>{{ $value }}
+				              </option>
+						 @endforeach
+					</select>
+		</div>
 
 		<div class="form-group">
 				<label for="nombre">Nombre del Contacto</label>
@@ -47,17 +65,6 @@
 				<label for="cargo">Cargo</label>
 				<input type="text" class="form-control" id="cargo" name="cargo" value="{{ old('cargo',$contacts->position) }}">
 			</div>
-			
-			<div class="form-group">
-				<label for="entidad">Entidad</label>
-				<select class="form-control form-control-large"  name="entidad" required="">
-					
-		             @foreach($entities as $entity)
-			              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad', $contacts->entity_id)) selected @endif>{{ $entity->name }}</option>
-					 @endforeach
-				</select>
-			</div>
-			
 			<br><br><br>
 			<button type="submit" class="btn btn-success">Modicar Contacto</button>
 			<a href="{{ route('listContact') }}" class="btn btn-default">Cancelar</a>	

@@ -146,19 +146,7 @@ class ContractController extends Controller
     	));
     }
 
-    public function addSelected($level, $levels){
-
-        for($i=0; $i<count($level) ; $i++) { 
-                foreach ($levels as $key => $value) {
-                    if($level[$i] == $key ){
-                        $levels[$key][1]= "selected";     
-                     }
-                }
-        }
-
-        return $levels;
-
-    }
+    
 
 
 }

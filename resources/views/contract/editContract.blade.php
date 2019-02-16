@@ -104,14 +104,13 @@
 				</div>
 			</div>
 
-
 				<div class="row">
 		          <div class="col-md-4 mb-3">
 		            <label for="cate_general">Categorización General</label>
 		            <select class="custom-select form-control"  name="cate_general" required="">
 		             	@foreach($categorizations as $categorizationg)
 		            	 	@if( $categorizationg->type == 'especifica' )	
-			              		<option value="{{ $entity->entity_id }}" @if( $categorizationg->categorization_id == old('cate_general', $contracts->general_category_id)) selected @endif>{{ $categorizationg->name }}</option>
+			              		<option value="{{ $categorizationg->categorization_id }}" @if( $categorizationg->categorization_id == old('cate_general', $contracts->general_category_id)) selected @endif>{{ $categorizationg->name }}</option>
 			              	@endif
 			             @endforeach
 		            </select>

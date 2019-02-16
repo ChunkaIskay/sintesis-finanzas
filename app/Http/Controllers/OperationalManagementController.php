@@ -45,7 +45,8 @@ class OperationalManagementController extends Controller
 	   	{ 
 	   		
 	   		if(count($contract->service_id) != 0){
-	   			$service = Service::find($contract->service_id);
+	   			
+	   			$services = Service::orderBy('name')->get(); 
 	   		}else{
 
 	   			return redirect()->route('createdManagement')->with(array(
@@ -54,15 +55,25 @@ class OperationalManagementController extends Controller
 	   		}
 	   		
 	   		if(count($contract->entity_id) != 0){
-		   		$entity = Entity::find($contract->entity_id);
-		   		//$countries = Country::find($entity->city);
 
-		   		$contact = Contact::find($entity->entity_id);
+		        $entities = Entity::orderBy('name')->get();
+		   		$entity2 = Entity::find($contract->entity_id); 
 				$bank = Bank::orderBy('short_name')->get();
-				$accounts = BankAccount::where('entity_id','=', $entity->entity_id )->get();
+				$accounts = BankAccount::where('entity_id','=', $entity2->entity_id )->get();
+				$contact = Contact::find($entity2->entity_id);
                 $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
         		$coin =  collect(['Dolar','BS']);
 				$countries = Country::orderBy('country_id','desc')->get();
+
+				$levels =  array('cajas' => array('Cajas', ''), 'portales'=>array('Portales','') , 'web'=> array('Web',''));
+		  
+		        if(!empty($contract->enable_level)){
+		            $level = explode(",", $contract->enable_level);
+		        }else{
+		                 $level = Array();
+		            }
+		        $levels = collect($this->addSelected($level, $levels));
+
 	   		}else{
 
 	   			return redirect()->route('createdManagement')->with(array(
@@ -71,7 +82,8 @@ class OperationalManagementController extends Controller
 	   		}
 			
 			if(count($contract->type_id) != 0){
-	   			$typeContract = TypeContract::find($contract->type_id);
+				$typeContracts = TypeContract::orderBy('name')->get(); 
+	   			//$typeContract = TypeContract::find($contract->type_id);
 	   		}else{
 	   			return redirect()->route('createdManagement')->with(array(
     					'message' => 'Verifique los datos tipo de contrato, por favor!!'
@@ -80,10 +92,10 @@ class OperationalManagementController extends Controller
 
 	    	$categorizations = Categorization::orderBy('type','name')->get();
 	       
-return view('management.index')->with(compact('contract','service','entity','categorizations','typeContract','countries','contact','bank','accounts','type','coin'));
-			/*return view('management.index')->with(type
-												array( 'management' => $management,
-													   'link' =>$management[0]['contract_id'] ));*/
+			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contact','bank','accounts','type','coin','levels','entity2'));
+			
+	
+		
 		}else{
 				return redirect()->route('createdManagement')->with(array(
     					'message' => 'Verifique los datos del Contrato, por favor!!'

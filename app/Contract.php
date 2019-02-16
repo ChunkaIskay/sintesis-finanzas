@@ -65,6 +65,7 @@ class Contract extends Model
         return "Otros";
 
     }
+    
 
 
 }

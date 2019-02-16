@@ -22,7 +22,23 @@
 					</ul>
 				</div>
 			@endif
-
+			<div class="form-group">
+				<label for="entidad">Entidad</label>
+				<select class="form-control form-control-large"  name="entidad" required="">
+					 @foreach($entities as $entity)
+			              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad')) selected @endif>{{ $entity->name }}</option>
+					 @endforeach
+				</select>
+			</div>
+			<div class="form-group">
+						<label for="tipo_contacto">Tipo contacto</label>
+						<select class="form-control form-control-large"  name="tipo_contacto" required="">
+							 @foreach($contactType as $val => $value)   
+							 	  <option value="{{ $val }}" @if( $value == old('tipo_contacto')) selected @endif>{{ $value }}
+					              </option>
+							 @endforeach
+						</select>
+			</div>
 			<div class="form-group">
 				<label for="nombre">Nombre del Contacto</label>
 				<input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre') }}">
@@ -47,15 +63,6 @@
 				<label for="cargo">Cargo</label>
 				<input type="text" class="form-control" id="cargo" name="cargo" value="{{ old('cargo') }}">
 			</div>
-			<div class="form-group">
-				<label for="entidad">Entidad</label>
-				<select class="form-control form-control-large"  name="entidad" required="">
-					 @foreach($entities as $entity)
-			              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad')) selected @endif>{{ $entity->name }}</option>
-					 @endforeach
-				</select>
-			</div>
-    	
 			<br><br><br>
 			<button type="submit" class="btn btn-success">Crear Contacto</button>	
 

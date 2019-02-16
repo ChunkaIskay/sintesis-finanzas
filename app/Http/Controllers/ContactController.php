@@ -30,8 +30,9 @@ class ContactController extends Controller
 
     	$contacts = Contact::orderBy('name')->get(); 
     	$entities = Entity::orderBy('name')->get();
+        $contactType =  collect(['contacto'=>'Contacto','conciliador'=>'Conciliador']);
        
-    	return view('contact.createContact')->with(compact('contacts','entities'));
+    	return view('contact.createContact')->with(compact('contacts','entities','contactType'));
     }
 
     public function saveContact(Request $request){
@@ -51,8 +52,9 @@ class ContactController extends Controller
 		$contacts = Contact::find($id);
 		
     	$entities = Entity::orderBy('name')->get();
+        $contactType =  collect(['contacto'=>'Contacto','conciliador'=>'Conciliador']);
         
-    	return view('contact.editContact')->with(compact('contacts','entities'));
+    	return view('contact.editContact')->with(compact('contacts','entities','contactType'));
 
     }
 
@@ -89,6 +91,7 @@ class ContactController extends Controller
     	$contact->movile = $request->input('celular');
     	$contact->email = $request->input('email');
     	$contact->position = $request->input('cargo');
+        $contact->type = $request->input('tipo_contacto');
     	$contact->entity_id = $request->entidad;
 
     	return $contact;
