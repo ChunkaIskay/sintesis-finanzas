@@ -3,7 +3,7 @@
 	<div class="container">
     <div class="row">
 		<div class="col-md-12">
-			<h3>Getión operativa de contratos</h3>
+			<h3>Gestión operativa de contratos</h3>
 			<div class="row">
 					<form action="{{ url('/search-contract') }}"  method="post"  enctype="multipart/form-data" class="navbar-form navbar-left" >
 						 {{ csrf_field() }}

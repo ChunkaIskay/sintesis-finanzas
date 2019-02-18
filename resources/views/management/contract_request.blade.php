@@ -9,7 +9,7 @@
 
 
 <div class="tab-pane active" id="tab_default_1" style="margin-left: 20px; margin-right: 15px;">
-<form action="{{ url('/'.$contact.'/update-entity') }}" method="post" enctype="multipart/form-data" >
+<form action="" method="post" enctype="multipart/form-data" >
 		{{ csrf_field() }}
 		@if($errors->any())
 			<div class="alert alert-danger">
@@ -88,8 +88,8 @@
 						</div>		
 						<div class="col-md-5">	
 							<div class="form-group">
-								<div class="col-sm-9 text-right">Meses consecutivos</div>
-								<div class="col-sm-3">
+								<div class="col-sm-7 text-right">Meses consecutivos</div>
+								<div class="col-sm-5">
 									<input type="number" id="numero_mes" class="form-control form-control-large" name="numero_mes" value="{{ old('numero_mes', $contract->number_month) }}" maxlength="2" size="4">
 								</div>
 							</div>
@@ -251,39 +251,67 @@
 		@endforeach
 
 		@endif
-		<h4 class="texto">Datos de la persona con la que conciliara</h4>
-		<div class="row">
-			<div class="col-md-3 text-left"><label for="nomvbre">Nombre:</label></div>
-			<div class="col-md-6">
+	<br>
+		
+	@foreach($contacts as $kc => $contact)
+	@if($kc%2 == 0)
+		<div style="background: #f7f9fb; padding-left:10px; padding-bottom:10px;"><br>
+	@else
+		<div style="background: #edeffbe8; padding-left: 10px; padding-bottom:10px;"><br>
+	@endif
+	 
+			@if($contact->type == 'conciliador')<h4 class="texto">Datos de la persona con la que Conciliara</h4>@endif
+			@if($contact->type == 'contacto')<h4 class="texto">Datos de la persona de Contacto</h4>@endif
+			<div class="row">
+					<div class="col-md-2 text-left"><label for="nombre">Nombre</label></div>
+					<div class="col-md-3">
+						<div class="form-group">
+								<input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre',$contact->name) }}">
+						</div>
+					</div>
+					<div class="col-md-2 text-left"><label for="apellido">Apellido</label></div>
+					<div class="col-md-3">
+						<div class="form-group">
+								<input type="text" class="form-control" id="apellido" name="apellido" value="{{ old('apellido',$contact->last_name) }}">
+						</div>
+					</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 text-left"><label for="telefono">Teléfono</label></div>
 				<div class="form-group">
-						<input type="text" class="form-control" id="codigo" name="codigo" value="">
-				</div></div>
-			<div class="col-md-3">&nbsp;</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 text-left"><label for="telefono">Teléfono:</label></div>
-			<div class="col-md-6"><p></p></div>
-			<div class="col-md-3">&nbsp;</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 text-left"><label for="celular">Núnero de celular:</label></div>
-			<div class="col-md-6"><p></p></div>
-			<div class="col-md-3">&nbsp;</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 text-left"><label for="email">Correo eléctronico:</label></div>
-			<div class="col-md-6"><p></p></div>
-			<div class="col-md-3">&nbsp;</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 text-left"><label for="cargo">Cargo:</label></div>
-			<div class="col-md-6"><p></p></div>
-			<div class="col-md-3">&nbsp;</div>
-		</div>
-		<div class="row">
-			<button type="submit" class="btn btn-success">Generar fecha de creación</button>
-			<a href="{{ route('createdManagement') }}" class="btn btn-default">Cancelar</a>
-		</div>
+					<div class="col-md-3">
+							<input type="number" class="form-control" id="telefono" name="telefono" value="{{ old('telefono',$contact->phone) }}">
+					</div>
+				</div>
+				<div class="col-md-2 text-left"><label for="celular">Núnero de celular</label></div>
+				<div class="form-group">	
+					<div class="col-md-3">
+						<input type="number" class="form-control" id="celular" name="celular" value="{{ old('celular',$contact->movile) }}">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 text-left"><label for="email">Correo eléctronico:</label></div>
+				<div class="form-group">	
+					<div class="col-md-3">
+						<input type="email" class="form-control" id="email" name="email" value="{{ old('email',$contact->email) }}">
+					</div>
+				</div>
+				<div class="col-md-2 text-left"><label for="cargo">Cargo</label></div>
+				<div class="col-md-3">
+					<input type="text" class="form-control" id="cargo" name="cargo" value="{{ old('cargo',$contact->position) }}">
+				</div>
+			</div><br>
+	</div>
+		@endforeach
+	<br><br>
+	<div class="row">
+		<button type="submit" class="btn btn-success">Generar fecha de creación</button>
+		<a href="{{ route('createdManagement') }}" class="btn btn-default">Cancelar</a>
+	</div>
+
+
+
 </form>
 </div>
 

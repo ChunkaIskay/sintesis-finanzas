@@ -22,26 +22,26 @@
 					</ul>
 				</div>
 			@endif
-		<div class="form-group">
-			<label for="entidad">Entidad</label>
-			<select class="form-control form-control-large"  name="entidad" required="">
-				
-	             @foreach($entities as $entity)
-		              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad', $contacts->entity_id)) selected @endif>{{ $entity->name }}</option>
-				 @endforeach
-			</select>
-		</div>
-		<div class="form-group">
-					<label for="tipo_contacto">Tipo contacto</label>
-					<select class="form-control form-control-large"  name="tipo_contacto" required="">
-						 @foreach($contactType as $val => $value)   
-						 	  <option value="{{ $val }}" @if( $val == old('tipo_contacto', $contacts->type)) selected @endif>{{ $value }}
-				              </option>
-						 @endforeach
-					</select>
-		</div>
+			<div class="form-group">
+				<label for="entidad">Entidad</label>
+				<select class="form-control form-control-large"  name="entidad" required="">
+					
+		             @foreach($entities as $entity)
+			              <option value="{{ $entity->entity_id }}" @if( $entity->entity_id == old('entidad', $contacts->entity_id)) selected @endif>{{ $entity->name }}</option>
+					 @endforeach
+				</select>
+			</div>
+			<div class="form-group">
+						<label for="tipo_contacto">Tipo contacto</label>
+						<select class="form-control form-control-large"  name="tipo_contacto" required="">
+							 @foreach($contactType as $val => $value)   
+							 	  <option value="{{ $val }}" @if( $val == old('tipo_contacto', $contacts->type)) selected @endif>{{ $value }}
+					              </option>
+							 @endforeach
+						</select>
+			</div>
 
-		<div class="form-group">
+			<div class="form-group">
 				<label for="nombre">Nombre del Contacto</label>
 				<input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre',$contacts->name) }}">
 			</div>

@@ -60,7 +60,8 @@ class OperationalManagementController extends Controller
 		   		$entity2 = Entity::find($contract->entity_id); 
 				$bank = Bank::orderBy('short_name')->get();
 				$accounts = BankAccount::where('entity_id','=', $entity2->entity_id )->get();
-				$contact = Contact::find($entity2->entity_id);
+				$contacts = Contact::orderBy('type')
+				->where('entity_id','=',$entity2->entity_id)->get(); //dd($contacts);
                 $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
         		$coin =  collect(['Dolar','BS']);
 				$countries = Country::orderBy('country_id','desc')->get();
@@ -92,7 +93,7 @@ class OperationalManagementController extends Controller
 
 	    	$categorizations = Categorization::orderBy('type','name')->get();
 	       
-			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contact','bank','accounts','type','coin','levels','entity2'));
+			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contacts','bank','accounts','type','coin','levels','entity2'));
 			
 	
 		
