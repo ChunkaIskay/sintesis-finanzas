@@ -47,6 +47,7 @@ class OperationalManagementController extends Controller
 	   		if(count($contract->service_id) != 0){
 	   			
 	   			$services = Service::orderBy('name')->get(); 
+	   			$coin =  collect(['BS','Dolar']);
 	   		}else{
 
 	   			return redirect()->route('createdManagement')->with(array(
@@ -62,9 +63,10 @@ class OperationalManagementController extends Controller
 				$accounts = BankAccount::where('entity_id','=', $entity2->entity_id )->get();
 				$contacts = Contact::orderBy('type')
 				->where('entity_id','=',$entity2->entity_id)->get(); //dd($contacts);
-                $type =  collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
-        		$coin =  collect(['Dolar','BS']);
+                $type = collect(['cuenta_corriente'=>'Cuenta corriente','caja_de_ahorro'=>'Caja de ahorro']);
+        		$coin = collect(['bolivianos'=>'M/N en BS','dollar'=>'M/E en Dolares','porcentaje_bolivianos'=>'%  en Bs','porcentaje_dollar'=>'% en dolares']);
 				$countries = Country::orderBy('country_id','desc')->get();
+				$itfCharge =  collect(['cliente'=>'Cliente','sintesis'=>'Sintesis']);
 
 				$levels =  array('cajas' => array('Cajas', ''), 'portales'=>array('Portales','') , 'web'=> array('Web',''));
 		  
@@ -93,7 +95,7 @@ class OperationalManagementController extends Controller
 
 	    	$categorizations = Categorization::orderBy('type','name')->get();
 	       
-			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contacts','bank','accounts','type','coin','levels','entity2'));
+			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contacts','bank','accounts','type','coin','levels','entity2','coin','itfCharge'));
 			
 	
 		

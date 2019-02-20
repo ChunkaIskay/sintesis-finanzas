@@ -5,6 +5,30 @@
 	}
 	
 
+	.hide {
+	  display: none;
+	}
+
+	.select_n {
+		    width: 80px;
+		    height: 36px;
+		    padding: 6px 12px;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccd0d2;
+		    border-radius: 4px;
+
+	}
+	.select_m {
+		    width: 150%x;
+		    height: 130px;
+		    padding: 6px 12px;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccd0d2;
+		    border-radius: 4px;
+	}
+
 </style>
 
 
@@ -87,7 +111,7 @@
 							</div>		
 						</div>		
 						<div class="col-md-5">	
-							<div class="form-group">
+							<div id="div1" style="display: block;">
 								<div class="col-sm-7 text-right">Meses consecutivos</div>
 								<div class="col-sm-5">
 									<input type="number" id="numero_mes" class="form-control form-control-large" name="numero_mes" value="{{ old('numero_mes', $contract->number_month) }}" maxlength="2" size="4">
@@ -158,6 +182,56 @@
 					</select>
 			</div>
 
+		</div>
+		<br>
+	</div>
+	<div style="background: #f7f9fb; padding-left: 10px; padding-bottom:10px;">
+		<div class="row">
+			<br>
+			<div class="col-md-12 text-left"><label for="tipo">Comisiones</label></div>
+			<div class="col-md-2">
+					<select class="form-control form-control-large"  id="coin_mul" name="coin_mul" onchange="coinPercent()" required="" >
+						 @foreach($coin as $kcoin => $valuec)   
+						 	  <option value="{{ $kcoin }}" @if( $kcoin == old('bank_coin')) selected @endif>{{ $valuec }}
+				              </option>
+						 @endforeach
+					</select>
+			</div>
+			<div class="col-md-10">
+				 <div class="row">
+				 	<div class="col-md-2">
+						<input type="number" id="costo" class="form-control form-control-large" name="costo" value="" maxlength="2" size="4">
+					</div>
+
+					<div class="col-md-2">
+						<div class="form-group">
+							<input type="radio" name="automatica" value="yes"  checked="true" onclick="showMonth();" />
+							a pagar
+						</div>		
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<input type="radio" name="automatica" value="yes"  checked="true" onclick="showMonth();" />
+							a cobrar
+						</div>		
+					</div>
+					<div class="col-md-4">
+						<div class="row" id="itf_charge" >	
+							<div class="col-md-6"><label for="tipo">ITF a cargo de</label></div>	
+							<div class="col-md-6 text-left">
+								<div id="div1" style="display: block;">
+									<select class="form-control form-control-large"  name="itf_change" required="">
+										 @foreach($itfCharge as $kitf => $itf)   
+										 	  <option value="{{ $kitf }}" @if( $itf == old('itf_change')) selected @endif>{{ $itf }}
+									          </option>
+										 @endforeach
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				 </div>
+			</div>
 		</div>
 		<br>
 	</div>
@@ -309,20 +383,32 @@
 		<button type="submit" class="btn btn-success">Generar fecha de creación</button>
 		<a href="{{ route('createdManagement') }}" class="btn btn-default">Cancelar</a>
 	</div>
-
-
-
 </form>
 </div>
 
 
 <script type="text/javascript">
-	function notShowMonth(){ 
+	function notShowMonth(){  
+	  	
 	  document.getElementById('div1').style.display ='none';
 	}
-	function showMonth(){ 
+	function showMonth(){ alert(document.getElementById('coinmul').value);
 	  document.getElementById('div1').style.display ='block';
 	}
+
+	function coinPercent() {
+	   var elementVar = document.getElementById("coin_mul").value;
+	   document.getElementById('itf_charge').style.display ='none';
+	    if(elementVar == 'porcentaje_dollar')
+	    	document.getElementById('itf_charge').style.display ='block';
+	    if(elementVar == 'dollar')
+	  		document.getElementById('itf_charge').style.display ='block';
+		
+		//document.getElementById('itf_charge').style.display ='block';
+	}
+
+	function coinPercents(){
+		alert("hola");
+	}
+	window.onload=coinPercents;
 </script>		
-
-
