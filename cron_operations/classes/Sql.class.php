@@ -527,22 +527,22 @@ class Sql extends Setup
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"
                                    && $opcion<>"65" && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
-                     $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio, pago.desc_enti, 
+                     $sql = "SELECT concat_ws('-','".$cli."',pago.factu) servicio, pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli
                              FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
                                    sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
-                                   FROM $cliente mo, facturacion fac, entidad enti
-                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   FROM ".$cliente." mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.'".$estado."'
                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
                                    AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                    GROUP BY cod_entidad, factu) pago 
                            left join 
                                   (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
                                     sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
-                                    FROM $cliente mo, facturacion fac, entidad enti
-                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    FROM ".$cliente." mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.'".$estado1."'
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
