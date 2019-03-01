@@ -67,6 +67,7 @@ class OperationalManagementController extends Controller
         		$coin = collect(['bolivianos'=>'M/N en BS','dollar'=>'M/E en Dolares','porcentaje_bolivianos'=>'%  en Bs','porcentaje_dollar'=>'% en dolares']);
 				$countries = Country::orderBy('country_id','desc')->get();
 				$itfCharge =  collect(['cliente'=>'Cliente','sintesis'=>'Sintesis']);
+				$operator = collect(['Menor a','Mayor o igual','Mayor a','Hasta']);
 
 				$levels =  array('cajas' => array('Cajas', ''), 'portales'=>array('Portales','') , 'web'=> array('Web',''));
 		  
@@ -95,7 +96,7 @@ class OperationalManagementController extends Controller
 
 	    	$categorizations = Categorization::orderBy('type','name')->get();
 	       
-			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contacts','bank','accounts','type','coin','levels','entity2','coin','itfCharge'));
+			return view('management.index')->with(compact('contract','services','entities','categorizations','typeContracts','countries','contacts','bank','accounts','type','coin','levels','entity2','coin','itfCharge','operator'));
 			
 	
 		
@@ -106,5 +107,25 @@ class OperationalManagementController extends Controller
 			
 		}		
 	}
+
+	public function updateManagementContract(Request $Request, $id){
+		
+
+
+		$bankAccount =  BankAccount::find($bankAccountId['0']['account_id']);
+                $bankAccount->number_account = $request->input('number_account_0');
+                $bankAccount->bank_id = $request->bank_0;
+                $bankAccount->type_account = $request->bank_type_0;
+                $bankAccount->coin = $request->bank_coin_0;
+                $bankAccount->account_name = $request->nombre_cuenta_0;
+                $bankAccount->save();	
+
+		dd($Request);
+
+
+
+
+	}
+
 
 }

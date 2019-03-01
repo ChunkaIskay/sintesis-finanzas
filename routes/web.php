@@ -65,6 +65,7 @@ Route::get('/search-contract', array('as' => 'searchContract','middleware' => 'a
 Route::post('/search-contract', array('as' => 'searchList','middleware' => 'auth',	'uses' => 'OperationalManagementController@search'));
 
 Route::get('/{id}/management', array('as' => 'list','middleware' => 'auth','uses' => 'OperationalManagementController@managementContract'));
+Route::post('/{id}/management', array('as' => 'list','middleware' => 'auth','uses' => 'OperationalManagementController@updateManagementContract'));
 //Route::post('/{id}/management', array('as' => 'opertional',	'middleware' => 'auth',	'uses' => 'OperationalManagementController@managementContract'));
 
 

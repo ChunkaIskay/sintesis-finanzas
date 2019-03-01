@@ -28,12 +28,11 @@
 		    border: 1px solid #ccd0d2;
 		    border-radius: 4px;
 	}
-
 </style>
 
 
 <div class="tab-pane active" id="tab_default_1" style="margin-left: 20px; margin-right: 15px;">
-<form action="" method="post" enctype="multipart/form-data" >
+<form action="{{ url('/'.$contract->contract_id.'/management') }}" method="post" enctype="multipart/form-data" >
 		{{ csrf_field() }}
 		@if($errors->any())
 			<div class="alert alert-danger">
@@ -181,21 +180,19 @@
 						@endforeach	
 					</select>
 			</div>
-
-		</div>
-		<br>
+		</div><br>
 	</div>
 	<div style="background: #f7f9fb; padding-left: 10px; padding-bottom:10px;">
 		<div class="row">
 			<br>
 			<div class="col-md-12 text-left"><label for="tipo">Comisiones</label></div>
 			<div class="col-md-2">
-					<select class="form-control form-control-large"  id="coin_mul" name="coin_mul" onchange="coinPercent()" required="" >
-						 @foreach($coin as $kcoin => $valuec)   
-						 	  <option value="{{ $kcoin }}" @if( $kcoin == old('bank_coin')) selected @endif>{{ $valuec }}
-				              </option>
-						 @endforeach
-					</select>
+				<select class="form-control form-control-large"  id="coin_mul" name="coin_mul" onchange="coinPercent()" required="" >
+					 @foreach($coin as $kcoin => $valuec)   
+					 	  <option value="{{ $kcoin }}" @if( $kcoin == old('bank_coin')) selected @endif>{{ $valuec }}
+			              </option>
+					 @endforeach
+				</select>
 			</div>
 			<div class="col-md-10">
 				 <div class="row">
@@ -205,13 +202,13 @@
 
 					<div class="col-md-2">
 						<div class="form-group">
-							<input type="radio" name="automatica" value="yes"  checked="true" onclick="showMonth();" />
+							<input type="radio" name="com_pay" value="pay" />
 							a pagar
 						</div>		
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
-							<input type="radio" name="automatica" value="yes"  checked="true" onclick="showMonth();" />
+							<input type="radio" name="com_pay" value="collect" />
 							a cobrar
 						</div>		
 					</div>
@@ -232,11 +229,53 @@
 					</div>
 				 </div>
 			</div>
+		</div><br>
+		<div class="row">
+				<div class="col-md-2 text-left"><label for="cargo_unico">Cargo único</label></div>
+				<div class="col-md-2">	
+					<input type="number" id="cargo_unico" class="form-control form-control-large" name="cargo_unico" value="" maxlength="2" size="4">
+				</div>
+				<div class="col-md-2 text-left">	
+					<label for="cargo_unico">Bs.</label>
+				</div>					
+		</div><br>
 		</div>
-		<br>
-	</div>
-
-	<h4 class="texto">Datos de la entidad</h4>
+		<div style="background: #edeffbe8; padding-left: 10px; padding-bottom:10px;"><br>
+			<div class="row">
+					<div class="col-md-2 text-left"><label for="cargo_unico">Comisiones por rangos</label></div>
+					<div class="col-md-10">	
+						<table class="table">
+						    <thead>
+						        <tr style="color:#29398cd9;">
+						            <th width="18%">Transacciones desde</th>
+						           	<th width="19%">Operador</th>
+						            <th width="17%">Transacciones hasta</th>
+						            <th width="15%">BS.</th>
+						            <th width="17%">Excedentes</th>
+						            <th width="14%">BS.</th>
+						        </tr>
+						    </thead>
+						  	<tbody>
+						        <tr>
+									<td><input type="number" id="trasaccion_desde" class="form-control" name="trasaccion_desde" value="" maxlength="2"></td>
+									<td><select class="form-control form-control-large"  name="operador" required="">
+											 @foreach($operator as $ko => $ope)   
+											 	  <option value="{{ $ko }}" @if( $itf == old('operador')) selected @endif>{{ $ope }}
+										          </option>
+											 @endforeach
+										</select>
+									</td>
+									<td><input type="number" id="transaccion_hasta" class="form-control" name="transaccion_hasta" value=""></td>
+									<td><input type="number" id="moneda_bs" class="form-control" name="moneda_bs" value=""></td>
+									<td><input type="number" id="excedente" class="form-control" name="excedente" value=""></td>
+									<td><input type="number" id="excedente_bs" class="form-control" name="excedente_bs" value=""></td>
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
+			</div>
+		</div>
+		<h4 class="texto">Datos de la entidad</h4>
 
 		@if($entity2->entity_id == $contract->entity_id )
 			<div style="background: #f7f9fb; padding-left: 10px; padding-bottom:10px;">
@@ -392,23 +431,29 @@
 	  	
 	  document.getElementById('div1').style.display ='none';
 	}
-	function showMonth(){ alert(document.getElementById('coinmul').value);
+	function showMonth(){ 
 	  document.getElementById('div1').style.display ='block';
 	}
 
 	function coinPercent() {
-	   var elementVar = document.getElementById("coin_mul").value;
-	   document.getElementById('itf_charge').style.display ='none';
-	    if(elementVar == 'porcentaje_dollar')
-	    	document.getElementById('itf_charge').style.display ='block';
-	    if(elementVar == 'dollar')
-	  		document.getElementById('itf_charge').style.display ='block';
+		var elementVar = document.getElementById("coin_mul").value;
+		document.getElementById('itf_charge').style.display ='none';
 		
-		//document.getElementById('itf_charge').style.display ='block';
+		if(elementVar == 'porcentaje_dollar')
+			document.getElementById('itf_charge').style.display ='block';
+		if(elementVar == 'dollar')
+			document.getElementById('itf_charge').style.display ='block';
 	}
 
 	function coinPercents(){
-		alert("hola");
+		var obj = document.getElementById("coin_mul");
+		var strOption = obj.options[obj.selectedIndex].value;
+		document.getElementById('itf_charge').style.display ='none';
+		
+		if(strOption == 'porcentaje_dollar')
+			document.getElementById('itf_charge').style.display ='block';
+		if(strOption == 'dollar')
+			document.getElementById('itf_charge').style.display ='block';
 	}
 	window.onload=coinPercents;
 </script>		
