@@ -35,8 +35,71 @@ class Sql extends Setup
             $fecha = "2018-12-01";
             $fecha1 = "2018-12-03";
             $rs1 = array();
-          for ($opcion=1;$opcion<=125; $opcion++)
+          for ($opcion=3;$opcion<=125; $opcion++)
            {
+
+if( $opcion<>5
+&&$opcion<>6
+&&$opcion<>8
+&&$opcion<>9
+&&$opcion<>10
+&&$opcion<>11
+&&$opcion<>14
+&&$opcion<>15
+&&$opcion<>16
+&&$opcion<>18
+&&$opcion<>19
+&&$opcion<>20
+&&$opcion<>22
+&&$opcion<>23
+&&$opcion<>24
+&&$opcion<>25
+&&$opcion<>26
+&&$opcion<>27
+&&$opcion<>28
+&&$opcion<>30
+&&$opcion<>31
+&&$opcion<>32
+&&$opcion<>33
+&&$opcion<>36
+&&$opcion<>37
+&&$opcion<>38
+&&$opcion<>39
+&&$opcion<>42
+&&$opcion<>45
+&&$opcion<>46
+&&$opcion<>47
+&&$opcion<>49
+&&$opcion<>55
+&&$opcion<>61
+&&$opcion<>63
+&&$opcion<>64
+&&$opcion<>65
+&&$opcion<>75
+&&$opcion<>81
+&&$opcion<>82
+&&$opcion<>86
+&&$opcion<>89
+&&$opcion<>90
+&&$opcion<>92
+&&$opcion<>96
+&&$opcion<>98
+&&$opcion<>99
+&&$opcion<>100
+&&$opcion<>101
+&&$opcion<>103
+&&$opcion<>105
+&&$opcion<>110
+&&$opcion<>111
+&&$opcion<>112
+&&$opcion<>113
+&&$opcion<>114
+&&$opcion<>115
+&&$opcion<>119
+&&$opcion<>120
+&&$opcion<>123
+&&$opcion<>124
+&&$opcion<>125 ) {
 
 
                 if ($opcion=="3")
@@ -524,10 +587,9 @@ class Sql extends Setup
                 $estado1="transaccion='D'";
                 }
 
-                 if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"
-                                   && $opcion<>"65" && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
+                 if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
-                     $sql = "SELECT concat_ws('-','".$cli."',pago.factu) servicio, pago.desc_enti, 
+                    /* $sql = "SELECT concat_ws('-'$opcion='".$cli."',pago.factu) servicio, pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli
@@ -546,16 +608,18 @@ class Sql extends Setup
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
-                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                        }
-                  
-                    
-                      $rs = $this->recordSet($this->conectDB,$sql);
+                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";*/
+                            $sql = "SELECT * FROM contracts";
 
-                      $rs1 = $rs1 + $rs;
-                  
-                  }
-                  
+                            $rs = $this->recordSet($this->conectDB,$sql);
+                           
+                        }
+
+                        $rs1 = array_merge($rs1,$rs);
+                    } // end if <>
+                  } // end for
+                   echo "<pre>"; print_r($rs1);echo"</pre>";
+                 // echo "<pre>"; print_r($rs1);echo"</pre>";
                     
 
                     //return $rs;
@@ -579,16 +643,15 @@ class Sql extends Setup
     private function recordSet($db,$sql){
 
         $recordSet = array();
-        $result = mysqli_query($db, $sql) or die ( "Erro con la conexión a la base de datos");
+        $result = mysqli_query($db, $sql) or die ("Erro con la conexión a la base de datos");
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){ 
-
-        $recordSet[] = $row;
+            $recordSet[] = $row;
         }
+
         // Liberar resultados
         mysqli_free_result($result);
-        // Cerrar la conexión
-     
+       
         return $recordSet;
     }
 
