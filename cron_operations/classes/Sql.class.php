@@ -616,7 +616,6 @@ if( $opcion<>5
                            
                         }
 
-
                         $rs1 = array_merge($rs1,$rs);
                     } // end if <>
                   } // end for
@@ -624,6 +623,10 @@ if( $opcion<>5
                  // echo "<pre>"; print_r($rs1);echo"</pre>";
                     
 
+
+
+
+                    //return $rs;
                     //return $rs;
 
         }
