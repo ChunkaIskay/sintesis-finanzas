@@ -35,10 +35,10 @@ class Setup {
     {   
         echo "hola9";
         
-        $usuario = "root";
-        $contrasena = "";  
-        $servidor = "127.0.0.1";
-        $basededatos = "finances";
+        $usuario = "ivana";
+        $contrasena = "ivana123";  
+        $servidor = "199.14.10.105";
+        $basededatos = "Dataw";
                
         $conectDB = mysqli_connect( $servidor, $usuario, $contrasena, $basededatos ) or die ("No se pudo conectar a la db");
         
