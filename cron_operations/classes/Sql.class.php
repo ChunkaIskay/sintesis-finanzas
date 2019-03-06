@@ -39,68 +39,68 @@ class Sql extends Setup
           for ($opcion=3;$opcion<=125; $opcion++)
            {
 
-if( $opcion<>5
-&&$opcion<>6
-&&$opcion<>8
-&&$opcion<>9
-&&$opcion<>10
-&&$opcion<>11
-&&$opcion<>14
-&&$opcion<>15
-&&$opcion<>16
-&&$opcion<>18
-&&$opcion<>19
-&&$opcion<>20
-&&$opcion<>22
-&&$opcion<>23
-&&$opcion<>24
-&&$opcion<>25
-&&$opcion<>26
-&&$opcion<>27
-&&$opcion<>28
-&&$opcion<>30
-&&$opcion<>31
-&&$opcion<>32
-&&$opcion<>33
-&&$opcion<>36
-&&$opcion<>37
-&&$opcion<>38
-&&$opcion<>39
-&&$opcion<>42
-&&$opcion<>45
-&&$opcion<>46
-&&$opcion<>47
-&&$opcion<>49
-&&$opcion<>55
-&&$opcion<>61
-&&$opcion<>63
-&&$opcion<>64
-&&$opcion<>65
-&&$opcion<>75
-&&$opcion<>81
-&&$opcion<>82
-&&$opcion<>86
-&&$opcion<>89
-&&$opcion<>90
-&&$opcion<>92
-&&$opcion<>96
-&&$opcion<>98
-&&$opcion<>99
-&&$opcion<>100
-&&$opcion<>101
-&&$opcion<>103
-&&$opcion<>105
-&&$opcion<>110
-&&$opcion<>111
-&&$opcion<>112
-&&$opcion<>113
-&&$opcion<>114
-&&$opcion<>115
-&&$opcion<>119
-&&$opcion<>120
-&&$opcion<>123
-&&$opcion<>124
-&&$opcion<>125 ) {
+                if( $opcion<>5
+                &&$opcion<>6
+                &&$opcion<>8
+                &&$opcion<>9
+                &&$opcion<>10
+                &&$opcion<>11
+                &&$opcion<>14
+                &&$opcion<>15
+                &&$opcion<>16
+                &&$opcion<>18
+                &&$opcion<>19
+                &&$opcion<>20
+                &&$opcion<>22
+                &&$opcion<>23
+                &&$opcion<>24
+                &&$opcion<>25
+                &&$opcion<>26
+                &&$opcion<>27
+                &&$opcion<>28
+                &&$opcion<>30
+                &&$opcion<>31
+                &&$opcion<>32
+                &&$opcion<>33
+                &&$opcion<>36
+                &&$opcion<>37
+                &&$opcion<>38
+                &&$opcion<>39
+                &&$opcion<>42
+                &&$opcion<>45
+                &&$opcion<>46
+                &&$opcion<>47
+                &&$opcion<>49
+                &&$opcion<>55
+                &&$opcion<>61
+                &&$opcion<>63
+                &&$opcion<>64
+                &&$opcion<>65
+                &&$opcion<>75
+                &&$opcion<>81
+                &&$opcion<>82
+                &&$opcion<>86
+                &&$opcion<>89
+                &&$opcion<>90
+                &&$opcion<>92
+                &&$opcion<>96
+                &&$opcion<>98
+                &&$opcion<>99
+                &&$opcion<>100
+                &&$opcion<>101
+                &&$opcion<>103
+                &&$opcion<>105
+                &&$opcion<>110
+                &&$opcion<>111
+                &&$opcion<>112
+                &&$opcion<>113
+                &&$opcion<>114
+                &&$opcion<>115
+                &&$opcion<>119
+                &&$opcion<>120
+                &&$opcion<>123
+                &&$opcion<>124
+                &&$opcion<>125 ) {
 
 
                 if ($opcion=="3")
@@ -632,7 +632,8 @@ if( $opcion<>5
         }
         catch(Exception $e)
         {
-           echo "<br> Se ha producido una excepción:".$e->getMessage()."<br/>\n";
+          // echo "<br> Se ha producido una excepción:".$e->getMessage()."<br/>\n";
+         echo "<br> Se ha producido una excepción:";
 
           /*  echo "<br>code:".$e->getCode()."<br/>\n";
             echo "<br>file:".$e->getFile()."<br/>\n";
