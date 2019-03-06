@@ -589,7 +589,7 @@ class Sql extends Setup
 
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
-                    /* $sql = "SELECT concat_ws('-'$opcion='".$cli."',pago.factu) servicio, pago.desc_enti, 
+                    $sql = "SELECT concat_ws('-'$opcion='".$cli."',pago.factu) servicio, pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli
@@ -608,8 +608,8 @@ class Sql extends Setup
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
-                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";*/
-                            $sql = "SELECT * FROM contracts";
+                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+                            //$sql = "SELECT * FROM contracts";
 
                             $rs = $this->recordSet($this->conectDB,$sql);
                            
