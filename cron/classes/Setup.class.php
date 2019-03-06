@@ -23,6 +23,10 @@ class Setup {
     var $config;
 
     var $conectDB = "";
+    var $userDB = "";
+    var $passwordDB = "";  
+    var $serverDB = "";
+    var $dataB = "";
 
     /**
      *
@@ -31,25 +35,31 @@ class Setup {
   //  var $getMessage = array();
     
    
-    public function __contruct()
+    public function __contruct($ht)
     {   
-        echo "hola9";
-        
-        $usuario = "ivana";
-        $contrasena = "ivana123";  
-        $servidor = "199.14.10.105";
-        $basededatos = "Dataw";
-               
-        $conectDB = mysqli_connect( $servidor, $usuario, $contrasena, $basededatos ) or die ("No se pudo conectar a la db");
-        
-        if ($conectDB->connect_errno){
-            echo "Erro al conectarse a la DB: (" . $conectDB->connect_errno . ") " . $conectDB->connect_error;
-        }
 
-        return $conectDB;
+            if($ht == 1){
 
-        
-        
+                $userDB = "ivana";
+                $passwordDB = "ivana123";  
+                $serverDB = "199.14.10.105";
+                $dataB = "Dataw";
+
+            }elseif($ht == 2){
+
+                    $userDB = "finanzas";
+                    $passwordDB = "chupete99";  
+                    $serverDB = "199.3.0.149";
+                    $dataB = "finances";
+            }
+
+            $conectDB = mysqli_connect( $serverDB, $userDB, $passwordDB, $dataB ) or die ("Error: No se es posible conectar a la db $ht, comuniquese con el adminstrador");
+            
+            if ($conectDB->connect_errno){
+                echo "Error: no es posible conectarse a la conectarse a la DB $ht, comuniquese con el administrador: (" . $conectDB->connect_errno . ") " . $conectDB->connect_error;
+            }
+
+             return $conectDB;
     }
 }
 

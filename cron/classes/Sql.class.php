@@ -16,13 +16,13 @@ require_once 'Setup.class.php';
 
 class Sql extends Setup
 {
-   // $obj = "";
+    //$obj = "";
 
     public function __contruct()
     {
         // parent::Setup();
       $obj = new Setup();
-      $this->conectDB = $obj->__contruct();
+      $this->conectDB = $obj->__contruct(1);
          
     }
     
@@ -608,7 +608,7 @@ class Sql extends Setup
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
-                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
                             //$sql = "SELECT * FROM contracts";
 
                             $rs = $this->recordSet($this->conectDB,$sql);
@@ -616,10 +616,13 @@ class Sql extends Setup
                         }
 
                         $rs1 = array_merge($rs1,$rs);
+
                     } // end if <>
                   } // end for
-                   echo "<pre>"; print_r($rs1);echo"</pre>";
+               //    echo "<pre>"; print_r($rs1);echo"</pre>";
                  // echo "<pre>"; print_r($rs1);echo"</pre>";
+                 mysqli_close($this->conectDB);
+                 $this->loadData($rs1);
         }
         catch(Exception $e)
         {
@@ -632,7 +635,23 @@ class Sql extends Setup
             echo "<br>trace string:".$e->getTraceAsString()."<br/>\n";
             echo "<br>trace:<pre>".$e->getTrace()."</pre><br/>\n";*/
         }
-         //  mysqli_close($this->conectDB);
+        
+    }
+
+    private function loadData($rs1){
+        
+        $obj = new Setup();
+        $this->conectDB = $obj->__contruct(2);
+
+        foreach ($rs1 as $rs => $data){
+            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
+        }
+
+        echo "<pre>"; print_r($query);echo"</pre>";
+
+        //$sendquery = mysqli_multi_query($this->conectDB,$query);
+        
+
     }
 
     /**
