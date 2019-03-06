@@ -35,6 +35,7 @@ class Sql extends Setup
             $fecha = "2018-12-01";
             $fecha1 = "2018-12-03";
             $rs1 = array();
+
           for ($opcion=3;$opcion<=125; $opcion++)
            {
 
@@ -614,6 +615,7 @@ if( $opcion<>5
                             $rs = $this->recordSet($this->conectDB,$sql);
                            
                         }
+
 
                         $rs1 = array_merge($rs1,$rs);
                     } // end if <>
