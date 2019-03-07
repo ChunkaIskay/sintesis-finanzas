@@ -53,10 +53,10 @@ class Setup {
                     $dataB = "finances";
             }
 
-            $conectDB = mysqli_connect( $serverDB, $userDB, $passwordDB, $dataB ) or die ("Error: No se es posible conectar a la db $ht, comuniquese con el adminstrador");
+            $conectDB = mysqli_connect($serverDB,$userDB, $passwordDB, $dataB ) or die ("Error: No se es posible conectar a la db $ht, comuniquese con el administrador");
             
             if ($conectDB->connect_errno){
-                echo "Error: no es posible conectarse a la conectarse a la DB $ht, comuniquese con el administrador: (" . $conectDB->connect_errno . ") " . $conectDB->connect_error;
+                echo "Error1: no es posible conectarse a la conectarse a la DB $ht, comuniquese con el administrador: (" . $conectDB->connect_errno . ") " . $conectDB->connect_error;
             }
 
              return $conectDB;
