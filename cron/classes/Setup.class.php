@@ -35,7 +35,7 @@ class Setup {
   //  var $getMessage = array();
     
    
-    public function __contruct($ht)
+    public function conectDataB($ht)
     {   
 
             if($ht == 1){

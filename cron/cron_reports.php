@@ -11,7 +11,7 @@
 	require_once 'classes/Sql.class.php';
 
     $obj = new Sql();	
-    $obj->__contruct();
+   // $obj->__contruct();
     $obj->pruebas();
 
 exit;
