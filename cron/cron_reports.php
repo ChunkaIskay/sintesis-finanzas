@@ -6,7 +6,7 @@
   	//require_once '/svpn/www/htdocs/reports/classes/Setup.class.php';
 	//require_once '/svpn/www/htdocs/reports/classes/Sql.class.php';
 	//require_once '/classes/Setup.class.php';
-	echo "hola"; 
+	echo "Importando datos:"; 
 
 	require_once 'classes/Sql.class.php';
 

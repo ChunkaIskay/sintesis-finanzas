@@ -647,29 +647,24 @@ class Sql extends Setup
         $query = "";
            
         foreach($rs1 as $rs => $data){
-      //  echo"****\n".$rs." ---".$data['servicio'];
 
-/*$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
-  */
-
-
-$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
-                        ".$data['cli'].",
-                        '".$data['desc_enti']."',
-                        ".$data['enti'].",
-                        '".$data['servicio']."',
-                        ".$data['tot'].",
-                        ".$data['valTot']."
-                    );";
-
-
+            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
+                            ".$data['cli'].",
+                            '".$data['desc_enti']."',
+                            ".$data['enti'].",
+                            '".$data['servicio']."',
+                            ".$data['tot'].",
+                            ".$data['valTot']."
+                        );";
         }
-
-     //   echo"<pre>"; print_r($query);echo"</pre>";
-
+     
         $sendquery = mysqli_multi_query($conectDB,$query);
-        print_r($sendquery);
+        if($sendquery==1 || $sendquery == true){
+            echo"OK";
+        }else{ echo "Error00!!"}
+       
         mysqli_close($conectDB);
+    
     }
 
     /**
