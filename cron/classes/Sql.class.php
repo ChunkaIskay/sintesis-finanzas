@@ -622,7 +622,7 @@ class Sql extends Setup
                     } // end if <>
                   } // end for
                //    echo "<pre>"; print_r($rs1);echo"</pre>";
-                 // echo "<pre>"; print_r($rs1);echo"</pre>";
+                  echo "<pre>"; print_r($rs1);echo"</pre>";
                  mysqli_close($conectDB);
                  $this->loadData($rs1);
         }
@@ -643,7 +643,7 @@ class Sql extends Setup
     private function loadData($rs1){
         
         $obj1 = new Setup();
-        $conectDB = $this->obj1->conectDataB(2);
+        $conectDB = $obj1->conectDataB(2);
         $query = "";
     echo "*1*";   
         foreach($rs1 as $rs => $data){
