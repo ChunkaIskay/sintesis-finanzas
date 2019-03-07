@@ -622,7 +622,7 @@ class Sql extends Setup
                     } // end if <>
                   } // end for
                //    echo "<pre>"; print_r($rs1);echo"</pre>";
-                  echo "<pre>"; print_r($rs1);echo"</pre>";
+                //  echo "<pre>"; print_r($rs1);echo"</pre>";
                  mysqli_close($conectDB);
                  $this->loadData($rs1);
         }
@@ -654,7 +654,7 @@ class Sql extends Setup
                             ".$data['enti'].",
                             '".$data['servicio']."',
                             ".$data['tot'].",
-                            ".$data['valTot'].".,
+                            ".$data['valTot'].",
                             ".$data['fecha'].",
                             ".$data['hora']."
                         );";
