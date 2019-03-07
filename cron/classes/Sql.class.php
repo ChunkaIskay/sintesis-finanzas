@@ -643,12 +643,17 @@ class Sql extends Setup
         $obj = new Setup();
         $this->conectDB = $obj->__contruct(2);
         $query = "";
-        
-        foreach ($rs1 as $rs => $data){
-$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
+    echo "*1*";   
+        foreach($rs1 as $rs => $data){
+/*$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
+  */
+$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES('bla1','bla2','bla3','bla4','bla5','bla6');";
+  
+
+
         }
 
-        echo "<pre>"; print_r($query);echo"</pre>";
+        echo"<pre>"; print_r($query);echo"</pre>";
 
         //$sendquery = mysqli_multi_query($this->conectDB,$query);
         
