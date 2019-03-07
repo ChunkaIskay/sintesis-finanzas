@@ -596,7 +596,7 @@ class Sql extends Setup
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli, pago.fecha fecha, pago.hora hora
                              FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
-                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli,mo.fecha, mo.hora
                                    FROM $cliente mo, facturacion fac, entidad enti
                                    WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
@@ -612,7 +612,7 @@ class Sql extends Setup
                                     GROUP BY cod_entidad, factu) rever 
                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
                             //$sql = "SELECT * FROM contracts";
-echo $sql;
+
                             $rs = $this->recordSet($conectDB,$sql);
                            
                         }
