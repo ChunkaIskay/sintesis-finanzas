@@ -622,7 +622,7 @@ class Sql extends Setup
                     } // end if <>
                   } // end for
                //    echo "<pre>"; print_r($rs1);echo"</pre>";
-                  echo "<pre>"; print_r($rs1);echo"</pre>";
+                //  echo "<pre>"; print_r($rs1);echo"</pre>";
                  mysqli_close($conectDB);
                  $this->loadData($rs1);
         }
@@ -645,17 +645,21 @@ class Sql extends Setup
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
         $query = "";
-    echo "*1*";   
+           
         foreach($rs1 as $rs => $data){
+echo"****\n".$rs." ---";print_r($data);
+
 /*$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
   */
+
+
 $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES('bla1','bla2','bla3','bla4','bla5','bla6');";
   
 
 
         }
 
-        echo"<pre>"; print_r($query);echo"</pre>";
+     //   echo"<pre>"; print_r($query);echo"</pre>";
 
         $sendquery = mysqli_multi_query($conectDB,$query);
         print_r($sendquery);
