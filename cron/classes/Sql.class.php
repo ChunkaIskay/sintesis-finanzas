@@ -661,7 +661,7 @@ class Sql extends Setup
         $sendquery = mysqli_multi_query($conectDB,$query);
         if($sendquery==1 || $sendquery == true){
             echo"OK";
-        }else{ echo "Error00!!"}
+        }else{ echo "Error00!!";}
        
         mysqli_close($conectDB);
     
