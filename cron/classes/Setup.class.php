@@ -49,7 +49,7 @@ class Setup {
 
                     $userDB = "finanzas";
                     $passwordDB = "chupete99";  
-                    $serverDB = "199.3.0.149";
+                    $serverDB = "localhost";
                     $dataB = "finances";
             }
 
