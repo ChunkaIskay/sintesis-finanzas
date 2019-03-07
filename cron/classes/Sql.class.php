@@ -657,9 +657,9 @@ $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot
 
         echo"<pre>"; print_r($query);echo"</pre>";
 
-        //$sendquery = mysqli_multi_query($this->conectDB,$query);
-        
-
+        $sendquery = mysqli_multi_query($conectDB,$query);
+        print_r($sendquery);
+        mysqli_close($conectDB);
     }
 
     /**
