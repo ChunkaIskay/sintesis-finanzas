@@ -647,14 +647,20 @@ class Sql extends Setup
         $query = "";
            
         foreach($rs1 as $rs => $data){
-        echo"****\n".$rs." ---".$data['servicio'];
+      //  echo"****\n".$rs." ---".$data['servicio'];
 
 /*$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
   */
 
 
-$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES('bla1','bla2','bla3','bla4','bla5','bla6');";
-  
+$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
+                        ".$data['cli'].",
+                        '".$data['desc_enti']."',
+                        ".$data['enti'].",
+                        '".$data['servicio']."',
+                        ".$data['tot'].",
+                        ".$data['valTot']."
+                    );";
 
 
         }
