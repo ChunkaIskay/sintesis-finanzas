@@ -594,9 +594,9 @@ class Sql extends Setup
                     $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio, pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
-                                   pago.cod_entidad enti, pago.cod_cli cli, pago.fecha fecha, pago.hora hora
+                                   pago.cod_entidad enti, pago.cod_cli cli
                              FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
-                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli,mo.fecha, mo.hora
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
                                    FROM $cliente mo, facturacion fac, entidad enti
                                    WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
@@ -604,7 +604,7 @@ class Sql extends Setup
                                    GROUP BY cod_entidad, factu) pago 
                            left join 
                                   (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
-                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli, mo.fecha fecha, mo.hora hora
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
                                     FROM $cliente mo, facturacion fac, entidad enti
                                     WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
@@ -648,15 +648,13 @@ class Sql extends Setup
            
         foreach($rs1 as $rs => $data){
 
-            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot,fecha,hora)VALUES(
+            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
                             ".$data['cli'].",
                             '".$data['desc_enti']."',
                             ".$data['enti'].",
                             '".$data['servicio']."',
                             ".$data['tot'].",
-                            ".$data['valTot'].",
-                            '".$data['fecha']."',
-                            '".$data['hora']."'
+                            ".$data['valTot']."
                         );";
         }
      
