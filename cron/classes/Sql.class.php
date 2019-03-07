@@ -612,7 +612,7 @@ class Sql extends Setup
                                     GROUP BY cod_entidad, factu) rever 
                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
                             //$sql = "SELECT * FROM contracts";
-
+echo $sql;
                             $rs = $this->recordSet($conectDB,$sql);
                            
                         }
@@ -676,7 +676,7 @@ class Sql extends Setup
     private function recordSet($db,$sql){
 
         $recordSet = array();
-        $result = mysqli_query($db, $sql) or die ("Error con la conexión a la base de datos");
+        $result = mysqli_query($db, $sql) or die ("Error 02: no es posible conectarse s la base de datos, comuniquese cno el administrador");
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){ 
             $recordSet[] = $row;
