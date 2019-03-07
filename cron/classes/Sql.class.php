@@ -647,7 +647,7 @@ class Sql extends Setup
         $query = "";
            
         foreach($rs1 as $rs => $data){
-echo"****\n".$rs." ---";print_r($data);
+        echo"****\n".$rs." ---".$data['servicio'];
 
 /*$query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES($data['cli'],$data['desc_enti'],$data['enti'],$data['servicio'],$data['tot'],$data['valTot']);";
   */
