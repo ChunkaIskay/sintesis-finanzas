@@ -655,8 +655,8 @@ class Sql extends Setup
                             '".$data['servicio']."',
                             ".$data['tot'].",
                             ".$data['valTot'].",
-                            ".$data['fecha'].",
-                            ".$data['hora']."
+                            '".$data['fecha']."',
+                            '".$data['hora']."'
                         );";
         }
      
