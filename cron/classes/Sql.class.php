@@ -16,12 +16,12 @@ require_once 'Setup.class.php';
 
 class Sql extends Setup
 {
-    $obj = "";
+   // $obj = "";
 
     public function __contruct()
     {
         // parent::Setup();
-      $obj = new Setup();
+      $this->obj = new Setup();
       $this->conectDB = $obj->__contruct(1);
          
     }
