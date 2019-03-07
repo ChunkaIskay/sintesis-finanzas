@@ -16,7 +16,7 @@ require_once 'Setup.class.php';
 
 class Sql extends Setup
 {
-    //$obj = "";
+    $obj = "";
 
     public function __contruct()
     {
@@ -640,8 +640,8 @@ class Sql extends Setup
 
     private function loadData($rs1){
         
-        $obj = new Setup();
-        $this->conectDB = $obj->__contruct(2);
+        //$this->obj = new Setup();
+        $conectDB = $this->obj->__contruct(2);
         $query = "";
     echo "*1*";   
         foreach($rs1 as $rs => $data){
