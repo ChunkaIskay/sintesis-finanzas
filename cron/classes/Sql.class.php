@@ -589,6 +589,298 @@ class Sql extends Setup
                 $estado1="transaccion='D'";
                 }
 
+                if($opcion=="50")
+                 {
+                        $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo, 
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.tipo='0001'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo,
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.tipo='0001'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+                if($opcion=="51")
+                 {
+                        $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo, 
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.tipo='0002'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo,
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.tipo='0002'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                    }
+
+                if($opcion=="52")
+                 {
+                        $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(*) conteo, 
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.tipo='0003'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(*) conteo,
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.tipo='0003'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                    }
+
+                 if($opcion=="53")
+                 {
+                        $sql= "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo, 
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.tipo='0004'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(distinct mo.secuencial, mo.carnet_bene) conteo,
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.tipo='0004'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                    }
+
+                 if($opcion=="54")
+                 {
+                    $sql=" SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                    pago.cod_entidad enti, pago.cod_cli cli     
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
+                                   sum(monto)  total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente 
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.cod_ciudad_reserva=fac.cod_servicio
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
+                                    sum(monto) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente 
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.cod_ciudad_reserva=fac.cod_servicio
+                                    GROUP BY cod_entidad, factu) rever 
+                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                            $rs = $this->recordSet($conectDB,$sql);
+                 }
+                 if($opcion=="67")
+                 {
+                        $sql="                           
+                           SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli  
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
+                                   sum(monto)  total, mo.servicio, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.servicio=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
+                                    sum(monto) total, mo.servicio, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.servicio=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+
+                if($opcion=="68" )
+                 {
+                        $sql="
+                           SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli  
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
+                                   sum(monto)  total, mo.cliente, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.cliente=fac.cod_servicio
+                                   AND mo.cod_moneda=fac.moneda
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
+                                    sum(monto) total, mo.cliente, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.cliente=fac.cod_servicio
+                                    AND mo.cod_moneda=fac.moneda
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                          $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+
+                 if($opcion=="78")
+                 {
+                        $datos="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli 
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(mo.monto_bs) conteo,
+                                   sum(monto_bs) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.monto_bs<>'0' AND fac.moneda='0001'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(mo.monto_bs) conteo,
+                                    sum(monto_bs) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.monto_bs<>'0' AND fac.moneda='0001'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                        $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+                if($opcion=="79")
+                 {
+                        $sql="
+                           SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count(mo.monto_us) conteo,
+                                   sum(monto_us) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   AND mo.monto_us<>'0' AND fac.moneda='0002'
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count(mo.monto_us) conteo,
+                                    sum(monto_us) total, mo.tipo, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.tipo=fac.cod_servicio
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    AND mo.monto_us<>'0' AND fac.moneda='0002'
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu ";
+
+                            $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+                 if($opcion=="102" )
+                 {
+                        $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                                   (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
+                                   (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
+                                   pago.cod_entidad enti, pago.cod_cli cli  
+                             FROM (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo, 
+                                   sum(monto) total, mo.cod_empresa, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                   FROM $cliente mo, facturacion fac, entidad enti
+                                   WHERE (fecha >='$fecha'AND fecha <='$fecha1') AND mo.$estado
+                                   AND mo.codigo_cliente=fac.cod_cliente AND mo.cod_empresa=fac.cod_servicio
+                                   AND mo.cod_moneda=fac.moneda
+                                   AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                   GROUP BY cod_entidad, factu) pago 
+                           left join 
+                                  (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
+                                    sum(monto) total, mo.cod_empresa, enti.descripcion desc_enti, mo.codigo_cliente cod_cli
+                                    FROM $cliente mo, facturacion fac, entidad enti
+                                    WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
+                                    AND mo.codigo_cliente=fac.cod_cliente AND mo.cod_empresa=fac.cod_servicio
+                                    AND mo.cod_moneda=fac.moneda
+                                    AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
+                                    GROUP BY cod_entidad, factu) rever 
+                          on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
+
+                            $rs = $this->recordSet($conectDB,$sql);
+
+                   }
+
+
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
                     $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio, pago.desc_enti, 
@@ -611,25 +903,22 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
-                            //$sql = "SELECT * FROM contracts";
-
+                      
                             $rs = $this->recordSet($conectDB,$sql);
                            
-                        }
+                        } //end if option
 
                         $rs1 = array_merge($rs1,$rs);
 
                     } // end if <>
                   } // end for
-               //    echo "<pre>"; print_r($rs1);echo"</pre>";
-                //  echo "<pre>"; print_r($rs1);echo"</pre>";
                  mysqli_close($conectDB);
                  $this->loadData($rs1);
         }
         catch(Exception $e)
         {
           // echo "<br> Se ha producido una excepción:".$e->getMessage()."<br/>\n";
-         echo "<br> Se ha producido una excepción:";
+            echo "<br> Se ha producido una excepción:";
 
           /*  echo "<br>code:".$e->getCode()."<br/>\n";
             echo "<br>file:".$e->getFile()."<br/>\n";

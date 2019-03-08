@@ -67,11 +67,13 @@ Route::post('/search-contract', array('as' => 'searchList','middleware' => 'auth
 Route::get('/{id}/management', array('as' => 'list','middleware' => 'auth','uses' => 'OperationalManagementController@managementContract'));
 Route::post('/{id}/management', array('as' => 'list','middleware' => 'auth','uses' => 'OperationalManagementController@updateManagementContract'));
 //Route::post('/{id}/management', array('as' => 'opertional',	'middleware' => 'auth',	'uses' => 'OperationalManagementController@managementContract'));
-
-
-
 /*
 Route::get('/managmente/{link}',function($link){
       return view('management.index', ['link' => $link]);
 });
 */
+
+// Transaction import
+
+Route::get('/list-commissions', array(	'as' => 'listCommissions',	'middleware' => 'auth',	'uses' => 'TransactionImportController@index'));
+  

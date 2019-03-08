@@ -39,8 +39,6 @@
                     <ul class="nav navbar-nav">
                         @guest
                         @else
-                        <li><a href="#">Presupuestos</a></li>
-                        <li><a href="#">Tesoreria</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contratos <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -64,6 +62,14 @@
                               <li class="divider"></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                              <li><a href="{{ route('listCommissions') }}">Comisiones de clientes-Servicios</a></li>
+                              <li class="divider"></li>
+                            </ul>
+                        </li>
+  
                         @endguest
                     </ul>
 
