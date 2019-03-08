@@ -33,8 +33,8 @@ class Sql extends Setup
             $obj = new Setup();
             $conectDB = $obj->conectDataB(1);
   
-            $fecha = "2018-12-16";
-            $fecha1 = "2018-12-23";
+            $fecha = "2018-12-24";
+            $fecha1 = "2018-12-31";
             $rs1 = array();
 
           for ($opcion=3;$opcion<=125; $opcion++)
