@@ -34,7 +34,7 @@ class Sql extends Setup
             $conectDB = $obj->conectDataB(1);
   
             $fecha = "2018-12-01";
-            $fecha1 = "2018-12-03";
+            $fecha1 = "2018-12-07";
             $rs1 = array();
 
           for ($opcion=3;$opcion<=125; $opcion++)
@@ -707,7 +707,7 @@ class Sql extends Setup
 
                  if($opcion=="54")
                  {
-                    $sql=" SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                    $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                     pago.cod_entidad enti, pago.cod_cli cli     
@@ -734,8 +734,7 @@ class Sql extends Setup
                  }
                  if($opcion=="67")
                  {
-                        $sql="                           
-                           SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                        $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli  
@@ -763,8 +762,7 @@ class Sql extends Setup
 
                 if($opcion=="68" )
                  {
-                        $sql="
-                           SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                        $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli  
