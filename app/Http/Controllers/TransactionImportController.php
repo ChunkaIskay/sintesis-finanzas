@@ -18,6 +18,8 @@ class TransactionImportController extends Controller
 		echo "<br> CREDICASAS:". $this->credicasas();
 		echo "<br> cmp:". $this->cmp();
 		echo "<br> AXS:". $this->axs();
+		echo "<br> MISIONES:". $this->misiones();
+
 		
 exit;
 	 	//return view('comission.index',  array('contacts' => 'hola'));
@@ -259,7 +261,7 @@ exit;
 	**    De 1 a 5000                    bs. 1250
 	**    5001-10000                                          bs. 1.80
 	**    10001- ADELANTE                                     bs. 1.50 
-	**
+	**    
 	**/
 
 	public function axs(){
@@ -301,6 +303,7 @@ exit;
 	**    5001 en adelante                                    bs. 1.59
 	**    
 	**    Transaciones minimas    de  1667                    bs. 2.00
+	**    Se saca el 3% al total 
 	**/
 
 	public function misiones(){
@@ -315,27 +318,90 @@ exit;
 	    ->where('cli','=',40)
 	    ->sum('tot');
 
+		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
+		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-LAS MISIONES%') GROUP by enti, desc_enti
+		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-LAS MISIONES BS%')) 
+		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
+
+    	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
+		//dd($totalBilling2);
 	    // T. minimas sea menor a T. total
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	    $additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	  
 
-	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    }
-	    if ($totalTransaction > $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+	    if ($totalTransaction >= $arrayPrices[1]['from']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    	$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    }
-	    if ($totalTransaction >= $arrayPrices[2]['from']){
+	    
+	    $totalBilling3 =  $minimumTransactions + $additonialTransactions; 
+	    $totalBilling = $totalBilling2 + $totalBilling3;
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
-	    }
-
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
-//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
 
+	/**
+	** La retribución y forma de pago
+	** l. La retribuciòn de los servicios, considerarà los siguiente:
+		Monto minimo
+	**    transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    De 1 a 5000                    bs. 10,000
+	**    5001 en adelante                                    bs. 1.59
+	**    
+	**    Transaciones minimas    de  1667                    bs. 2.00
+	**    Se saca el 3% al total 
+	**/
+
+	public function kantutani(){
+
+		$arrayPrices = array(
+						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => 1667, 'unitCostMin'=>2.00 ),
+						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->sum('tot');
+
+		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
+		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti
+		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI BS%')) 
+		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
+
+    	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
+		//dd($totalBilling2);
+	    // T. minimas sea menor a T. total
+
+	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
+	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	  
+
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from']){
+
+	    	$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	    }
+	    
+	    $totalBilling3 =  $minimumTransactions + $additonialTransactions; 
+	    $totalBilling = $totalBilling2 + $totalBilling3;
+
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+
+
+
+/*
+SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti ) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI BS%')) GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal ORDER BY totalEnti.desc_enti ASC) billingT
+*/
 }
