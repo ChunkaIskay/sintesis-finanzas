@@ -792,7 +792,7 @@ class Sql extends Setup
 
                  if($opcion=="78")
                  {
-                        $datos="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
+                        $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
                                    (pago.conteo - CASE WHEN rever.conteo IS NULL THEN 0 ELSE rever.conteo END) as tot,
                                    (pago.total - CASE WHEN rever.total   IS NULL THEN 0 ELSE rever.total END) as valTot,
                                    pago.cod_entidad enti, pago.cod_cli cli 
