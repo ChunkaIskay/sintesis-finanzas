@@ -12,6 +12,7 @@ use App\TransactionImport;
 class TransactionImportController extends Controller
 {
 	public function index(){
+		echo "<h2>LISTADO DE PRUEBA </h2>";
 		echo "<br> JHALEA:". $this->jhalea();
 		echo "<br> MI RACHO:". $this->mi_rancho();
 		echo "<br> TIERRA:". $this->tierra();
