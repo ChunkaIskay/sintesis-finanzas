@@ -902,7 +902,7 @@ class Sql extends Setup
                                     GROUP BY cod_entidad, factu) rever 
                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
                       
-                            $rs = $this->recordSet($conectDB,$sql);
+                          $rs = $this->recordSet($conectDB,$sql);
                            
                         } //end if option
 

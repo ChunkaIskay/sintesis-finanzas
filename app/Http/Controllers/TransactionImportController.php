@@ -24,7 +24,14 @@ class TransactionImportController extends Controller
 		echo "<br> PREVER:". $this->prever();
 		echo "<br> BBR:". $this->bbr();
 		echo "<br> BBR-RENACER:". $this->bbr_renacer();
-		echo "<br> BBR-RENACER:". $this->digital();
+		echo "<br> DIGITAL:". $this->digital();
+		echo "<br> MENPARK:". $this->men_park();
+		echo "<br> NVIDA:". $this->nvida();
+		echo "<br> NSEGURO:". $this->nseguro();
+		echo "<br> BISA:". $this->bisa();
+		
+
+		
 
 		
 
@@ -311,14 +318,18 @@ exit;
 	**    De 1 a 5000                    bs. 10,000
 	**    5001 en adelante                                    bs. 1.59
 	**    
-	**    Transaciones minimas    de  1667                    bs. 2.00
-	**    Se saca el 3% al total 
+	**    Transaciones minimas    de  5000/ 3  = 1667                  
+	**    Se saca el 3% 
+	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y 
 	**/
 
 	public function misiones(){
 
+		$minMonthly = round((10000/3),2);
+		$minTrans = round(5000/3);
+		
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => 1667, 'unitCostMin'=>2.00 ),
+						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
@@ -333,18 +344,11 @@ exit;
 		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-		//dd($totalBilling2);
-	    // T. minimas sea menor a T. total
-
-	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
 	  		
 		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    	if ($additonialTransactions1 >0)
-				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
-	    	else
-	    		$additonialTransactions=0;
+	     	 $totalBilling3 = $minMonthly;
 
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from']){
@@ -353,10 +357,11 @@ exit;
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
+
+	        $totalBilling3 =  $minMonthly + $additonialTransactions;
 	    }
 
-	    $totalBilling3 =  $minimumTransactions + $additonialTransactions; 
-	    $totalBilling = $totalBilling2 + $totalBilling3;
+	   $totalBilling = $totalBilling2 + $totalBilling3;
 
 	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
@@ -369,14 +374,18 @@ exit;
 	**    De 1 a 5000                    bs. 10,000
 	**    5001 en adelante                                    bs. 1.59
 	**    
-	**    Transaciones minimas    de  1667                    bs. 2.00
-	**    Se saca el 3% al total 
+	**    Transaciones minimas    de  5000/ 3  = 1667                  
+	**    Se saca el 3% 
+	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y 
 	**/
 
 	public function kantutani(){
 
+		$minMonthly = round((10000/3),2);
+		$minTrans = round(5000/3);
+		
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => 1667, 'unitCostMin'=>2.00 ),
+						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
@@ -393,18 +402,11 @@ exit;
 					) billingT"));
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-		
-	    // T. minimas sea menor a T. total
-
-	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  
-	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+	  		
+		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    	if ($additonialTransactions1 >0)
-				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
-	    	else
-	    		$additonialTransactions=0;
+	     	 $totalBilling3 = $minMonthly;
 
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from']){
@@ -413,10 +415,11 @@ exit;
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
+
+	        $totalBilling3 =  $minMonthly + $additonialTransactions;
 	    }
-	    
-	    $totalBilling3 =  $minimumTransactions + $additonialTransactions; 
-	    $totalBilling = $totalBilling2 + $totalBilling3;
+
+	   $totalBilling = $totalBilling2 + $totalBilling3;
 
 	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
@@ -429,14 +432,18 @@ exit;
 	**    De 1 a 5000                    bs. 10,000
 	**    5001 en adelante                                    bs. 1.59
 	**    
-	**    Transaciones minimas    de  1667                    bs. 2.00
-	**    Se saca el 3% al total 
+	**    Transaciones minimas    de  5000/ 3  = 1667                  
+	**    Se saca el 3% 
+	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y  
 	**/
 
 	public function prever(){
 
+		$minMonthly = round((10000/3),2);
+		$minTrans = round(5000/3);
+		
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => 1667, 'unitCostMin'=>2.00 ),
+						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
@@ -453,19 +460,11 @@ exit;
 					) billingT"));
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-		
-	    // T. minimas sea menor a T. total
-
-	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  
+	  		
+		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
-
-	    	if ($additonialTransactions1 >0)
-				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
-	    	else
-	    		$additonialTransactions=0;
+	     	 $totalBilling3 = $minMonthly;
 
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from']){
@@ -474,10 +473,11 @@ exit;
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
+
+	        $totalBilling3 =  $minMonthly + $additonialTransactions;
 	    }
-	    
-	    $totalBilling3 =  $minimumTransactions + $additonialTransactions; 
-	    $totalBilling = $totalBilling2 + $totalBilling3;
+
+	   $totalBilling = $totalBilling2 + $totalBilling3;
 
 	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
@@ -493,7 +493,7 @@ exit;
 	**    Mayores a 15,000                                     bs. 3.50
 	**
 	**    Transaciones minimas    de  1000                    bs. 2.50
-	**    
+	**    Como son un grupo de 2 empresas se divide por 2
 	**/
 
 	public function bbr(){
@@ -516,7 +516,8 @@ exit;
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
-	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2; 
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -562,7 +563,7 @@ exit;
 	**    Mayores a 15,000                                     bs. 3.50
 	**
 	**    Transaciones minimas    de  1000                    bs. 2.50
-	**    
+	**    Como son un grupo de 2 empresas se divide por 2
 	**/
 
 	public function bbr_renacer(){
@@ -585,7 +586,8 @@ exit;
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
-	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2;
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -635,8 +637,10 @@ exit;
 
 	public function digital(){
 
+		$unitCostMin= round((5000/2000),2);
+
 		$arrayPrices = array(
-						0 => array('from' => 0 ,'until'=>2000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 2000, 'unitCostMin'=>2.50 ),
+						0 => array('from' => 0 ,'until'=>2000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 2000, 'unitCostMin'=>$unitCostMin ),
 						1 => array('from' => 2001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>2.00 ),
 						2 => array('from' => 5001 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>1.70 ),
 						3 => array('from' => 10001 ,'until'=>20000, 'monthlyFixed' => 0, 'unitCost'=>1.60 ),
@@ -655,6 +659,7 @@ exit;
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -680,7 +685,7 @@ exit;
 	    		$additonialTransactions=0;
 	    }
 
-	    if ($totalTransaction > $arrayPrices[4]['from']){
+	    if ($totalTransaction >= $arrayPrices[4]['from']){
 
 	    	if ($additonialTransactions1 >0)
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[4]['unitCost'];
@@ -690,6 +695,253 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+
+/**
+	** 
+	**  
+	**    Transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    De 1 a 1000                       bs. 5,000
+	**    De 1,001 a 5,000                                    bs. 3.90
+	**    De 5,001 a  15,000                                  bs. 3.70  
+	**    15,000-Adelante                                     bs. 3.50
+	**
+	**    Transaciones minimas    de  1000                    
+	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 2.50
+	**/
+
+	public function men_park(){
+
+		$unitCostMin= round((5000/1000),2);
+
+		$arrayPrices = array(
+						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 1000, 'unitCostMin'=>$unitCostMin ),
+						1 => array('from' => 1001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>3.90 ),
+						2 => array('from' => 5001 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>3.70 ),
+						3 => array('from' => 15001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50 )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEMPARK-EMI MANTENIMIENTO%")
+	    ->where('cli','=',83)
+	    ->sum('tot');
+
+	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
+	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	  
+
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
+
+	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    }
+
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+
+	     if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[2]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    if ($totalTransaction >= $arrayPrices[3]['from']){
+
+	    	if ($additonialTransactions1 >0)
+	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[3]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    
+	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  en caso que el servicio se de Recaudación de primas de serguro
+	**  
+	**    Transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    Menores a 1000                       bs. 5,000
+	**    De 1,001 a 5,000                                    bs. 4.90
+	**    De 5,001 a  15,000                                  bs. 4.70  
+	**    Mayores a 15,000                                    bs. 4.50
+	**
+	**    Transaciones minimas    de  1000                    
+	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 5.00
+	**/
+
+	public function nvida(){
+
+		$unitCostMin= round((5000/1000),2);
+
+		$arrayPrices = array(
+						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 1000, 'unitCostMin'=>$unitCostMin ),
+						1 => array('from' => 1001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>4.90 ),
+						2 => array('from' => 5001 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>4.70 ),
+						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.50 )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NALVIDA-NACIONAL VIDA%")
+	    ->where('cli','=',77)
+	    ->sum('tot');
+
+	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
+	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	  
+
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
+
+	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    }
+
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+
+	     if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[2]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	if ($additonialTransactions1 >0)
+	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[3]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    
+	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  en caso que el servicio se de Recaudación de primas de serguro
+	**  
+	**    Transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    Menores a 1000                       bs. 5,000
+	**    De 1,001 a 5,000                                    bs. 4.70
+	**    De 5,001 a  15,000                                  bs. 4.50  
+	**    Mayores a 15,000                                    bs. 4.40
+	**
+	**    Transaciones minimas    de  1000                    
+	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 5.00
+	**/
+
+	public function nseguro(){
+
+		$unitCostMin= round((5000/1000),2);
+
+		$arrayPrices = array(
+						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 1000, 'unitCostMin'=>$unitCostMin ),
+						1 => array('from' => 1001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>4.70 ),
+						2 => array('from' => 5001 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>4.50 ),
+						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.40 )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NALVIDA-NACIONAL SEGUROS%")
+	    ->where('cli','=',77)
+	    ->sum('tot');
+
+	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
+	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	  
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
+
+	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    }
+
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+
+	     if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	if ($additonialTransactions1 >0)
+				$additonialTransactions = $additonialTransactions1 * $arrayPrices[2]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	if ($additonialTransactions1 >0)
+	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[3]['unitCost'];
+	    	else
+	    		$additonialTransactions=0;
+	    }
+	    
+	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  Calculo de la comisiòn
+	**  
+	**    Rango de facturas generadas       Precio unitario por transacción
+	**                                      aplicando Facturación Electrónica
+	**    De 0 a 5000 Factura generadas                        0.31
+	**     generadas en un mes                                                        
+	**    De 50,001 a 100,000 facturas						   0.29
+	**     generadas en un mes                                
+	**    Mas de 100,000 facturadas                            0.27                               
+	**     generadas en un mes                                    
+	**
+	**/
+
+	public function bisa(){
+
+		$arrayPrices = array(
+						0 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>0.31),
+						1 => array('from' => 50001 ,'until'=>100000, 'monthlyFixed' => 0, 'unitCost'=>0.29 ),
+						2 => array('from' => 100000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.27 )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BISA-SEGUROS-BISA SEGUROS%")
+	    ->where('cli','=',56)
+	    ->sum('tot');
+
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[0]['unitCost'];
+	    }
+
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+
+	    if ($totalTransaction > $arrayPrices[2]['from']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    
+	 
 	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
 
