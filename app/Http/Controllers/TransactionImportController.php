@@ -29,8 +29,33 @@ class TransactionImportController extends Controller
 		echo "<br> NVIDA:". $this->nvida();
 		echo "<br> NSEGURO:". $this->nseguro();
 		echo "<br> BISA:". $this->bisa();
+		echo "<br> BISA RECAUDACIONES:". $this->bisa_recaudaciones();
+		echo "<br> EGPP:". $this->egpp();
+		echo "<br> BDP:". $this->bdp();
+		echo "<br> LA VITALICIA:". $this->la_vitalicia();
+		echo "<br> ALIANZA VIDA:". $this->alianza_vida();
+		echo "<br> BOLIVIATEL:". $this->boliviatel();
+		echo "<br> CESSA:". $this->cessa();
+		echo "<br> ACTUALIZACION:". $this->actualizacion();
+		echo "<br> GAMCH:". $this->gamch();
+		echo "<br> UAGRM:". $this->uagrm();
+		echo "<br> SEMAPA:". $this->semapa();
+		echo "<br> SETAR:". $this->setar();
+		echo "<br> BJA:". $this->bja();
+
 		
 
+		
+
+		
+		
+		
+		
+		
+		
+		
+
+		
 		
 
 		
@@ -940,9 +965,432 @@ exit;
 
 	    	 $totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
-	    
-	 
 	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
 	}
+
+	/**
+	**  La retribución del servicio lo siguiente.
+	**  
+	**    Rango de Recaudaciones(Bs)       Precio unitario por transacción
+	**                                      en Moneda Nacional (Bs)
+	**    1 a 25,000                                        4.10
+	**    25,001 a 50,000         						    4.00
+	**    50,001 a 100,000                                  3.90                               
+	**    100,001 a 200,000                                 3.80   
+	**    200,001 o más                                     3.70                              
+	**
+	**/
+
+	public function bisa_recaudaciones(){
+
+		$arrayPrices = array(
+					0 => array('from' => 1 ,'until'=>25000, 'monthlyFixed' => 0, 'unitCost'=>4.10),
+					1 => array('from' => 25001 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>4.00 ),
+					2 => array('from' => 50001 ,'until'=>100000, 'monthlyFixed' => 0, 'unitCost'=>3.90 ),
+					3 => array('from' => 100001 ,'until'=>200000, 'monthlyFixed' => 0, 'unitCost'=>3.80 ),
+					4 => array('from' => 200001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.70 )
+				);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BISA SEGUROS COBROS-Recaudacion Bisa Seguro%")
+	    ->where('cli','=',122)
+	    ->sum('tot');
+
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[0]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[3]['from'] && $totalTransaction <= $arrayPrices[3]['until']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+	    if ($totalTransaction > $arrayPrices[4]['from']){
+
+	    	 $totalBilling = $totalTransaction * $arrayPrices[4]['unitCost'];
+	    }
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+
+/**
+	**  Precio y forma de pago.
+	**  
+	**   Item                                         Precio por registro
+	**                                      
+	**    Certificados Tele Educación                          Bs. 0.60
+	**    Diplomados										   Bs. 2.50
+	**	  Cursos  											   Bs. 1.60	
+	**
+	**/
+
+	public function egpp(){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>0.60, 'description' =>'Certificados'),
+				1 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>1.60, 'description' =>'Curso' ),
+				2 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>2.50, 'description' =>'Diplomados' )
+			);
+
+		$totalTransactionCert = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%EGPP-EGPP-CERTIFICADOS%")
+	    ->where('cli','=',85)
+	    ->sum('tot');
+	    $totalTransactionCur = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%EGPP-EGPP-CURSOS%")
+	    ->where('cli','=',85)
+	    ->sum('tot');
+	    $totalTransactionDipl = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%EGPP-EGPP-DIPLOMADOS%")
+	    ->where('cli','=',85)
+	    ->sum('tot');
+
+	    if ($arrayPrices[0]['description'] =='Certificados'){
+
+	    	 $totalBilling1 = $totalTransactionCert * $arrayPrices[0]['unitCost'];
+	    }
+
+	    if ($arrayPrices[1]['description'] =='Curso'){
+
+	    	 $totalBilling2 = $totalTransactionCur * $arrayPrices[1]['unitCost'];
+	    }
+
+	    if ($arrayPrices[2]['description'] =='Diplomados'){
+
+	    	 $totalBilling3 = $totalTransactionDipl * $arrayPrices[2]['unitCost'];
+	    }
+
+	    $totalBilling = $totalBilling1 + $totalBilling2 + $totalBilling3;
+
+	   return "Transacciones total: ".$totalTransactionCert+$totalTransactionCur+$totalTransactionDipl. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  
+	**    Transacciones Mensuales    Cargo Fijo minimo    Costo Unitario
+	**    De 1 a 1900                        bs. 5,000
+	**    De 1,901 a 5,000                                    bs. 3.00
+	**    De 5,000 a  15,000                                  bs. 2.80  
+	**    Mayor 15,000                                        bs. 2.60
+	**
+	**/
+
+	public function bdp(){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>1900, 'monthlyFixed' => 5700, 'unitCost'=>0 ),
+				1 => array('from' => 1901 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>3.00),
+				2 => array('from' => 5000 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>2.80),
+				3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.60)
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BDP-BDP%")
+	    ->where('cli','=',88)
+	    ->sum('tot');
+	    
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction > $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  
+	**    Transacciones Mensuales    Cargo Fijo minimo    Costo Unitario
+	**    De 0 a 1000                     bs. 5600
+	**    De 1,001 a 5,000                                    bs. 5.2
+	**    De 5,001 a  10,000                                  bs. 4.8  
+	**    Mayor 10,001                                        bs. 4.3
+	**
+	**/
+
+	public function la_vitalicia(){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>1900, 'monthlyFixed' => 5600, 'unitCost'=>0 ),
+				1 => array('from' => 1901 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>5.20),
+				2 => array('from' => 5001 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>4.80),
+				3 => array('from' => 10001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.30)
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%LA VITALICIA-LA VITALICIA%")
+	    ->where('cli','=',107)
+	    ->sum('tot');
+	    
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**  
+	**    Transacciones Mensuales    Cargo Fijo minimo    Costo Unitario
+	**    De 1 a 1000                     bs. 5000
+	**    De 1,001 a 5,000                                    bs. 4.1
+	**    De 5,001 a  15,000                                  bs. 3.8  
+	**    Mayor 15,001                                        bs. 3.5
+	**
+	**/
+
+	public function alianza_vida(){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0 ),
+				1 => array('from' => 1001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>4.10),
+				2 => array('from' => 5001 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>3.80),
+				3 => array('from' => 15001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50)
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ALIANZA-ALIANZA VIDA%")
+	    ->where('cli','=',84)
+	    ->sum('tot');
+	    
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 1.95
+	**   
+	**
+	**/
+
+	public function boliviatel(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.95 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "BOLIVIATEL-BOLIVIATE%")
+	    ->where('cli','=',93)
+	    ->sum('tot');
+	    
+	  
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 0.55
+	**   
+	**
+	**/
+
+	public function cessa(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.55 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "CESSA-CESSA%")
+	    ->where('cli','=',116)
+	    ->sum('tot');
+	  
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 4.95
+	**   
+	**
+	**/
+
+	public function actualizacion(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.95 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "RENTA DIGNIDAD-ACTUALIZACIONES RENTA%")
+	    ->where('cli','=',29)
+	    ->sum('tot');
+	  
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+	/**
+	**   Por recaudaciòn  0.82% del total de lo recaudado
+	**   
+	**
+	**/
+
+	public function gamch(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.82 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "GAMCB-GAMCB%")
+	    ->where('cli','=',117)
+	    ->sum('tot');
+
+	    $totalCollected = DB::table('transaction_import')
+	    ->where('servicio', 'like', "GAMCB-GAMCB%")
+	    ->where('cli','=',117)
+	    ->sum('valTot');
+	  
+	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 2 bs
+	**   
+	**
+	**/
+
+	public function uagrm(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.00 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "UAGRM-UAGRM%")
+	    ->where('cli','=',59)
+	    ->sum('tot');
+
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Por recaudaciòn  0.90% del total de lo recaudado
+	**   
+	**
+	**/
+
+	public function semapa(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.90 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SEMAPA-SEMAPA%")
+	    ->where('cli','=',95)
+	    ->sum('tot');
+
+	    $totalCollected = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SEMAPA-SEMAPA%")
+	    ->where('cli','=',95)
+	    ->sum('valTot');
+	  
+	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 0.50 bs
+	**   
+	**
+	**/
+
+	public function setar(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.50 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SETAR-Recaudacion SETAR%")
+	    ->where('cli','=',41)
+	    ->sum('tot');
+
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+	/**
+	**   Precio unitario 3.10 bs
+	**   
+	**
+	**/
+
+	public function bja(){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.10 )
+			);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "BONOS-JUANA AZURDUY%")
+	    ->where('cli','=',50)
+	    ->sum('tot');
+
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	}
+
+
+
 
 }
