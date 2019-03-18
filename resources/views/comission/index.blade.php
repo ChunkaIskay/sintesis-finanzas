@@ -17,7 +17,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de clientes - servicios</h2>
+		<h2> Listado de Comisiones clientes - servicios </h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
 				<div class="form-group">
@@ -26,9 +26,7 @@
 				<button type="submit" class="btn btn-info">
 					<span >Buscar</span>
 				</button>
-				<a href="{{ route('createContract') }}" type="submit" class="btn btn-info">
-					<span >Ver listado</span>
-				</a>
+				
 				<input class="datepicker form-control" type="text" name="date" value="03/12/2016"/>
 			</form>
 		</div>
@@ -36,53 +34,28 @@
 			    <thead>
 			        <tr>
 			            <th class="text-center">#</th>
-			            <th>Código del Contrato</th>
-			            <th>Servicio</th>
-			            <th>Entidad</th>
-			            <th class="text-right">Categoria general</th>
-			            <th class="text-right">Categoria especifica</th>
-			            <th class="text-right">Tipo</th>
-			            <th class="text-right">Acciones</th>
+			            <th>Nombre</th>
+			            <th>Total Transacciones</th>
+			            <th>Total a Facturar Bs.</th>
+			            <th>Descripciòn</th>
 			        </tr>
 			    </thead>
-			    <tbody>
-			   
-				     <tr>
-			            <td class="text-center"></td>
-			            <td></td>
-			            <td></td>
-			            <td></td>  
-			            <td class="text-right">
-		                	</td>
-			            <td class="text-right"></td>
-			            <td class="text-right"></td>
-						<td class="td-actions text-right">
-			                <form method="post" action=""> 
-				            	{{ csrf_field() }}   
-				            	{{ method_field('DELETE') }} 
-								<a href=""  type="button" rel="tooltip" title="Ver contrato" class="btn btn-info btn-simple btn-xs">
-									<i class="fa fa-user">Gestionar contrato</i>
-								</a>
-				                <a href="" type="button" rel="tooltip" title="Editar contrato" class="btn btn-success btn-simple btn-xs">
-				                    <i class="fa fa-edit">Editar</i>
-				                </a>
-				                <button type="submit" rel="tooltip" title="Eliminar contrato" class="btn btn-danger btn-simple btn-xs">
-				                    <i class="fa fa-times">Eliminar</i>
-				                </button>
-				             </form>
-
-			            </td>
+			    <tbody>  
+			 		@foreach($listCommission as $key => $value1) 
+			        <tr>
+			            <td class="text-center">{{ $key+1 }}</td>
+			            <td>{{ $value1->name }}</td>
+			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->total_transaction }}</strong></td>  
+			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->total_billing }}</strong></td>  
+			            <td class="text-left">{{ $value1->description }}</td>
 			        </tr>
-			      
-			       
+			      	@endforeach
 			    </tbody>
 			</table>
-
-	
 	</div>
 
 	<div class="row">
-	  <div class="col-md-4"><!----></div>
+	  <div class="col-md-4">{{ $listCommission->links() }}</div>
 	  <div class="col-md-4 text-left"></div>
 	  <div class="col-md-3"></div>
 	  

@@ -7,64 +7,78 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Paginator;	
 use App\TransactionImport;
+use App\CommissionHistory;
+
+
 
 class TransactionImportController extends Controller
 {
 	public function index(){
-		echo "<h2>LISTADO DE PRUEBA </h2>";
-		echo "<br> JHALEA:". $this->jhalea();
-		echo "<br> MI RACHO:". $this->mi_rancho();
-		echo "<br> TIERRA:". $this->tierra();
-		echo "<br> CREDICASAS:". $this->credicasas();
-		echo "<br> cmp:". $this->cmp();
-		echo "<br> AXS:". $this->axs();
-		echo "<br> MISIONES:". $this->misiones();
-		echo "<br> KANTUTANI:". $this->kantutani();
-		echo "<br> PREVER:". $this->prever();
-		echo "<br> BBR:". $this->bbr();
-		echo "<br> BBR-RENACER:". $this->bbr_renacer();
-		echo "<br> DIGITAL:". $this->digital();
-		echo "<br> MENPARK:". $this->men_park();
-		echo "<br> NVIDA:". $this->nvida();
-		echo "<br> NSEGURO:". $this->nseguro();
-		echo "<br> BISA:". $this->bisa();
-		echo "<br> BISA RECAUDACIONES:". $this->bisa_recaudaciones();
-		echo "<br> EGPP:". $this->egpp();
-		echo "<br> BDP:". $this->bdp();
-		echo "<br> LA VITALICIA:". $this->la_vitalicia();
-		echo "<br> ALIANZA VIDA:". $this->alianza_vida();
-		echo "<br> BOLIVIATEL:". $this->boliviatel();
-		echo "<br> CESSA:". $this->cessa();
-		echo "<br> ACTUALIZACION:". $this->actualizacion();
-		echo "<br> GAMCH:". $this->gamch();
-		echo "<br> UAGRM:". $this->uagrm();
-		echo "<br> SEMAPA:". $this->semapa();
-		echo "<br> SETAR:". $this->setar();
-		echo "<br> BJA:". $this->bja();
 
-		
+		$listReports = array();
 
-		
+		array_push($listReports, $this->mi_rancho());
+		array_push($listReports, $this->jhalea());
+		array_push($listReports, $this->mi_rancho());
+		array_push($listReports, $this->tierra());
+		array_push($listReports, $this->credicasas());
+		array_push($listReports, $this->cmp());
+		array_push($listReports, $this->axs());
+		array_push($listReports, $this->misiones());
+		array_push($listReports, $this->kantutani());
+		array_push($listReports, $this->prever());
+		array_push($listReports, $this->bbr());
+		array_push($listReports, $this->bbr_renacer());
+		array_push($listReports, $this->digital());
+		array_push($listReports, $this->men_park());
+	    array_push($listReports, $this->nvida());
+		array_push($listReports, $this->nseguro());
+        array_push($listReports, $this->bisa());
+		array_push($listReports, $this->bisa_recaudaciones());
+        array_push($listReports, $this->egpp());
+        array_push($listReports, $this->bdp());
+		array_push($listReports, $this->la_vitalicia());
+		array_push($listReports, $this->alianza_vida());
+		array_push($listReports, $this->boliviatel());
+	    array_push($listReports, $this->cessa());
+		array_push($listReports, $this->actualizacion());
+		array_push($listReports, $this->gamch());
+		array_push($listReports, $this->uagrm());
+		array_push($listReports, $this->semapa());
+		array_push($listReports, $this->setar());
+		array_push($listReports, $this->bja());
 
+		//   $listReports =  collect($listReports);
+		//   $totalItems =count($listReports) ;
 		
-		
-		
-		
-		
-		
-		
+		//	 $listReports = Paginator::make(20, $listReports, 10);
+		//	 echo "xxxx".$listReports[0]['name'];
+		//   dd($listReports);
+    	 
+    	// $this->saveCommissionHistory($listReports);
 
-		
-		
-
-		
-
-		
-		
-exit;
+    	 $listCommission = DB::table('commission_history')->paginate(10);
+    	 return view('comission.index')->with(compact('listCommission'));
 	 	//return view('comission.index',  array('contacts' => 'hola'));
 	}
+
+	public function saveCommissionHistory($dataCommission){
+    	
+    	//dd($dataCommission);
+	//$commission_h = new CommissionHistory();
+		//CommissionHistory::insert($dataCommission);
+    	DB::table('commission_history')->insert($dataCommission); 
+
+  //return view('comission.index')->with(compact('listReports'));
+    	
+    }
+
+
+
+
+
 	
 	/**
 	** Clàusula octava: (precio y forma de pago)
@@ -109,8 +123,11 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
-//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
+	   /* return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> number_format($totalBilling, 2, ",", "."));*/
+	   
+	   return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+
+		//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 
 	} 
 
@@ -152,7 +169,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 		
-		return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+		  return array('name'=>'Mi Rancho', 'description'=>'NOVILLO-MI RANCHO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -194,7 +211,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'Tierra', 'description'=>'NOVILLO-TIERRA QUINTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -235,7 +252,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'Credicasas', 'description'=>'NOVILLO-CREDICASAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -289,7 +306,7 @@ exit;
 	    	$totalBilling = $totalBilling1 + $totalBilling2;
 	    }
 
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'CMP', 'description'=>'MEMPARK-CMP CREDITO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 
 	} 
@@ -331,7 +348,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	    return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'AXS', 'description'=>'AXS-AXS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	}
 
@@ -388,7 +405,7 @@ exit;
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Misiones', 'description'=>'KANTUTANI-LAS MISIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -446,7 +463,7 @@ exit;
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	   return array('name'=>'Kantutani', 'description'=>'KANTUTANI-KANTUTANI','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -504,7 +521,7 @@ exit;
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Prever', 'description'=>'KANTUTANI-PREVER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 /**
@@ -542,7 +559,7 @@ exit;
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2; 
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -573,7 +590,7 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	   return array('name'=>'BBR', 'description'=>'BBR-BBR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 
@@ -612,7 +629,7 @@ exit;
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2;
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -643,7 +660,7 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'BBR Renacer', 'description'=>'BBR-RENACER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 /**
@@ -684,7 +701,7 @@ exit;
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -720,7 +737,7 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Digital', 'description'=>'DIGITAL TV-DIGITAL TV','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 
@@ -760,7 +777,7 @@ exit;
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -788,7 +805,7 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Men Park', 'description'=>'MEMPARK-EMI MANTENIMIENTO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -827,7 +844,7 @@ exit;
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -854,8 +871,8 @@ exit;
 	    }
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
-	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+
+	    return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -893,7 +910,7 @@ exit;
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	 return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -921,7 +938,7 @@ exit;
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -965,7 +982,7 @@ exit;
 
 	    	 $totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	   return array('name'=>'Bisa', 'description'=>'BISA-SEGUROS-BISA SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1016,7 +1033,7 @@ exit;
 
 	    	 $totalBilling = $totalTransaction * $arrayPrices[4]['unitCost'];
 	    }
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Bisa Recaudaciones', 'description'=>'BISA SEGUROS COBROS-Recaudacion Bisa Seguro','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 
@@ -1069,7 +1086,10 @@ exit;
 
 	    $totalBilling = $totalBilling1 + $totalBilling2 + $totalBilling3;
 
-	   return "Transacciones total: ".$totalTransactionCert+$totalTransactionCur+$totalTransactionDipl. " total a cobrar: ". $totalBilling;
+	  $totalTransactionCCD = $totalTransactionCert+$totalTransactionCur+$totalTransactionDipl;
+
+
+	   return array('name'=>'Egpp', 'description'=>'EGPP-CERTIFICADOS-CURSOS-DIPLOMADOS','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1113,7 +1133,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'BDP', 'description'=>'BDP-BDP','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1157,7 +1177,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'La Vitalicia', 'description'=>'LA VITALICIA-LA VITALICIA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1201,7 +1221,7 @@ exit;
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Alianza Vida', 'description'=>'ALIANZA-ALIANZA VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1224,7 +1244,7 @@ exit;
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'Boliviatel', 'description'=>'BOLIVIATEL-BOLIVIATE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1246,7 +1266,7 @@ exit;
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Cessa', 'description'=>'CESSA-CESSA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1268,7 +1288,7 @@ exit;
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Actualizacion', 'description'=>'RENTA DIGNIDAD-ACTUALIZACIONES RENTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 	/**
 	**   Por recaudaciòn  0.82% del total de lo recaudado
@@ -1294,7 +1314,7 @@ exit;
 	  
 	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Gamch', 'description'=>'GAMCB-GAMCB','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1316,7 +1336,7 @@ exit;
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'UAGRM', 'description'=>'UAGRM-UAGRM','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1343,7 +1363,7 @@ exit;
 	  
 	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	     return array('name'=>'Semapa', 'description'=>'SEMAPA-SEMAPA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1365,7 +1385,7 @@ exit;
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'Setar', 'description'=>'SETAR-Recaudacion SETAR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 	/**
@@ -1387,7 +1407,7 @@ exit;
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	   return "Transacciones total: ".$totalTransaction. " total a cobrar: ". $totalBilling;
+	    return array('name'=>'BJA', 'description'=>'BONOS-JUANA AZURDUY','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
 	}
 
 
