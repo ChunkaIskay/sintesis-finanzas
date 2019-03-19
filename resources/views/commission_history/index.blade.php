@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
-
  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <!-- Datepicker Files -->
     <link rel="stylesheet" href="{{asset('scripts/datepicker/css/datepicker.css')}}">
@@ -17,7 +15,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de Comisiones clientes - servicios </h2>
+		<h2> Listado de historial de Comisiones clientes - servicios </h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
 				<div class="form-group">
@@ -68,10 +66,6 @@
 	$('.datepicker').datepicker({
 	format: "dd/mm/yyyy"
 });
-
-
-
-
 
 </script>
 @include('includes.footer')

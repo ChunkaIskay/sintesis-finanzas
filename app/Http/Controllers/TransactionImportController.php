@@ -18,68 +18,54 @@ class TransactionImportController extends Controller
 	public function index(){
 
 		$listReports = array();
+		$dateFrom = '2018-12-01';
+		$dateTo = '2018-12-02';
 
-		array_push($listReports, $this->mi_rancho());
-		array_push($listReports, $this->jhalea());
-		array_push($listReports, $this->mi_rancho());
-		array_push($listReports, $this->tierra());
-		array_push($listReports, $this->credicasas());
-		array_push($listReports, $this->cmp());
-		array_push($listReports, $this->axs());
-		array_push($listReports, $this->misiones());
-		array_push($listReports, $this->kantutani());
-		array_push($listReports, $this->prever());
-		array_push($listReports, $this->bbr());
-		array_push($listReports, $this->bbr_renacer());
-		array_push($listReports, $this->digital());
-		array_push($listReports, $this->men_park());
-	    array_push($listReports, $this->nvida());
-		array_push($listReports, $this->nseguro());
-        array_push($listReports, $this->bisa());
-		array_push($listReports, $this->bisa_recaudaciones());
-        array_push($listReports, $this->egpp());
-        array_push($listReports, $this->bdp());
-		array_push($listReports, $this->la_vitalicia());
-		array_push($listReports, $this->alianza_vida());
-		array_push($listReports, $this->boliviatel());
-	    array_push($listReports, $this->cessa());
-		array_push($listReports, $this->actualizacion());
-		array_push($listReports, $this->gamch());
-		array_push($listReports, $this->uagrm());
-		array_push($listReports, $this->semapa());
-		array_push($listReports, $this->setar());
-		array_push($listReports, $this->bja());
+		array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
+		array_push($listReports, $this->jhalea($dateFrom,$dateTo));
+		array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
+		array_push($listReports, $this->tierra($dateFrom,$dateTo));
+		array_push($listReports, $this->credicasas($dateFrom,$dateTo));
+		array_push($listReports, $this->cmp($dateFrom,$dateTo));
+		array_push($listReports, $this->axs($dateFrom,$dateTo));
+		array_push($listReports, $this->misiones($dateFrom,$dateTo));
+		array_push($listReports, $this->kantutani($dateFrom,$dateTo));
+		array_push($listReports, $this->prever($dateFrom,$dateTo));
+		array_push($listReports, $this->bbr($dateFrom,$dateTo));
+		array_push($listReports, $this->bbr_renacer($dateFrom,$dateTo));
+		array_push($listReports, $this->digital($dateFrom,$dateTo));
+		array_push($listReports, $this->men_park($dateFrom,$dateTo));
+	    array_push($listReports, $this->nvida($dateFrom,$dateTo));
+		array_push($listReports, $this->nseguro($dateFrom,$dateTo));
+        array_push($listReports, $this->bisa($dateFrom,$dateTo));
+		array_push($listReports, $this->bisa_recaudaciones($dateFrom,$dateTo));
+        array_push($listReports, $this->egpp($dateFrom,$dateTo));
+        array_push($listReports, $this->bdp($dateFrom,$dateTo));
+		array_push($listReports, $this->la_vitalicia($dateFrom,$dateTo));
+		array_push($listReports, $this->alianza_vida($dateFrom,$dateTo));
+		array_push($listReports, $this->boliviatel($dateFrom,$dateTo));
+	    array_push($listReports, $this->cessa($dateFrom,$dateTo));
+		array_push($listReports, $this->actualizacion($dateFrom,$dateTo));
+		array_push($listReports, $this->gamch($dateFrom,$dateTo));
+		array_push($listReports, $this->uagrm($dateFrom,$dateTo));
+		array_push($listReports, $this->semapa($dateFrom,$dateTo));
+		array_push($listReports, $this->setar($dateFrom,$dateTo));
+		array_push($listReports, $this->bja($dateFrom,$dateTo));
 
-		//   $listReports =  collect($listReports);
-		//   $totalItems =count($listReports) ;
-		
-		//	 $listReports = Paginator::make(20, $listReports, 10);
-		//	 echo "xxxx".$listReports[0]['name'];
-		//   dd($listReports);
-    	 
     	// $this->saveCommissionHistory($listReports);
 
     	 $listCommission = DB::table('commission_history')->paginate(10);
-    	 return view('comission.index')->with(compact('listCommission'));
-	 	//return view('comission.index',  array('contacts' => 'hola'));
+    	 return view('commission.index')->with(compact('listCommission'));
 	}
 
 	public function saveCommissionHistory($dataCommission){
-    	
-    	//dd($dataCommission);
-	//$commission_h = new CommissionHistory();
+    	//$commission_h = new CommissionHistory();
 		//CommissionHistory::insert($dataCommission);
     	DB::table('commission_history')->insert($dataCommission); 
-
-  //return view('comission.index')->with(compact('listReports'));
+  		//return view('comission.index')->with(compact('listReports'));
     	
     }
 
-
-
-
-
-	
 	/**
 	** Clàusula octava: (precio y forma de pago)
 	** Precio
@@ -92,7 +78,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function jhalea(){
+	public function jhalea($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 0 ,'until'=>1750, 'monthlyFixed' => 5250, 'unitCost'=>0 ) ,
@@ -101,10 +87,27 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.20 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%TUPPERWARE-TUPPERWARE%")
 	    ->where('cli','=',76)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TUPPERWARE-TUPPERWARE%")
+	    ->where('cli','=',76)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;    	
+
+	    //dd($dateFrom);
+	    //$firstDate = $firstDate[0]->fecha;
 		
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -124,8 +127,8 @@ class TransactionImportController extends Controller
 	    }
 
 	   /* return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> number_format($totalBilling, 2, ",", "."));*/
-	   
-	   return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+
+	   return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 
 		//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 
@@ -142,7 +145,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function mi_rancho(){
+	public function mi_rancho($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1200, 'monthlyFixed' => 3480, 'unitCost'=>0 ) ,
@@ -150,11 +153,26 @@ class TransactionImportController extends Controller
 						2 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.70 )
 						);
 
+		$totalBilling = 0;
+
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NOVILLO-MI RANCHO%")
 	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
-		
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NOVILLO-MI RANCHO%")
+	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+		//dd($totalTransaction);
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
 	    	$totalBilling =  $arrayPrices[0]['monthlyFixed'];
@@ -169,7 +187,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 		
-		  return array('name'=>'Mi Rancho', 'description'=>'NOVILLO-MI RANCHO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+		  return array('name'=>'Mi Rancho', 'description'=>'NOVILLO-MI RANCHO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -185,7 +203,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function tierra(){
+	public function tierra($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1200, 'monthlyFixed' => 3480, 'unitCost'=>0 ) ,
@@ -193,10 +211,25 @@ class TransactionImportController extends Controller
 						2 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.70 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NOVILLO-TIERRA QUINTA%")
 	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NOVILLO-TIERRA QUINTA%")
+	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 		
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -211,7 +244,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	     return array('name'=>'Tierra', 'description'=>'NOVILLO-TIERRA QUINTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'Tierra', 'description'=>'NOVILLO-TIERRA QUINTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -226,7 +259,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function credicasas(){
+	public function credicasas($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1200, 'monthlyFixed' => 3480, 'unitCost'=>0 ) ,
@@ -234,10 +267,24 @@ class TransactionImportController extends Controller
 						2 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.70 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NOVILLO-CREDICASAS%")
 	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NOVILLO-CREDICASAS%")
+	    ->where('cli','=',102)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
 		
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -252,7 +299,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	     return array('name'=>'Credicasas', 'description'=>'NOVILLO-CREDICASAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'Credicasas', 'description'=>'NOVILLO-CREDICASAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	} 
 
@@ -267,7 +314,7 @@ class TransactionImportController extends Controller
 	**    CONSTO ADICIONAL  IMPRESIÒN DE FACTURA               bs. 0.70
 	**/
 
-	public function cmp(){
+	public function cmp($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 0, 'unitCost'=>4.50, 'additionalCostBilling' =>0.70 ) ,
@@ -276,10 +323,25 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%MEMPARK-CMP CREDITO%")
 	    ->where('cli','=',83)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEMPARK-CMP CREDITO%")
+	    ->where('cli','=',83)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 		
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -306,7 +368,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalBilling1 + $totalBilling2;
 	    }
 
-	     return array('name'=>'CMP', 'description'=>'MEMPARK-CMP CREDITO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'CMP', 'description'=>'MEMPARK-CMP CREDITO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 
 	} 
@@ -322,7 +384,7 @@ class TransactionImportController extends Controller
 	**    
 	**/
 
-	public function axs(){
+	public function axs($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 1250, 'unitCost'=>0 ) ,
@@ -330,11 +392,26 @@ class TransactionImportController extends Controller
 						2 => array('from' => 10001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%AXS-AXS%")
 	    ->where('cli','=',34)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 		
+		$firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%AXS-AXS%")
+	    ->where('cli','=',34)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
 	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
@@ -348,7 +425,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 
-	     return array('name'=>'AXS', 'description'=>'AXS-AXS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'AXS', 'description'=>'AXS-AXS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 //SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	}
 
@@ -365,7 +442,7 @@ class TransactionImportController extends Controller
 	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y 
 	**/
 
-	public function misiones(){
+	public function misiones($dateFrom, $dateTo){
 
 		$minMonthly = round((10000/3),2);
 		$minTrans = round(5000/3);
@@ -375,19 +452,37 @@ class TransactionImportController extends Controller
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
 	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+
 		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-LAS MISIONES%') GROUP by enti, desc_enti
+		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-LAS MISIONES%') GROUP by enti, desc_enti
 		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-LAS MISIONES BS%')) 
 		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
 
+		if(count($totalBilling1[0]->billT) ==0)
+			$totalBilling1[0]->billT=0;
+
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  		
+    	$additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	
 		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
 	     	 $totalBilling3 = $minMonthly;
@@ -405,7 +500,7 @@ class TransactionImportController extends Controller
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	    return array('name'=>'Misiones', 'description'=>'KANTUTANI-LAS MISIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Misiones', 'description'=>'KANTUTANI-LAS MISIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -421,7 +516,7 @@ class TransactionImportController extends Controller
 	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y 
 	**/
 
-	public function kantutani(){
+	public function kantutani($dateFrom, $dateTo){
 
 		$minMonthly = round((10000/3),2);
 		$minTrans = round(5000/3);
@@ -431,17 +526,35 @@ class TransactionImportController extends Controller
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
 	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
 					SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti
+					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti
 					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI%')) 
 					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
 					) billingT"));
+
+		if(count($totalBilling1[0]->billT) ==0)
+			$totalBilling1[0]->billT=0;
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -463,7 +576,7 @@ class TransactionImportController extends Controller
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	   return array('name'=>'Kantutani', 'description'=>'KANTUTANI-KANTUTANI','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	   return array('name'=>'Kantutani', 'description'=>'KANTUTANI-KANTUTANI','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -479,7 +592,7 @@ class TransactionImportController extends Controller
 	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y  
 	**/
 
-	public function prever(){
+	public function prever($dateFrom, $dateTo){
 
 		$minMonthly = round((10000/3),2);
 		$minTrans = round(5000/3);
@@ -489,17 +602,36 @@ class TransactionImportController extends Controller
 						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
 						);
 
+		$totalBilling = 0;
+		$totalBilling3 = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-PREVER%")
 	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-PREVER%")
+	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
 					SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE cli=40 and servicio like ('%KANTUTANI-PREVER%') GROUP by enti, desc_enti
+					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-PREVER%') GROUP by enti, desc_enti
 					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-PREVER%')) 
 					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
 					) billingT"));
+
+		if(count($totalBilling1[0]->billT) ==0)
+			$totalBilling1[0]->billT=0;
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -521,7 +653,7 @@ class TransactionImportController extends Controller
 
 	   $totalBilling = $totalBilling2 + $totalBilling3;
 
-	    return array('name'=>'Prever', 'description'=>'KANTUTANI-PREVER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Prever', 'description'=>'KANTUTANI-PREVER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 /**
@@ -538,7 +670,7 @@ class TransactionImportController extends Controller
 	**    Como son un grupo de 2 empresas se divide por 2
 	**/
 
-	public function bbr(){
+	public function bbr($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 1000, 'unitCostMin'=>2.50 ),
@@ -547,10 +679,24 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BBR-BBR%")
 	    ->where('cli','=',78)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BBR-BBR%")
+	    ->where('cli','=',78)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -559,7 +705,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2; 
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -590,7 +736,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	   return array('name'=>'BBR', 'description'=>'BBR-BBR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	   return array('name'=>'BBR', 'description'=>'BBR-BBR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 
@@ -608,7 +754,7 @@ class TransactionImportController extends Controller
 	**    Como son un grupo de 2 empresas se divide por 2
 	**/
 
-	public function bbr_renacer(){
+	public function bbr_renacer($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0, 'minimumTransactions' => 1000, 'unitCostMin'=>2.50 ),
@@ -617,19 +763,34 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BBR-RENACER%")
 	    ->where('cli','=',78)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BBR-RENACER%")
+	    ->where('cli','=',78)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  
+	  dd($additonialTransactions1);
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2;
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -660,7 +821,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	    return array('name'=>'BBR Renacer', 'description'=>'BBR-RENACER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'BBR Renacer', 'description'=>'BBR-RENACER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 /**
@@ -677,7 +838,7 @@ class TransactionImportController extends Controller
 	**    
 	**/
 
-	public function digital(){
+	public function digital($dateFrom, $dateTo){
 
 		$unitCostMin= round((5000/2000),2);
 
@@ -689,10 +850,25 @@ class TransactionImportController extends Controller
 						4 => array('from' => 20001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%DIGITAL TV-DIGITAL TV%")
 	    ->where('cli','=',43)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%DIGITAL TV-DIGITAL TV%")
+	    ->where('cli','=',43)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -701,7 +877,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -737,7 +913,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	    return array('name'=>'Digital', 'description'=>'DIGITAL TV-DIGITAL TV','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Digital', 'description'=>'DIGITAL TV-DIGITAL TV','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 
@@ -754,7 +930,7 @@ class TransactionImportController extends Controller
 	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 2.50
 	**/
 
-	public function men_park(){
+	public function men_park($dateFrom, $dateTo){
 
 		$unitCostMin= round((5000/1000),2);
 
@@ -765,10 +941,24 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%MEMPARK-EMI MANTENIMIENTO%")
 	    ->where('cli','=',83)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEMPARK-EMI MANTENIMIENTO%")
+	    ->where('cli','=',83)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -777,7 +967,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -805,7 +995,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	    return array('name'=>'Men Park', 'description'=>'MEMPARK-EMI MANTENIMIENTO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Men Park', 'description'=>'MEMPARK-EMI MANTENIMIENTO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -821,7 +1011,7 @@ class TransactionImportController extends Controller
 	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 5.00
 	**/
 
-	public function nvida(){
+	public function nvida($dateFrom, $dateTo){
 
 		$unitCostMin= round((5000/1000),2);
 
@@ -832,10 +1022,25 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.50 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NALVIDA-NACIONAL VIDA%")
 	    ->where('cli','=',77)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NALVIDA-NACIONAL VIDA%")
+	    ->where('cli','=',77)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -844,7 +1049,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -872,7 +1077,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 
-	    return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -888,7 +1093,7 @@ class TransactionImportController extends Controller
 	**    Cargo fijo / transaccion minimas -> 5,000/1,000      bs. 5.00
 	**/
 
-	public function nseguro(){
+	public function nseguro($dateFrom, $dateTo){
 
 		$unitCostMin= round((5000/1000),2);
 
@@ -899,10 +1104,25 @@ class TransactionImportController extends Controller
 						3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.40 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NALVIDA-NACIONAL SEGUROS%")
 	    ->where('cli','=',77)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%NALVIDA-NACIONAL SEGUROS%")
+	    ->where('cli','=',77)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
@@ -910,7 +1130,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -938,7 +1158,7 @@ class TransactionImportController extends Controller
 	    
 	    $totalBilling = $minimumTransactions + $additonialTransactions; 
 	
-	     return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -950,12 +1170,12 @@ class TransactionImportController extends Controller
 	**     generadas en un mes                                                        
 	**    De 50,001 a 100,000 facturas						   0.29
 	**     generadas en un mes                                
-	**    Mas de 100,000 facturadas                            0.27                               
+	**    Mas de 100,000 facturadas                            0.27                               , 
 	**     generadas en un mes                                    
 	**
 	**/
 
-	public function bisa(){
+	public function bisa($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 						0 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>0.31),
@@ -963,10 +1183,25 @@ class TransactionImportController extends Controller
 						2 => array('from' => 100000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.27 )
 						);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BISA-SEGUROS-BISA SEGUROS%")
 	    ->where('cli','=',56)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BISA-SEGUROS-BISA SEGUROS%")
+	    ->where('cli','=',56)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
@@ -982,7 +1217,7 @@ class TransactionImportController extends Controller
 
 	    	 $totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
-	   return array('name'=>'Bisa', 'description'=>'BISA-SEGUROS-BISA SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	   return array('name'=>'Bisa', 'description'=>'BISA-SEGUROS-BISA SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -998,7 +1233,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function bisa_recaudaciones(){
+	public function bisa_recaudaciones($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 					0 => array('from' => 1 ,'until'=>25000, 'monthlyFixed' => 0, 'unitCost'=>4.10),
@@ -1008,10 +1243,25 @@ class TransactionImportController extends Controller
 					4 => array('from' => 200001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.70 )
 				);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BISA SEGUROS COBROS-Recaudacion Bisa Seguro%")
 	    ->where('cli','=',122)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BISA SEGUROS COBROS-Recaudacion Bisa Seguro%")
+	    ->where('cli','=',122)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -1033,7 +1283,7 @@ class TransactionImportController extends Controller
 
 	    	 $totalBilling = $totalTransaction * $arrayPrices[4]['unitCost'];
 	    }
-	    return array('name'=>'Bisa Recaudaciones', 'description'=>'BISA SEGUROS COBROS-Recaudacion Bisa Seguro','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Bisa Recaudaciones', 'description'=>'BISA SEGUROS COBROS-Recaudacion Bisa Seguro','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 
@@ -1048,7 +1298,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function egpp(){
+	public function egpp($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>0.60, 'description' =>'Certificados'),
@@ -1059,15 +1309,30 @@ class TransactionImportController extends Controller
 		$totalTransactionCert = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%EGPP-EGPP-CERTIFICADOS%")
 	    ->where('cli','=',85)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 	    $totalTransactionCur = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%EGPP-EGPP-CURSOS%")
 	    ->where('cli','=',85)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 	    $totalTransactionDipl = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%EGPP-EGPP-DIPLOMADOS%")
 	    ->where('cli','=',85)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%EGPP-EGPP-CERTIFICADOS%")
+	    ->where('cli','=',85)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    if ($arrayPrices[0]['description'] =='Certificados'){
 
@@ -1089,7 +1354,7 @@ class TransactionImportController extends Controller
 	  $totalTransactionCCD = $totalTransactionCert+$totalTransactionCur+$totalTransactionDipl;
 
 
-	   return array('name'=>'Egpp', 'description'=>'EGPP-CERTIFICADOS-CURSOS-DIPLOMADOS','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2));
+	   return array('name'=>'Egpp', 'description'=>'EGPP-CERTIFICADOS-CURSOS-DIPLOMADOS','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1102,7 +1367,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function bdp(){
+	public function bdp($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 1 ,'until'=>1900, 'monthlyFixed' => 5700, 'unitCost'=>0 ),
@@ -1111,10 +1376,25 @@ class TransactionImportController extends Controller
 				3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.60)
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BDP-BDP%")
 	    ->where('cli','=',88)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BDP-BDP%")
+	    ->where('cli','=',88)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 	    
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -1133,7 +1413,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	     return array('name'=>'BDP', 'description'=>'BDP-BDP','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'BDP', 'description'=>'BDP-BDP','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1146,7 +1426,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function la_vitalicia(){
+	public function la_vitalicia($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 1 ,'until'=>1900, 'monthlyFixed' => 5600, 'unitCost'=>0 ),
@@ -1155,10 +1435,25 @@ class TransactionImportController extends Controller
 				3 => array('from' => 10001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.30)
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%LA VITALICIA-LA VITALICIA%")
 	    ->where('cli','=',107)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%LA VITALICIA-LA VITALICIA%")
+	    ->where('cli','=',107)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 	    
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -1177,7 +1472,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	    return array('name'=>'La Vitalicia', 'description'=>'LA VITALICIA-LA VITALICIA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'La Vitalicia', 'description'=>'LA VITALICIA-LA VITALICIA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1190,7 +1485,7 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function alianza_vida(){
+	public function alianza_vida($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 5000, 'unitCost'=>0 ),
@@ -1199,10 +1494,25 @@ class TransactionImportController extends Controller
 				3 => array('from' => 15001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50)
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%ALIANZA-ALIANZA VIDA%")
 	    ->where('cli','=',84)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ALIANZA-ALIANZA VIDA%")
+	    ->where('cli','=',84)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 	    
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -1221,7 +1531,7 @@ class TransactionImportController extends Controller
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	    return array('name'=>'Alianza Vida', 'description'=>'ALIANZA-ALIANZA VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Alianza Vida', 'description'=>'ALIANZA-ALIANZA VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1230,21 +1540,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function boliviatel(){
+	public function boliviatel($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.95 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "BOLIVIATEL-BOLIVIATE%")
 	    ->where('cli','=',93)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "BOLIVIATEL-BOLIVIATE%")
+	    ->where('cli','=',93)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
 	    
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	     return array('name'=>'Boliviatel', 'description'=>'BOLIVIATEL-BOLIVIATE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'Boliviatel', 'description'=>'BOLIVIATEL-BOLIVIATE','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1253,20 +1577,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function cessa(){
+	public function cessa($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.55 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "CESSA-CESSA%")
 	    ->where('cli','=',116)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "CESSA-CESSA%")
+	    ->where('cli','=',116)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	    return array('name'=>'Cessa', 'description'=>'CESSA-CESSA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Cessa', 'description'=>'CESSA-CESSA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1275,20 +1614,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function actualizacion(){
+	public function actualizacion($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.95 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "RENTA DIGNIDAD-ACTUALIZACIONES RENTA%")
 	    ->where('cli','=',29)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "RENTA DIGNIDAD-ACTUALIZACIONES RENTA%")
+	    ->where('cli','=',29)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 	  
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	    return array('name'=>'Actualizacion', 'description'=>'RENTA DIGNIDAD-ACTUALIZACIONES RENTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Actualizacion', 'description'=>'RENTA DIGNIDAD-ACTUALIZACIONES RENTA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 	/**
 	**   Por recaudaciòn  0.82% del total de lo recaudado
@@ -1296,25 +1650,41 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function gamch(){
+	public function gamch($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.82 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "GAMCB-GAMCB%")
 	    ->where('cli','=',117)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
 	    $totalCollected = DB::table('transaction_import')
 	    ->where('servicio', 'like', "GAMCB-GAMCB%")
 	    ->where('cli','=',117)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('valTot');
 	  
+		$firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "GAMCB-GAMCB%")
+	    ->where('cli','=',117)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+
 	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
 	  
-	    return array('name'=>'Gamch', 'description'=>'GAMCB-GAMCB','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Gamch', 'description'=>'GAMCB-GAMCB','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1323,20 +1693,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function uagrm(){
+	public function uagrm($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.00 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "UAGRM-UAGRM%")
 	    ->where('cli','=',59)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "UAGRM-UAGRM%")
+	    ->where('cli','=',59)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	    return array('name'=>'UAGRM', 'description'=>'UAGRM-UAGRM','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'UAGRM', 'description'=>'UAGRM-UAGRM','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1345,25 +1730,41 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function semapa(){
+	public function semapa($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.90 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "SEMAPA-SEMAPA%")
 	    ->where('cli','=',95)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
 	    $totalCollected = DB::table('transaction_import')
 	    ->where('servicio', 'like', "SEMAPA-SEMAPA%")
 	    ->where('cli','=',95)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('valTot');
 	  
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SEMAPA-SEMAPA%")
+	    ->where('cli','=',95)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+
 	    $totalBilling = round(($arrayPrices[0]['percent'] * $totalCollected)/100, 2);
 	  
-	     return array('name'=>'Semapa', 'description'=>'SEMAPA-SEMAPA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	     return array('name'=>'Semapa', 'description'=>'SEMAPA-SEMAPA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1372,20 +1773,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function setar(){
+	public function setar($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.50 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "SETAR-Recaudacion SETAR%")
 	    ->where('cli','=',41)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SETAR-Recaudacion SETAR%")
+	    ->where('cli','=',41)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	    return array('name'=>'Setar', 'description'=>'SETAR-Recaudacion SETAR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'Setar', 'description'=>'SETAR-Recaudacion SETAR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1394,20 +1810,35 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function bja(){
+	public function bja($dateFrom, $dateTo){
 
 		$arrayPrices = array(
 				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.10 )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "BONOS-JUANA AZURDUY%")
 	    ->where('cli','=',50)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "BONOS-JUANA AZURDUY%")
+	    ->where('cli','=',50)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
 
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
-	    return array('name'=>'BJA', 'description'=>'BONOS-JUANA AZURDUY','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2));
+	    return array('name'=>'BJA', 'description'=>'BONOS-JUANA AZURDUY','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 

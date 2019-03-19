@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  *
  * Devices class
@@ -10,14 +8,10 @@
  * @modified by
  * @date 2019-02-28
  */
-
 require_once 'Setup.class.php';
-
-
 class Sql extends Setup
 {
    // $obj = "";
-
     public function __contruct()
     {
         // parent::Setup();
@@ -36,10 +30,8 @@ class Sql extends Setup
             $fecha = "2018-12-24";
             $fecha1 = "2018-12-31";
             $rs1 = array();
-
           for ($opcion=3;$opcion<=125; $opcion++)
            {
-
                 if( $opcion<>5
                 &&$opcion<>6
                 &&$opcion<>8
@@ -102,8 +94,6 @@ class Sql extends Setup
                 &&$opcion<>123
                 &&$opcion<>124
                 &&$opcion<>125 ){
-
-
                 if ($opcion=="3")
                 {
                  $cliente="mov_telecel";
@@ -111,7 +101,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="4")
                 {
                  $cliente="mov_prevision";
@@ -119,7 +108,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="7")
                 {
                  $cliente="mov_nuevatel";
@@ -134,7 +122,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="13")
                 {
                  $cliente="mov_policia";
@@ -142,7 +129,6 @@ class Sql extends Setup
                  $estado="origen2='PAEF'";
                  $estado1="origen2='REEF'";
                 }
-
                 if ($opcion=="17")
                 {
                  $cliente="mov_avon";
@@ -150,7 +136,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="21")
                 {
                  $cliente="mov_futuro";
@@ -158,7 +143,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="29")
                 {
                  $cliente="mov_rentdig";
@@ -173,7 +157,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="35")
                 {
                 $cliente="mov_its";
@@ -181,8 +164,6 @@ class Sql extends Setup
                 $estado="transaccion='I'";
                 $estado1="transaccion='E'";
                 }
-
-
                 if ($opcion=="40")
                 {
                 $cliente="mov_kantutani";
@@ -190,7 +171,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="41")
                 {
                 $cliente="mov_setar";
@@ -205,7 +185,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="43")
                 {
                 $cliente="mov_dtv";
@@ -213,7 +192,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="44")
                 {
                 $cliente="mov_lbc";
@@ -221,7 +199,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="48")
                 {
                 $cliente="mov_epsas";
@@ -236,7 +213,6 @@ class Sql extends Setup
                  $estado="estado='P'";
                  $estado1="estado='R'";
                 }
-
                 if ($opcion=="51")
                 {
                   $cliente="mov_bja";
@@ -251,7 +227,6 @@ class Sql extends Setup
                   $estado="estado='P'";
                   $estado1="estado='R'";
                 }
-
                 if ($opcion=="53")
                 {
                   $cliente="mov_bja";
@@ -259,7 +234,6 @@ class Sql extends Setup
                   $estado="estado='P'";
                   $estado1="estado='R'";
                 }
-
                 if ($opcion=="57")
                 {
                   $cliente="mov_bja";
@@ -274,7 +248,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="56")
                 {
                 $cliente="mov_bisaseguros";
@@ -282,7 +255,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="58")
                 {
                 $cliente="mov_umsa";
@@ -290,7 +262,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="59")
                 {
                 $cliente="mov_uagrm";
@@ -305,7 +276,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="62")
                 {
                 $cliente="mov_uab";
@@ -313,7 +283,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="66")
                 {
                 $cliente="mov_yanbal";
@@ -321,7 +290,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="67")
                 {
                 $cliente="mov_megadealers";
@@ -329,7 +297,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="68")
                 {
                 $cliente="mov_pagosnet";
@@ -344,7 +311,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="70")
                 {
                 $cliente="mov_tuves";
@@ -352,7 +318,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="71")
                 {
                 $cliente="mov_ypfb";
@@ -360,7 +325,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="72")
                 {
                 $cliente="mov_natura";
@@ -368,7 +332,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="73")
                 {
                 $cliente="mov_guaracachi";
@@ -383,7 +346,6 @@ class Sql extends Setup
                 $estado="origen2 like 'CMP%'";
                 $estado1="origen2 like 'REP%'";
                 }
-
                 if ($opcion=="76")
                 {
                 $cliente="mov_tupperware";
@@ -391,7 +353,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="77")
                 {
                 $cliente="mov_navi";
@@ -399,7 +360,6 @@ class Sql extends Setup
                 $estado="estado='H'";
                 $estado1="estado='D'";
                 }
-
                 if ($opcion=="78")
                 {
                 $cliente="mov_bbr";
@@ -407,7 +367,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="79")
                 {
                 $cliente="mov_bbr";
@@ -422,7 +381,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="83")
                 {
                 $cliente="mov_mempark";
@@ -430,7 +388,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="84")
                 {
                 $cliente="mov_alianzaseguros";
@@ -438,7 +395,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="85")
                 {
                 $cliente="mov_egpp";
@@ -446,7 +402,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="87")
                 {
                 $cliente="mov_dnsb";
@@ -461,7 +416,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="91")
                 {
                 $cliente="mov_emi";
@@ -469,7 +423,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="93")
                 {
                 $cliente="mov_boliviatel";
@@ -477,8 +430,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
-
                if ($opcion=="94")
                 {
                 $cliente="mov_soat";
@@ -500,7 +451,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="102")
                 {
                 $cliente="mov_novillo";
@@ -508,7 +458,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="104")
                 {
                 $cliente="mov_credinform";
@@ -516,7 +465,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="106")
                 {
                 $cliente="mov_fortaleza";
@@ -524,7 +472,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="107")
                 {
                  $cliente="mov_vitalicia";
@@ -532,7 +479,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                if ($opcion=="108")
                 {
                  $cliente="mov_segip2";
@@ -540,7 +486,6 @@ class Sql extends Setup
                  $estado="transaccion='H'";
                  $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="109")
                 {
                 $cliente="mov_amaszonas";
@@ -548,7 +493,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="116")
                 {
                 $cliente="mov_cessa";
@@ -556,7 +500,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="117")
                 {
                 $cliente="mov_gamcb";
@@ -564,7 +507,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="118")
                 {
                 $cliente="mov_univida";
@@ -572,7 +514,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="121")
                 {
                 $cliente="mov_itacamba";
@@ -580,7 +521,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if ($opcion=="122")
                 {
                 $cliente="mov_bisaseg";
@@ -588,7 +528,6 @@ class Sql extends Setup
                 $estado="transaccion='H'";
                 $estado1="transaccion='D'";
                 }
-
                 if($opcion=="50")
                  {
                         $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -613,11 +552,8 @@ class Sql extends Setup
                                     AND mo.tipo='0001'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
                 if($opcion=="51")
                  {
                         $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -642,11 +578,8 @@ class Sql extends Setup
                                     AND mo.tipo='0002'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                     }
-
                 if($opcion=="52")
                  {
                         $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -671,11 +604,8 @@ class Sql extends Setup
                                     AND mo.tipo='0003'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                     }
-
                  if($opcion=="53")
                  {
                         $sql= "SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -700,11 +630,8 @@ class Sql extends Setup
                                     AND mo.tipo='0004'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                     }
-
                  if($opcion=="54")
                  {
                     $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -729,7 +656,6 @@ class Sql extends Setup
                                     AND mo.cod_ciudad_reserva=fac.cod_servicio
                                     GROUP BY cod_entidad, factu) rever 
                             on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                             $rs = $this->recordSet($conectDB,$sql);
                  }
                  if($opcion=="67")
@@ -754,12 +680,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
-
                 if($opcion=="68" )
                  {
                         $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -784,12 +706,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                           $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
-
                  if($opcion=="78")
                  {
                         $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -814,11 +732,8 @@ class Sql extends Setup
                                     AND mo.monto_bs<>'0' AND fac.moneda='0001'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                         $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
                 if($opcion=="79")
                  {
                         $sql="
@@ -844,11 +759,8 @@ class Sql extends Setup
                                     AND mo.monto_us<>'0' AND fac.moneda='0002'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu ";
-
                             $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
                  if($opcion=="102" )
                  {
                         $sql="SELECT concat_ws('-','$cli',pago.factu) servicio,pago.desc_enti, 
@@ -873,12 +785,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
                             $rs = $this->recordSet($conectDB,$sql);
-
                    }
-
-
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
                     $sql = "SELECT concat_ws('-','$cli',pago.factu) servicio, pago.desc_enti, 
@@ -905,9 +813,7 @@ class Sql extends Setup
                           $rs = $this->recordSet($conectDB,$sql);
                            
                         } //end if option
-
                         $rs1 = array_merge($rs1,$rs);
-
                     } // end if <>
                   } // end for
                  mysqli_close($conectDB);
@@ -917,7 +823,6 @@ class Sql extends Setup
         {
           // echo "<br> Se ha producido una excepción:".$e->getMessage()."<br/>\n";
             echo "<br> Se ha producido una excepción:";
-
           /*  echo "<br>code:".$e->getCode()."<br/>\n";
             echo "<br>file:".$e->getFile()."<br/>\n";
             echo "<br>line:".$e->getLine()."<br/>\n";
@@ -926,7 +831,6 @@ class Sql extends Setup
         }
         
     }
-
     private function loadData($rs1){
         
         $obj1 = new Setup();
@@ -934,7 +838,6 @@ class Sql extends Setup
         $query = "";
            
         foreach($rs1 as $rs => $data){
-
             $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
                             ".$data['cli'].",
                             '".$data['desc_enti']."',
@@ -953,26 +856,19 @@ class Sql extends Setup
         mysqli_close($conectDB);
     
     }
-
     /**
      * @return recordset
      */
-
     private function recordSet($db,$sql){
-
         $recordSet = array();
         $result = mysqli_query($db, $sql) or die ("Error 02: no es posible conectarse s la base de datos, comuniquese cno el administrador");
-
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){ 
             $recordSet[] = $row;
         }
-
         // Liberar resultados
         mysqli_free_result($result);
        
         return $recordSet;
     }
-
     
 }
-    
