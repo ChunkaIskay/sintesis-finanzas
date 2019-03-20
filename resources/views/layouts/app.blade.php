@@ -65,7 +65,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                              <li><a href="{{ route('listCommissions') }}">Comisiones de clientes-Servicios</a></li>
+                              <li><a href="{{ route('listCommissions') }}"> Historial Comisiones de clientes-Servicios</a></li>
+                              <li><a href="{{ route('listTransantion') }}">Comisiones de clientes-Servicios</a></li>
                               <li class="divider"></li>
                             </ul>
                         </li>

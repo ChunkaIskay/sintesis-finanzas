@@ -15,13 +15,24 @@ use App\CommissionHistory;
 
 class TransactionImportController extends Controller
 {
+	
+
 	public function index(){
+
+		return view('commission.index');
+	}
+
+
+	public function search(Request $Request){
 
 		$listReports = array();
 		$dateFrom = '2018-12-01';
-		$dateTo = '2018-12-02';
+		$dateTo = '2018-12-01';
 
-		array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
+		$query = $Request->input('query');
+
+		
+		
 		array_push($listReports, $this->jhalea($dateFrom,$dateTo));
 		array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
 		array_push($listReports, $this->tierra($dateFrom,$dateTo));
@@ -52,11 +63,79 @@ class TransactionImportController extends Controller
 		array_push($listReports, $this->setar($dateFrom,$dateTo));
 		array_push($listReports, $this->bja($dateFrom,$dateTo));
 
+		$arraySearch = array(); 
+		$count = 0;
+
+		foreach($listReports as $lKey => $report){
+				$queryDesc = trim(strtoupper($query));
+				$queryName = trim(ucfirst(strtolower($query)));
+	
+				if($this->searchStrpos($report['description'],$queryDesc)){
+				
+					if($this->existsCounter($arraySearch,$lKey)){
+						
+						$arraySearch[$count]=$lKey;
+					    $count++;
+					}
+				}
+				
+				if($this->searchStrpos($report['name'],$queryName)){
+					if($this->existsCounter($arraySearch,$lKey)){
+						$arraySearch[$count]=$lKey;
+					    $count++;
+					}
+				}
+		}
+
+dd($arraySearch);
+
     	// $this->saveCommissionHistory($listReports);
 
-    	 $listCommission = DB::table('commission_history')->paginate(10);
-    	 return view('commission.index')->with(compact('listCommission'));
+    	//$listCommission = collect($listReports);
+
+    	// $listCommission = DB::table('commission_history')->paginate(10);
+    	 //return view('commission.index')->with(compact('listCommission'));
+
+		$contracts = Contract::where('disable','=','0')
+					-> where('code','like',"%$query%")->paginate(10);
+
+		return view('management.index')->with(compact('contracts','query'));
 	}
+
+	private function searchStrpos($foo, $query){
+					
+			if (strpos($foo, $query) !== false) {
+				  return true;
+				}
+			return false;
+	}
+	private function existsCounter($arraySearch,$lKey){
+     
+		if(count($arraySearch) !== 0 ){
+ 			echo" arr: <pre>"; print_r($arraySearch); echo"</pre>";
+ 			//echo "dd:".$arraySearch[1];
+			$countx = count($arraySearch);
+
+			for ($i=0; $i < $countx ; $i++) { 
+				if($arraySearch[$i] !== $lKey){
+					return true;
+				}
+			}
+
+/*
+			foreach ($arraySearch as $countSerach){
+				echo "countSerach:".$countSerach;
+				if($countSerach !== $lKey){
+					return true;
+				}
+			}*/
+		}else{
+				return true;
+		}
+			return false;
+	}
+
+	
 
 	public function saveCommissionHistory($dataCommission){
     	//$commission_h = new CommissionHistory();
@@ -369,7 +448,6 @@ class TransactionImportController extends Controller
 	    }
 
 	     return array('name'=>'CMP', 'description'=>'MEMPARK-CMP CREDITO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
-//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 
 	} 
 
@@ -426,7 +504,6 @@ class TransactionImportController extends Controller
 	    }
 
 	     return array('name'=>'AXS', 'description'=>'AXS-AXS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
-//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
 	}
 
 	 /**
@@ -453,6 +530,7 @@ class TransactionImportController extends Controller
 						);
 
 		$totalBilling = 0;
+		$totalBilling3 = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
@@ -527,6 +605,7 @@ class TransactionImportController extends Controller
 						);
 
 		$totalBilling = 0;
+		$totalBilling3 = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
@@ -733,8 +812,9 @@ class TransactionImportController extends Controller
 	    	else
 	    		$additonialTransactions=0;
 	    }
-	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+
+	    if($totalTransaction <> 0 && $totalTransaction > 0) 
+	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 	
 	   return array('name'=>'BBR', 'description'=>'BBR-BBR','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
@@ -785,7 +865,7 @@ class TransactionImportController extends Controller
 
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  dd($additonialTransactions1);
+	 
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
@@ -819,8 +899,9 @@ class TransactionImportController extends Controller
 	    		$additonialTransactions=0;
 	    }
 	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
-	
+	    if($totalTransaction <> 0 && $totalTransaction > 0)
+	           $totalBilling = $minimumTransactions + $additonialTransactions; 
+		
 	    return array('name'=>'BBR Renacer', 'description'=>'BBR-RENACER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
@@ -911,7 +992,8 @@ class TransactionImportController extends Controller
 	    		$additonialTransactions=0;
 	    }
 	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	    if($totalTransaction <> 0 && $totalTransaction > 0) 
+	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 	
 	    return array('name'=>'Digital', 'description'=>'DIGITAL TV-DIGITAL TV','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
@@ -993,7 +1075,8 @@ class TransactionImportController extends Controller
 	    		$additonialTransactions=0;
 	    }
 	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	    if($totalTransaction <> 0 && $totalTransaction > 0) 
+	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 	
 	    return array('name'=>'Men Park', 'description'=>'MEMPARK-EMI MANTENIMIENTO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
@@ -1075,7 +1158,8 @@ class TransactionImportController extends Controller
 	    		$additonialTransactions=0;
 	    }
 	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	    if($totalTransaction <> 0 && $totalTransaction > 0) 
+	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 
 	    return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
@@ -1156,7 +1240,8 @@ class TransactionImportController extends Controller
 	    		$additonialTransactions=0;
 	    }
 	    
-	    $totalBilling = $minimumTransactions + $additonialTransactions; 
+	    if($totalTransaction <> 0 && $totalTransaction > 0) 
+	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 	
 	     return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
@@ -1306,6 +1391,8 @@ class TransactionImportController extends Controller
 				2 => array('from' => 1 ,'until'=>50000, 'monthlyFixed' => 0, 'unitCost'=>2.50, 'description' =>'Diplomados' )
 			);
 
+		$totalBilling = 0;
+		
 		$totalTransactionCert = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%EGPP-EGPP-CERTIFICADOS%")
 	    ->where('cli','=',85)

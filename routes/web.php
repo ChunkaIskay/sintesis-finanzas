@@ -76,5 +76,12 @@ Route::get('/managmente/{link}',function($link){
 // Transaction import
 
 Route::get('/list-transantion', array(	'as' => 'listTransantion',	'middleware' => 'auth',	'uses' => 'TransactionImportController@index'));
+
+Route::get('/search-commission', array('as' => 'searchCommission','middleware' => 'auth',	'uses' => 'TransactionImportController@search'));
+
+Route::post('/search-commission', array('as' => 'searchList','middleware' => 'auth',	'uses' => 'TransactionImportController@search'));
+
+
+
   
 Route::get('/list-commissions', array(	'as' => 'listCommissions',	'middleware' => 'auth',	'uses' => 'CommissionHistoryController@index'));
