@@ -1,11 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <!-- Datepicker Files -->
-    <link rel="stylesheet" href="{{asset('scripts/datepicker/css/datepicker.css')}}">
-    
-    <script src="{{asset('scripts/datepicker/js/bootstrap-datepicker.js')}}"></script>
+  
    
 <div class="container">
 			@if(session('message'))
@@ -23,8 +19,15 @@
 						<h4></h4>
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="Buscar clientes-servicios" name="query" size="50" maxlength="45"/>
-						</div>
+						
+						
 
+							Fecha Desde:
+							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="">
+
+							Fecha Hasta:
+							<input type="text" class="form-control dateTimeUntil" id="dateTimeUntil" name="dateUntil" value="">
+						</div>
 						<button type="submit" class="btn btn-info">
 							<span >Buscar</span>
 						</button>
@@ -53,8 +56,6 @@
 				            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1['total_billing'] }}</strong></td>  
 				            <td class="text-left">{{ $value1['description'] }}</td>
 				             <td class="text-left">{{ $value1['created_at'] }}</td>
-				        
-
 				        </tr>
 				    @endforeach
 				    </tbody>
@@ -95,12 +96,5 @@
 
 </div>
 
-<script type="text/javascript">
-
-	$('.datepicker').datepicker({
-	format: "dd/mm/yyyy"
-});
-
-</script>
 @include('includes.footer')
 @endsection

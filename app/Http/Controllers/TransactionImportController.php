@@ -26,80 +26,114 @@ class TransactionImportController extends Controller
 	public function search(Request $Request){
 
 		$listReports = array();
-		$dateFrom = '2018-12-01';
-		$dateTo = '2018-12-01';
+		$listCommission = array();
 
+		$dateFrom = $Request->input('dateFrom');
+		$dateTo = $Request->input('dateUntil');
 		$query = $Request->input('query');
-
 		
-		
-		array_push($listReports, $this->jhalea($dateFrom,$dateTo));
-		array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
-		array_push($listReports, $this->tierra($dateFrom,$dateTo));
-		array_push($listReports, $this->credicasas($dateFrom,$dateTo));
-		array_push($listReports, $this->cmp($dateFrom,$dateTo));
-		array_push($listReports, $this->axs($dateFrom,$dateTo));
-		array_push($listReports, $this->misiones($dateFrom,$dateTo));
-		array_push($listReports, $this->kantutani($dateFrom,$dateTo));
-		array_push($listReports, $this->prever($dateFrom,$dateTo));
-		array_push($listReports, $this->bbr($dateFrom,$dateTo));
-		array_push($listReports, $this->bbr_renacer($dateFrom,$dateTo));
-		array_push($listReports, $this->digital($dateFrom,$dateTo));
-		array_push($listReports, $this->men_park($dateFrom,$dateTo));
-	    array_push($listReports, $this->nvida($dateFrom,$dateTo));
-		array_push($listReports, $this->nseguro($dateFrom,$dateTo));
-        array_push($listReports, $this->bisa($dateFrom,$dateTo));
-		array_push($listReports, $this->bisa_recaudaciones($dateFrom,$dateTo));
-        array_push($listReports, $this->egpp($dateFrom,$dateTo));
-        array_push($listReports, $this->bdp($dateFrom,$dateTo));
-		array_push($listReports, $this->la_vitalicia($dateFrom,$dateTo));
-		array_push($listReports, $this->alianza_vida($dateFrom,$dateTo));
-		array_push($listReports, $this->boliviatel($dateFrom,$dateTo));
-	    array_push($listReports, $this->cessa($dateFrom,$dateTo));
-		array_push($listReports, $this->actualizacion($dateFrom,$dateTo));
-		array_push($listReports, $this->gamch($dateFrom,$dateTo));
-		array_push($listReports, $this->uagrm($dateFrom,$dateTo));
-		array_push($listReports, $this->semapa($dateFrom,$dateTo));
-		array_push($listReports, $this->setar($dateFrom,$dateTo));
-		array_push($listReports, $this->bja($dateFrom,$dateTo));
-
-		$arraySearch = array(); 
-		$count = 0;
-
-		foreach($listReports as $lKey => $report){
-				$queryDesc = trim(strtoupper($query));
-				$queryName = trim(ucfirst(strtolower($query)));
+		if(isset($dateFrom) && isset($dateTo))
+		{ 
+			array_push($listReports, $this->jhalea($dateFrom,$dateTo));
+			array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
+			array_push($listReports, $this->tierra($dateFrom,$dateTo));
+			array_push($listReports, $this->credicasas($dateFrom,$dateTo));
+			array_push($listReports, $this->cmp($dateFrom,$dateTo));
+			array_push($listReports, $this->axs($dateFrom,$dateTo));
+			array_push($listReports, $this->misiones($dateFrom,$dateTo));
+			array_push($listReports, $this->kantutani($dateFrom,$dateTo));
+			array_push($listReports, $this->prever($dateFrom,$dateTo));
+			array_push($listReports, $this->bbr($dateFrom,$dateTo));
+			array_push($listReports, $this->bbr_renacer($dateFrom,$dateTo));
+			array_push($listReports, $this->digital($dateFrom,$dateTo));
+			array_push($listReports, $this->men_park($dateFrom,$dateTo));
+		    array_push($listReports, $this->nvida($dateFrom,$dateTo));
+			array_push($listReports, $this->nseguro($dateFrom,$dateTo));
+	        array_push($listReports, $this->bisa($dateFrom,$dateTo));
+			array_push($listReports, $this->bisa_recaudaciones($dateFrom,$dateTo));
+	        array_push($listReports, $this->egpp($dateFrom,$dateTo));
+	        array_push($listReports, $this->bdp($dateFrom,$dateTo));
+			array_push($listReports, $this->la_vitalicia($dateFrom,$dateTo));
+			array_push($listReports, $this->alianza_vida($dateFrom,$dateTo));
+			array_push($listReports, $this->boliviatel($dateFrom,$dateTo));
+		    array_push($listReports, $this->cessa($dateFrom,$dateTo));
+			array_push($listReports, $this->actualizacion($dateFrom,$dateTo));
+			array_push($listReports, $this->gamch($dateFrom,$dateTo));
+			array_push($listReports, $this->uagrm($dateFrom,$dateTo));
+			array_push($listReports, $this->semapa($dateFrom,$dateTo));
+			array_push($listReports, $this->setar($dateFrom,$dateTo));
+			array_push($listReports, $this->bja($dateFrom,$dateTo));
 	
-				if($this->searchStrpos($report['description'],$queryDesc)){
+			$listCommission = collect($listReports);
+		
+
+			if(isset($query)){
 				
-					if($this->existsCounter($arraySearch,$lKey)){
-						
-						$arraySearch[$count]=$lKey;
-					    $count++;
-					}
-				}
+					$arraySearch = array(); 
+
+					$count = 0;
+
+					foreach($listReports as $lKey => $report){
+							$queryDesc = trim(strtoupper($query));
+							$queryName = trim(ucfirst(strtolower($query)));
 				
-				if($this->searchStrpos($report['name'],$queryName)){
-					if($this->existsCounter($arraySearch,$lKey)){
-						$arraySearch[$count]=$lKey;
-					    $count++;
+							if($this->searchStrpos($report['description'],$queryDesc)){
+								if($this->existsCounter($arraySearch,$lKey) == false){
+									$arraySearch[$count]=$lKey;
+								    $count++;
+								}
+							}
+							
+							if($this->searchStrpos($report['name'],$queryName)){
+								if($this->existsCounter($arraySearch,$lKey) == false){
+									$arraySearch[$count]=$lKey;
+								    $count++;
+								}
+							}
 					}
-				}
+
+					$countReport = count($listReports);
+					$arrayDel = array();
+
+					for ($i=0; $i < $countReport ; $i++) {
+						$arrayDel[$i]=$i;		
+					}
+				
+				//	echo "<pre>"; print_r($arraySearch); echo"</pre>";
+				
+					foreach ($arrayDel as $c => $value) {
+						if(in_array($value,$arraySearch,true)){
+							 unset($arrayDel[$c]);
+						}
+					}
+
+					$listReport = array();
+					$listReport = $listReports;
+
+					foreach ($listReport as $c => $value) {
+						if(in_array($c,$arrayDel,true)){
+							 unset($listReport[$c]);
+						}
+					}
+					
+					$listCommission = collect($listReport);
+			}
+
 		}
-
-dd($arraySearch);
-
+		
+		if(!empty($listCommission)){
+			$query="datos";
+		}
+	
+		
+		    	
     	// $this->saveCommissionHistory($listReports);
-
     	//$listCommission = collect($listReports);
-
     	// $listCommission = DB::table('commission_history')->paginate(10);
     	 //return view('commission.index')->with(compact('listCommission'));
 
-		$contracts = Contract::where('disable','=','0')
-					-> where('code','like',"%$query%")->paginate(10);
-
-		return view('management.index')->with(compact('contracts','query'));
+		return view('commission.index')->with(compact('listCommission','query'));
+		
 	}
 
 	private function searchStrpos($foo, $query){
@@ -109,40 +143,17 @@ dd($arraySearch);
 				}
 			return false;
 	}
-	private function existsCounter($arraySearch,$lKey){
+
+	private function existsCounter($arraySearch,$k){
      
-		if(count($arraySearch) !== 0 ){
- 			echo" arr: <pre>"; print_r($arraySearch); echo"</pre>";
- 			//echo "dd:".$arraySearch[1];
-			$countx = count($arraySearch);
-
-			for ($i=0; $i < $countx ; $i++) { 
-				if($arraySearch[$i] !== $lKey){
-					return true;
-				}
-			}
-
-/*
-			foreach ($arraySearch as $countSerach){
-				echo "countSerach:".$countSerach;
-				if($countSerach !== $lKey){
-					return true;
-				}
-			}*/
-		}else{
-				return true;
-		}
-			return false;
+		return in_array($k,$arraySearch,true);
 	}
-
-	
 
 	public function saveCommissionHistory($dataCommission){
     	//$commission_h = new CommissionHistory();
 		//CommissionHistory::insert($dataCommission);
     	DB::table('commission_history')->insert($dataCommission); 
   		//return view('comission.index')->with(compact('listReports'));
-    	
     }
 
 	/**
@@ -870,7 +881,8 @@ dd($arraySearch);
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2;
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+
+	    	 return array('name'=>'BBR Renacer', 'description'=>'BBR-RENACER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -958,7 +970,8 @@ dd($arraySearch);
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+			
+	    	 return array('name'=>'Digital', 'description'=>'DIGITAL TV-DIGITAL TV','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -1049,7 +1062,8 @@ dd($arraySearch);
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    	 
+	    	   	 return array('name'=>'Men Park', 'description'=>'MEMPARK-EMI MANTENIMIENTO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
