@@ -794,7 +794,7 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                           echo $sql."\n ______________";
+                           echo $sql."\n ________________";
                             //$rs = $this->recordSet($conectDB,$sql);
                    }
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
