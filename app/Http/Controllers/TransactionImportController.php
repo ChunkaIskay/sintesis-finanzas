@@ -66,7 +66,6 @@ class TransactionImportController extends Controller
 	
 			$listCommission = collect($listReports);
 		
-
 			if(isset($query)){
 				
 					$arraySearch = array(); 
@@ -1228,7 +1227,8 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+
+	    	  return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS', 'total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
