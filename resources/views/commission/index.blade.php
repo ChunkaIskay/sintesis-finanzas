@@ -44,7 +44,7 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				    	 {{ $cont=1 }}  
+				    	<!-- {{ $cont=1 }} -->
 				 		@foreach($listCommission as $key => $value1) 
 
 							@if(($key % 2) == 1 )
