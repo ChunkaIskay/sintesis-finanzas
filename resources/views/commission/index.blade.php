@@ -16,13 +16,12 @@
 			<div class="row">
 					<form action="{{ url('/search-commission') }}"  method="post"  enctype="multipart/form-data" class="navbar-form navbar-left" >
 						 {{ csrf_field() }}
-						<h4></h4>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Buscar clientes-servicios" name="query" size="35" maxlength="45"/>
+							<input type="text" autofocus class="form-control" placeholder="Buscar clientes-servicios" name="query" value="{{ $query }}" size="35" maxlength="45"/>
 							Fecha Desde:
-							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="">
+							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="{{ $dateFrom }}" autocomplete="off">
 							Fecha Hasta:
-							<input type="text" class="form-control dateTimeUntil" id="dateTimeUntil" name="dateUntil" value="">
+							<input type="text" class="form-control dateTimeUntil" id="dateTimeUntil" name="dateTo" value="{{ $dateTo }}"  autocomplete="off">
 						</div>
 						<button type="submit" class="btn btn-info">
 							<span >Buscar</span>
@@ -30,7 +29,7 @@
 					</form>
 			</div>
 			<br>
-			@if(isset($query))
+			@if(!empty($dateFrom))
 			
 				<table class="table">
 				    <thead>

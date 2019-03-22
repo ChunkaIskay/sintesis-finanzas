@@ -18,14 +18,17 @@
 		<h2> Listado de historial de Comisiones clientes - servicios </h2>
 		<div>
 			<form class="navbar-form navbar-left" role='search' action="">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Buscar contratos" name="search" size="50" maxlength="30"/>
-				</div>
-				<button type="submit" class="btn btn-info">
-					<span >Buscar</span>
-				</button>
-				
-				<input class="datepicker form-control" type="text" name="date" value="03/12/2016"/>
+				{{ csrf_field() }}
+						<h4></h4>
+						<div class="form-group">
+							<input type="text" autofocus class="form-control" placeholder="Buscar clientes-servicios" name="query" value="" size="35" maxlength="45"/>
+							Seleccione un mes:
+							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="" autocomplete="off">
+							
+						</div>
+						<button type="submit" class="btn btn-info">
+							<span >Buscar</span>
+						</button>
 			</form>
 		</div>
 			<table class="table">
@@ -35,6 +38,7 @@
 			            <th>Nombre</th>
 			            <th>Total Transacciones</th>
 			            <th>Total a Facturar Bs.</th>
+			            <th>Fecha de referencia</th>
 			            <th>Descripciòn</th>
 			        </tr>
 			    </thead>
@@ -44,7 +48,8 @@
 			            <td class="text-center">{{ $key+1 }}</td>
 			            <td>{{ $value1->name }}</td>
 			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->total_transaction }}</strong></td>  
-			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->total_billing }}</strong></td>  
+			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->total_billing }}</strong></td>
+			            <td>{{ $value1->created_at }}</td>  
 			            <td class="text-left">{{ $value1->description }}</td>
 			        </tr>
 			      	@endforeach

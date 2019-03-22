@@ -18,8 +18,11 @@ class TransactionImportController extends Controller
 	
 
 	public function index(){
+		$query = "";
+		$dateFrom = "";
+		$dateTo = "";
 
-		return view('commission.index');
+		return view('commission.index')->with(compact('query','dateFrom','dateTo'));
 	}
 
 
@@ -29,7 +32,7 @@ class TransactionImportController extends Controller
 		$listCommission = array();
 
 		$dateFrom = $Request->input('dateFrom');
-		$dateTo = $Request->input('dateUntil');
+		$dateTo = $Request->input('dateTo');
 		$query = $Request->input('query');
 		
 		if(isset($dateFrom) && isset($dateTo))
@@ -120,18 +123,13 @@ class TransactionImportController extends Controller
 
 		}
 		
-		if(!empty($listCommission)){
-			$query="datos";
-		}
-	
-		
-		    	
-    	// $this->saveCommissionHistory($listReports);
+			    	
+      $this->saveCommissionHistory($listCommission);
     	//$listCommission = collect($listReports);
     	// $listCommission = DB::table('commission_history')->paginate(10);
     	 //return view('commission.index')->with(compact('listCommission'));
 
-		return view('commission.index')->with(compact('listCommission','query'));
+		return view('commission.index')->with(compact('listCommission','query','dateFrom','dateTo'));
 		
 	}
 
