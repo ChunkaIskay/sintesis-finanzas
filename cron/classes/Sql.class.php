@@ -552,7 +552,8 @@ class Sql extends Setup
                                     AND mo.tipo='0001'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                          echo $sql."\n ______________";
+                          //$rs = $this->recordSet($conectDB,$sql);
                    }
                 if($opcion=="51")
                  {
@@ -578,7 +579,8 @@ class Sql extends Setup
                                     AND mo.tipo='0002'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                          echo $sql."\n ______________";
+                         // $rs = $this->recordSet($conectDB,$sql);
                     }
                 if($opcion=="52")
                  {
@@ -604,7 +606,8 @@ class Sql extends Setup
                                     AND mo.tipo='0003'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                          echo $sql."\n ______________";
+                         // $rs = $this->recordSet($conectDB,$sql);
                     }
                  if($opcion=="53")
                  {
@@ -630,7 +633,8 @@ class Sql extends Setup
                                     AND mo.tipo='0004'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                           echo $sql."\n ______________";
+                         // $rs = $this->recordSet($conectDB,$sql);
                     }
                  if($opcion=="54")
                  {
@@ -656,7 +660,8 @@ class Sql extends Setup
                                     AND mo.cod_ciudad_reserva=fac.cod_servicio
                                     GROUP BY cod_entidad, factu) rever 
                             on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                            $rs = $this->recordSet($conectDB,$sql);
+                            echo $sql."\n ______________";
+                           // $rs = $this->recordSet($conectDB,$sql);
                  }
                  if($opcion=="67")
                  {
@@ -680,7 +685,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                         echo $sql."\n ______________";
+                        //  $rs = $this->recordSet($conectDB,$sql);
                    }
                 if($opcion=="68" )
                  {
@@ -706,7 +712,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                          $rs = $this->recordSet($conectDB,$sql);
+                           echo $sql."\n ______________";
+                          //$rs = $this->recordSet($conectDB,$sql);
                    }
                  if($opcion=="78")
                  {
@@ -732,7 +739,8 @@ class Sql extends Setup
                                     AND mo.monto_bs<>'0' AND fac.moneda='0001'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                        $rs = $this->recordSet($conectDB,$sql);
+                           echo $sql."\n ______________";
+                        //$rs = $this->recordSet($conectDB,$sql);
                    }
                 if($opcion=="79")
                  {
@@ -759,7 +767,8 @@ class Sql extends Setup
                                     AND mo.monto_us<>'0' AND fac.moneda='0002'
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu ";
-                            $rs = $this->recordSet($conectDB,$sql);
+                           echo $sql."\n ______________";
+                           // $rs = $this->recordSet($conectDB,$sql);
                    }
                  if($opcion=="102" )
                  {
@@ -785,7 +794,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                                     GROUP BY cod_entidad, factu) rever 
                           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-                            $rs = $this->recordSet($conectDB,$sql);
+                           echo $sql."\n ______________";
+                            //$rs = $this->recordSet($conectDB,$sql);
                    }
                  if($opcion<>"50" && $opcion<>"51" && $opcion<>"52" && $opcion<>"53" && $opcion<>"54" && $opcion<>"55" && $opcion<>"57"  && $opcion<>"67" && $opcion<>"68" && $opcion<>"78" && $opcion<>"79" && $opcion<>"102")
                   { 
@@ -809,8 +819,8 @@ class Sql extends Setup
                                     AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                                     GROUP BY cod_entidad, factu) rever 
                            on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
-                      
-                          $rs = $this->recordSet($conectDB,$sql);
+                       echo $sql."\n ______________";
+                          //$rs = $this->recordSet($conectDB,$sql);
                            
                         } //end if option
                         $rs1 = array_merge($rs1,$rs);
@@ -838,13 +848,15 @@ class Sql extends Setup
         $query = "";
            
         foreach($rs1 as $rs => $data){
-            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot)VALUES(
+            $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot,fecha, fecha1)VALUES(
                             ".$data['cli'].",
                             '".$data['desc_enti']."',
                             ".$data['enti'].",
                             '".$data['servicio']."',
                             ".$data['tot'].",
-                            ".$data['valTot']."
+                            ".$data['valTot'].",
+                           '".$data['fecha']."',
+                           '".$data['fecha1']."'
                         );";
         }
      
@@ -861,7 +873,7 @@ class Sql extends Setup
      */
     private function recordSet($db,$sql){
         $recordSet = array();
-        $result = mysqli_query($db, $sql) or die ("Error 02: no es posible conectarse s la base de datos, comuniquese cno el administrador");
+        $result = mysqli_query($db, $sql) or die ("Error 02! no es posible conectarse la base de datos, comuniquese con el administrador");
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){ 
             $recordSet[] = $row;
         }
