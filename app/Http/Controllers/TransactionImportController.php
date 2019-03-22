@@ -68,8 +68,10 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->bja($dateFrom,$dateTo));
 	
 			$listCommission = collect($listReports);
-		 	$this->saveCommissionHistory($listReports);
 		 	
+		 	// metodo para guardar datos en la tabla historico
+		 	//$this->saveCommissionHistory($listReports);
+
 			if(isset($query)){
 				
 					$arraySearch = array(); 
