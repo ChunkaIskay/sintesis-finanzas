@@ -18,13 +18,9 @@
 						 {{ csrf_field() }}
 						<h4></h4>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Buscar clientes-servicios" name="query" size="50" maxlength="45"/>
-						
-						
-
+							<input type="text" class="form-control" placeholder="Buscar clientes-servicios" name="query" size="35" maxlength="45"/>
 							Fecha Desde:
 							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="">
-
 							Fecha Hasta:
 							<input type="text" class="form-control dateTimeUntil" id="dateTimeUntil" name="dateUntil" value="">
 						</div>
