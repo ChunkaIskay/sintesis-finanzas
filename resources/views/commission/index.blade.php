@@ -43,10 +43,16 @@
 				            <th class="text-left">Fecha de referencia</th>
 				        </tr>
 				    </thead>
-				    <tbody>  
+				    <tbody>
+				    	 {{ $cont=1 }}  
 				 		@foreach($listCommission as $key => $value1) 
-				        <tr>
-				            <td class="text-center">{{ $key+1 }}</td>
+
+							@if(($key % 2) == 1 )
+							<tr style="background: #c5d9e6; padding-left:10px; padding-bottom:10px;">
+							@else
+							<tr style="background: #edeffbe8; padding-left: 10px; padding-bottom:10px;">
+							@endif	
+				            <td class="text-center">{{ $cont++ }}</td>
 				            <td>{{ $value1['name'] }}</td>
 				            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1['total_transaction'] }}</strong></td>  
 				            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1['total_billing'] }}</strong></td>  
