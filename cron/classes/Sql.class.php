@@ -27,6 +27,7 @@ class Sql extends Setup
             $obj = new Setup();
             $conectDB = $obj->conectDataB(1);
   
+            
             $fecha = "2019-01-01";
             $fecha1 = "2019-01-15";
             $rs1 = array();
@@ -704,7 +705,7 @@ class Sql extends Setup
                                    GROUP BY cod_entidad, factu) pago 
                            left join 
                                   (Select mo.cod_entidad, fac.servicio_facturar factu, count( * ) conteo,
-                                    sum(monto) total, mo.cliente, enti.descripcion desc_enti, mo.codigo_cliente cod_cli, mo.fecha1
+                                    sum(monto) total, mo.cliente, enti.descripcion desc_enti, mo.codigo_cliente cod_cli, mo.fecha fecha1
                                     FROM $cliente mo, facturacion fac, entidad enti
                                     WHERE (fecha >='$fecha' AND fecha <='$fecha1') AND mo.$estado1
                                     AND mo.codigo_cliente=fac.cod_cliente AND mo.cliente=fac.cod_servicio
