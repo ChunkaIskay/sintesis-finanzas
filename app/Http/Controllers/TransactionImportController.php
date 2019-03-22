@@ -68,7 +68,8 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->bja($dateFrom,$dateTo));
 	
 			$listCommission = collect($listReports);
-		
+		 	$this->saveCommissionHistory($listReports);
+		 	
 			if(isset($query)){
 				
 					$arraySearch = array(); 
@@ -124,7 +125,7 @@ class TransactionImportController extends Controller
 		}
 		
 			    	
-      $this->saveCommissionHistory($listCommission);
+     
     	//$listCommission = collect($listReports);
     	// $listCommission = DB::table('commission_history')->paginate(10);
     	 //return view('commission.index')->with(compact('listCommission'));
