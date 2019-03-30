@@ -13,9 +13,10 @@
     $fecha = date('Y-m-j');
     $calcularFecha = strtotime('-1 day',strtotime($fecha));
     $fechaAntes = date('Y-m-j',$calcularFecha);
-    $fechaPrimerDia = date('Y').'-'.date('m').'-28';
+    $fechaPrimerDia = date('Y').'-'.date('m').'-26';
  
-   $obj->importData($fechaAntes, $fechaPrimerDia);
+    echo "Importando datos:";
+    $obj->importData($fechaPrimerDia, $fechaAntes);
  
-    echo "Importando datos:";	
+    	
 ?>

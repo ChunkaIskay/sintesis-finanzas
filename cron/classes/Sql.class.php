@@ -24,11 +24,10 @@ class Sql extends Setup
         {     
             $obj = new Setup();
             $conectDB = $obj->conectDataB(1);
-  
-            
-            $fecha = "2019-02-15";
-            $fecha1 = "2019-02-28";
             $rs1 = array();
+  
+  echo "fecha:".$fecha;
+  echo "fecha 1:".$fecha1; 
           for ($opcion=3;$opcion<=125; $opcion++)
            {
                 if( $opcion<>5
@@ -580,7 +579,7 @@ class Sql extends Setup
               } // end for
              
              mysqli_close($conectDB);
-        
+      
              $this->loadData($rs1);
         
         }
