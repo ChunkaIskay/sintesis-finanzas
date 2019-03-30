@@ -83,8 +83,6 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ route('login') }}">Tesoreria</a>
-                    <a href="{{ route('login') }}">Presupuestos</a>
                     <a href="{{ route('login') }}">Contratos</a>
                     
                 </div>

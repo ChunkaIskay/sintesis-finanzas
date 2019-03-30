@@ -12,7 +12,6 @@ use App\TransactionImport;
 use App\CommissionHistory;
 
 
-
 class TransactionImportController extends Controller
 {
 	
@@ -66,7 +65,12 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->semapa($dateFrom,$dateTo));
 			array_push($listReports, $this->setar($dateFrom,$dateTo));
 			array_push($listReports, $this->bja($dateFrom,$dateTo));
-	
+			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
+			array_push($listReports, $this->uab($dateFrom,$dateTo));
+
+			
+
+				
 			$listCommission = collect($listReports);
 		 	
 		 	// metodo para guardar datos en la tabla historico
@@ -123,10 +127,7 @@ class TransactionImportController extends Controller
 					
 					$listCommission = collect($listReport);
 			}
-
 		}
-		
-			    	
      
     	//$listCommission = collect($listReports);
     	// $listCommission = DB::table('commission_history')->paginate(10);
@@ -1937,13 +1938,111 @@ class TransactionImportController extends Controller
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
 
-
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
 	    return array('name'=>'BJA', 'description'=>'BONOS-JUANA AZURDUY','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
+	/**
+	** Clàusula octava: (precio y forma de pago)
+	** Precio
+	** El Cliente se obliga a pagar al Proveedor por la prestaciòn del servicio, lo siguiente.
+	**    transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    1 hasta 2,000                 bs. 15,000
+	**    2,001 hasta 4,000                                 bs. 10.60
+	**    4,001 a 6,000                                   	bs. 9.60 
+	**    6001 y màs     									bs. 8.80
+	**
+	**/
 
+	public function itacamba($dateFrom, $dateTo){
 
+		$arrayPrices = array(
+					0 => array('from' => 1 ,'until'=>2000, 'monthlyFixed' => 15000, 'unitCost'=>0 ) ,
+					1 => array('from' => 2001 ,'until'=>4000, 'monthlyFixed' => 0, 'unitCost'=>10.60 ),
+					2 => array('from' => 4001 ,'until'=>6000, 'monthlyFixed' => 0, 'unitCost'=>9.60 ),
+					3 => array('from' => 6001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>8.80 )
+					);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ITACAMBA-Recaudacion%")
+	    ->where('cli','=',121)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ITACAMBA-Recaudacion%")
+	    ->where('cli','=',121)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;    	
+
+	    //dd($dateFrom);
+	    //$firstDate = $firstDate[0]->fecha;
+		
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	   /* return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> number_format($totalBilling, 2, ",", "."));*/
+
+	   return array('name'=>'ItaCamba', 'description'=>'ITACAMBA-Recaudacion','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+
+	} 
+
+		/**
+	**   Precio unitario 2.50 bs
+	**   
+	**
+	**/
+
+	public function uab($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.50 )
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%UAB-UAB%")
+	    ->where('cli','=',62)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%UAB-UAB%")
+	    ->where('cli','=',62)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	    return array('name'=>'Uab', 'description'=>'UAB-UAB','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
 
 }

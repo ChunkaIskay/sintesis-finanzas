@@ -3,13 +3,19 @@
     ini_set('memory_limit', "3072M");
     //Tiempo maximo de ejecucion
     set_time_limit(300);
-	echo "Importando datos:"; 
-
-	require_once 'classes/Sql.class.php';
-
+	
+    date_default_timezone_set('America/La_Paz');
+    
+    require_once 'classes/Sql.class.php';
 
     $obj = new Sql();	
-    $obj->pruebas();
-	//date_default_timezone_set('America/Argentina/Buenos_Aires');
-	
+    
+    $fecha = date('Y-m-j');
+    $calcularFecha = strtotime('-1 day',strtotime($fecha));
+    $fechaAntes = date('Y-m-j',$calcularFecha);
+    $fechaPrimerDia = date('Y').'-'.date('m').'-28';
+ 
+   $obj->importData($fechaAntes, $fechaPrimerDia);
+ 
+    echo "Importando datos:";	
 ?>

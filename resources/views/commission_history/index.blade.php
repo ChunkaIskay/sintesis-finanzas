@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
-
+<!--
  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <!-- Datepicker Files -->
+    
     <link rel="stylesheet" href="{{asset('scripts/datepicker/css/datepicker.css')}}">
     
     <script src="{{asset('scripts/datepicker/js/bootstrap-datepicker.js')}}"></script>
-   
+   -->
 <div class="container">
 			@if(session('message'))
                 <div class="alert alert-success">
@@ -69,7 +69,7 @@
 <script type="text/javascript">
 
 	$('.datepicker').datepicker({
-	format: "dd/mm/yyyy"
+	format: "dd-mm-yyyy"
 });
 
 </script>

@@ -82,6 +82,8 @@ Route::get('/search-commission', array('as' => 'searchCommission','middleware' =
 Route::post('/search-commission', array('as' => 'searchList','middleware' => 'auth',	'uses' => 'TransactionImportController@search'));
 
 
-
   
-Route::get('/list-commissions', array(	'as' => 'listCommissions',	'middleware' => 'auth',	'uses' => 'CommissionHistoryController@index'));
+Route::get('/list-commissions', array('as' => 'listCommissions',	'middleware' => 'auth',	'uses' => 'CommissionHistoryController@index'));
+
+
+Route::get('/list-pagos', array('as' => 'listPagosNet',	'middleware' => 'auth',	'uses' => 'reportPagosNetController@index'));
