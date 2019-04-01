@@ -19,9 +19,10 @@
     }else{
         $fechaPrimerDia = date('Y').'-'.date("m").'-26';
     }
-
+    $fechaPrimerDia = '2019-03-01';
+    $fechadiaAntes = '2019-03-31'
     $obj->importData($fechaPrimerDia, $fechadiaAntes);
-//resto 1 mes
-//date("m",strtotime($fecha."- 1 month"));
+    //resto 1 mes
+    //date("m",strtotime($fecha."- 1 month"));
 	
 ?>
