@@ -12,11 +12,16 @@
     
     $fecha = date('Y-m-j');
     $calcularFecha = strtotime('-1 day',strtotime($fecha));
-    $fechaAntes = date('Y-m-j',$calcularFecha);
-    $fechaPrimerDia = date('Y').'-'.date('m').'-26';
- 
-    echo "Importando datos:";
-    $obj->importData($fechaPrimerDia, $fechaAntes);
- 
-    	
+    $fechadiaAntes = date('Y-m-j',$calcularFecha);
+
+    if(date('d') == '01'){
+      $fechaPrimerDia = date('Y').'-'.date("m",strtotime($fecha."- 1 month")).'-26'; 
+    }else{
+        $fechaPrimerDia = date('Y').'-'.date("m").'-26';
+    }
+
+    $obj->importData($fechaPrimerDia, $fechadiaAntes);
+//resto 1 mes
+//date("m",strtotime($fecha."- 1 month"));
+	
 ?>
