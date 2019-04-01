@@ -925,7 +925,7 @@ class Sql extends Setup
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
         $query = "";
-           
+           echo"<pre>";print_r($rs1);echo"</pre>"; exit;
         foreach($rs1 as $rs => $data){
             $query .= "INSERT INTO transaction_import(cli,desc_enti,enti,servicio,tot,valTot,fecha, fecha1)VALUES(
                             ".$data['cli'].",
