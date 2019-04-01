@@ -614,7 +614,7 @@ class Sql extends Setup
                     AND mo.tipo='0001'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -644,7 +644,7 @@ class Sql extends Setup
                     AND mo.tipo='0002'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -675,7 +675,7 @@ class Sql extends Setup
                     AND mo.tipo='0003'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -705,7 +705,7 @@ class Sql extends Setup
                     AND mo.tipo='0004'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -735,7 +735,7 @@ class Sql extends Setup
                         AND mo.cod_ciudad_reserva=fac.cod_servicio
                         GROUP BY cod_entidad, factu) rever 
                 on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-            
+            echo "--------".$sql;
             $rs = $this->recordSet($conectDB,$sql);
 
             return $rs;
@@ -763,7 +763,7 @@ class Sql extends Setup
                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -795,7 +795,7 @@ class Sql extends Setup
                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -825,7 +825,7 @@ class Sql extends Setup
                     AND mo.monto_bs<>'0' AND fac.moneda='0001'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -856,7 +856,7 @@ class Sql extends Setup
                     AND mo.monto_us<>'0' AND fac.moneda='0002'
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu ";
-        
+        echo "--------".$sql;
         $rs = $this->recordSet($conectDB,$sql);
         
         return $rs;                    
@@ -886,7 +886,7 @@ class Sql extends Setup
                     AND mo.cod_entidad=enti.cod_entidad AND mo.cod_entidad<>'0000' 
                     GROUP BY cod_entidad, factu) rever 
           on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu";
-
+        echo "--------".$sql;  
         $rs = $this->recordSet($conectDB,$sql);
 
         return $rs;
@@ -914,7 +914,7 @@ class Sql extends Setup
                         AND mo.cod_entidad=enti.cod_entidad AND (mo.cod_entidad<>'0000' OR mo.cod_entidad<>'0002')
                         GROUP BY cod_entidad, factu) rever 
                on pago.cod_entidad=rever.cod_entidad AND pago.factu=rever.factu"; 
-            
+            echo "--------".$sql;
             $rs = $this->recordSet($conectDB,$sql);
 
             return $rs;
