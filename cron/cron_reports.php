@@ -11,16 +11,21 @@
     $obj = new Sql();	
     
     $fecha = date('Y-m-j');
-    $calcularFecha = strtotime('-1 day',strtotime($fecha));
-    $fechadiaAntes = date('Y-m-j',$calcularFecha);
 
-    if(date('d') == '01'){
-      $fechaPrimerDia = date('Y').'-'.date("m",strtotime($fecha."- 1 month")).'-26'; 
+    $calcularFecha5 = strtotime('-5 day',strtotime($fecha));
+    $fechaAntes5 = date('Y-m-j',$calcularFecha5);
+    $fechaHasta = date('Y-m-d');
+
+    if(date('d') == '02' || date('d') == '03' || date('d') == '04' || date('d') == '05'){ 
+        
+        $fechaDesde = date('Y').'-'.date("m").'-01'; 
+    
     }else{
-        $fechaPrimerDia = date('Y').'-'.date("m").'-26';
+        $fechaDesde = $fechaAntes5;
+      
     }
- 
-    $obj->importData($fechaPrimerDia, $fechadiaAntes);
+
+    $obj->importData($fechaDesde, $fechaHasta); 
     //resto 1 mes
     //date("m",strtotime($fecha."- 1 month"));
 	

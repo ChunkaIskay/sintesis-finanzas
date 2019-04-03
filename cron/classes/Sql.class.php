@@ -24,10 +24,10 @@ class Sql extends Setup
         {     
             $obj = new Setup();
             $conectDB = $obj->conectDataB(1);
+            $conectDB2 = $obj->conectDataB(2);
+            
             $rs1 = array();
-  
-  echo "fecha:".$fecha;
-  echo "fecha 1:".$fecha1; 
+
           for ($opcion=3;$opcion<=125; $opcion++)
            {
                 if( $opcion<>5
@@ -574,18 +574,31 @@ class Sql extends Setup
                   } //end if option
                 
                   $rs1 = array_merge($rs1,$rs);
+
                 
                 } // end if <>
               } // end for
              
              mysqli_close($conectDB);
-      
-             $this->loadData($rs1);
-        
-        }
+            
+             if(count($rs1) <> 0){
+
+                if($this->deleteRows($conectDB2,'transaction_import','fecha',$fecha1,$fecha)){
+                    mysqli_close($conectDB2);
+                    $this->loadData($rs1);
+                
+                }else{
+                        $error = mysqli_error($conectDB2);
+                        mysqli_close($conectDB2);
+                        return "Error al eliminar registros: " . $error;
+                }
+
+             }
+            
+       }
         catch(Exception $e)
         {
-           echo "<br> Se ha producido un error en la ejecuciòn del script:";
+           return "<br> Se ha producido un error en la ejecuciòn del script:";
         }
         
     }
@@ -920,7 +933,7 @@ class Sql extends Setup
             return $rs;
     }
 
-        private function loadData($rs1){
+    private function loadData($rs1){
         
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
@@ -960,6 +973,18 @@ class Sql extends Setup
         mysqli_free_result($result);
        
         return $recordSet;
+    }
+
+    private function deleteRows($db,$tables,$field,$daFrom,$daTo){
+        
+        $sql = "DELETE from ".$tables." WHERE '".$field."' BETWEEN '".$daFrom ."' AND '".$daTo."' ";
+          
+        if (mysqli_query($db, $sql)) {
+            return true;
+        } else {
+            return false; 
+        }
+
     }
 
     

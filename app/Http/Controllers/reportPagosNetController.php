@@ -15,7 +15,46 @@ class reportPagosNetController extends Controller
   
 	//public function get_detail(){
 	public function index(){
-//		$pin_code = $_REQUEST['pin_code'];
+		
+		 date_default_timezone_set('America/La_Paz');
+
+		$query = "";
+		$dateTo = date('Y-m-j');
+		$calcularFecha = strtotime('-1 day',strtotime($dateTo));
+		$dateFrom = date('Y-m-j',$calcularFecha);
+
+
+		$pagosNet = reportPagosNet::where('error','=','N')
+					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
+					-> whereOr('razon_social','like',"%$query%")->paginate(20);
+		
+
+
+		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
+
+	}
+
+
+	public function search(Request $Request){
+	  //dd($Request);
+		$query = $Request->input('query');
+		$dateFrom = $Request->input('dateFrom');
+		$dateTo = $Request->input('dateTo');
+//echo "to".$dateTo;
+		$pagosNet = reportPagosNet::where('error','=','N')
+					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
+					-> whereOr('razon_social','like',"%$query%")->get();
+		//dd($pagosNet);
+
+		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
+	
+	}
+
+
+
+
+	public function testRESTFULL(){
+		//		$pin_code = $_REQUEST['pin_code'];
 		$url = "http://postalpincode.in/api/pincode/110001";
 		$ch= curl_init(); 
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -23,5 +62,6 @@ class reportPagosNetController extends Controller
 		$output = curl_exec($ch);
 		curl_close($ch);
 		echo "<pre>";print_r($output); echo"</pre>";
+
 	}
 }

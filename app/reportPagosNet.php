@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class reportPagosNet extends Model
 {
-    protected $table = 'transaction_import';
-    protected $primaryKey = 'cli';
+    protected $table = 'pagos_net_client_import';
+    protected $primaryKey = 'codigo_unico_empresa';
 
    
   
