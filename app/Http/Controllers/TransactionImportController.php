@@ -68,8 +68,6 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
 
-			
-			
 			$listCommission = collect($listReports);
 		 	
 		 	// metodo para guardar datos en la tabla historico
@@ -127,10 +125,8 @@ class TransactionImportController extends Controller
 					$listCommission = collect($listReport);
 			}
 		}
-    	// $listCommission = DB::table('commission_history')->paginate(10);
-        //return view('commission.index')->with(compact('listCommission'));
-	echo "<pre>"; print_r($listCommission); echo"</pre>";
-		return view('commission.index')->with(compact('listCommission','query','dateFrom','dateTo'));
+  
+  	return view('commission.index')->with(compact('listCommission','query','dateFrom','dateTo'));
 		
 	}
 
@@ -793,7 +789,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed']/2; 
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    	  return array('name'=>'BBR', 'description'=>'BBR-BBR','total_transaction','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -1144,7 +1140,7 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
-	    	  return array('total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    	  return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
@@ -1227,7 +1223,7 @@ class TransactionImportController extends Controller
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
 
-	    	  return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS', 'total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    	return array('name'=>'Nseguro', 'description'=>'NALVIDA-NACIONAL SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
