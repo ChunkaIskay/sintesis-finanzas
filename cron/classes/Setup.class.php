@@ -47,10 +47,8 @@ class Setup {
 
             }elseif($ht == 2){
 
-                   // $userDB = "finanzas";
-                    $userDB = "root";
-                    //$passwordDB = "chupete99";
-                    $passwordDB = "";  
+                    $userDB = "finanzas";
+                    $passwordDB = "chupete00";
                     $serverDB = "localhost";
                     $dataB = "finances";
             }
