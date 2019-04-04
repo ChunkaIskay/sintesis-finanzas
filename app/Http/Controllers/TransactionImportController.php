@@ -69,8 +69,7 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
 
 			
-
-				
+			
 			$listCommission = collect($listReports);
 		 	
 		 	// metodo para guardar datos en la tabla historico
@@ -128,11 +127,9 @@ class TransactionImportController extends Controller
 					$listCommission = collect($listReport);
 			}
 		}
-     
-    	//$listCommission = collect($listReports);
     	// $listCommission = DB::table('commission_history')->paginate(10);
-    	 //return view('commission.index')->with(compact('listCommission'));
-
+        //return view('commission.index')->with(compact('listCommission'));
+	echo "<pre>"; print_r($listCommission); echo"</pre>";
 		return view('commission.index')->with(compact('listCommission','query','dateFrom','dateTo'));
 		
 	}
