@@ -583,7 +583,7 @@ class Sql extends Setup
             
              if(count($rs1) <> 0){
 
-                if($this->deleteRows($conectDB2,'transaction_import','fecha',$fecha1,$fecha)){
+                if($this->deleteRows($conectDB2,'transaction_import','fecha',$fecha,$fecha1)){
                     mysqli_close($conectDB2);
                     $this->loadData($rs1);
                 

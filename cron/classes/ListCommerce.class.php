@@ -30,7 +30,7 @@ class listCommerce extends Setup
 	private function loadData($rs1){
         
         $obj1 = new Setup();
-        $conectDB = $obj1->conectDataB(3);
+        $conectDB = $obj1->conectDataB(2);
         $query = "";
 
         foreach($rs1 as $rs => $data){
@@ -101,25 +101,21 @@ class listCommerce extends Setup
 
                     $output = json_decode($output, true);
 
-                    //$arrayClient= array("codigo_unico_empresa"=>$rsValue['codigo_unico_empresa'], "razon_social"=>$rsValue['nombre'], "id_client"=>$rsValue['cli']);
-                   
-                    //echo "<br>codigo empresa:";$rsValue['codigo_unico_empresa']; echo "<br>";
                     if(!$output){
                         echo "cURL Error #:00001";
                     }else{
 
                             $output += ["codigo_unico_empresa"=>$rsValue['codigo_unico_empresa'] , "razon_social"=>$rsValue['nombre'], "id_client"=>$rsValue['cli'], "fecha_referencial"=>$fechaDesde ];
-                            //array_push($output, $arrayClient);
+                           
                             array_push($listReportsCommerce, $output );
-                            //echo "<br>si:<pre>"; print_r(json_decode($output, true));
-  
+                           
                      }
 
                     //return (int) $status;
                 }
                 else
                 {  
-                  //return false;
+                  return "Error al intentar conectarse al servicio!. Comuniquese con su  administrador";
                 }
         }   
 
@@ -130,7 +126,7 @@ class listCommerce extends Setup
     private function saveloadDataReport($rs2){
         
         $obj1 = new Setup();
-        $conectDB = $obj1->conectDataB(3);
+        $conectDB = $obj1->conectDataB(2);
         $query = "";
         
         foreach($rs2 as $krs => $dataR){

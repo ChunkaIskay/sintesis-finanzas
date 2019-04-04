@@ -16,19 +16,11 @@
 	//$obj->restComercios();
 
 	$fecha = date('Y-m-j');
+	
 	$calcularFecha = strtotime('-1 day',strtotime($fecha));
-	$fechadiaAntes = date('Y-m-j',$calcularFecha);
-
-	if(date('d') == '01'){
-		$fechaPrimerDia = date('Y').'-'.date("m",strtotime($fecha."- 1 month")).'-26'; 
-	}else{
-		$fechaPrimerDia = date('Y').'-'.date("m").'-26';
-	}
-
-	$fechaPrimerDia = '2018-06-01';
-	$fechaDiaAntes = '2018-06-30';
-
-	$obj->loadDataReport($fechaPrimerDia,$fechaDiaAntes);
-
-//resto 1 mes
-//date("m",strtotime($fecha."- 1 month"));
+	$fechaDesde = date('Y-m-d',$calcularFecha);
+	
+	$fechaHasta = date('Y-m-d',strtotime($fecha));
+	$obj->loadDataReport($fechaDesde,$fechaHasta);
+	//resto 1 mes
+	//date("m",strtotime($fecha."- 1 month"));

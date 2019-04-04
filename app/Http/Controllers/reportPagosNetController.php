@@ -23,35 +23,27 @@ class reportPagosNetController extends Controller
 		$calcularFecha = strtotime('-1 day',strtotime($dateTo));
 		$dateFrom = date('Y-m-j',$calcularFecha);
 
-
 		$pagosNet = reportPagosNet::where('error','=','N')
 					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
 					-> whereOr('razon_social','like',"%$query%")->paginate(20);
-		
-
 
 		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
-
 	}
 
 
 	public function search(Request $Request){
-	  //dd($Request);
-		$query = $Request->input('query');
+
+	  	$query = $Request->input('query');
 		$dateFrom = $Request->input('dateFrom');
 		$dateTo = $Request->input('dateTo');
-//echo "to".$dateTo;
+		
 		$pagosNet = reportPagosNet::where('error','=','N')
 					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
-					-> whereOr('razon_social','like',"%$query%")->get();
-		//dd($pagosNet);
-
+					-> where('razon_social','like',"%$query%")->paginate(20);
+	
 		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
 	
 	}
-
-
-
 
 	public function testRESTFULL(){
 		//		$pin_code = $_REQUEST['pin_code'];
