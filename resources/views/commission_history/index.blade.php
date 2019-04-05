@@ -1,12 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<!--
- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    
-    <link rel="stylesheet" href="{{asset('scripts/datepicker/css/datepicker.css')}}">
-    
-    <script src="{{asset('scripts/datepicker/js/bootstrap-datepicker.js')}}"></script>
-   -->
+
 <div class="container">
 			@if(session('message'))
                 <div class="alert alert-success">
@@ -15,21 +9,23 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de historial de Comisiones clientes - servicios </h2>
+		<h2> Historial de Comisiones clientes - servicios </h2>
 		<div>
-			<form class="navbar-form navbar-left" role='search' action="">
-				{{ csrf_field() }}
-						<h4></h4>
+			<div class="row">
+					<form action="{{ url('/search-history') }}"  method="post"  enctype="multipart/form-data" class="navbar-form navbar-left" >
+						 {{ csrf_field() }}
 						<div class="form-group">
-							<input type="text" autofocus class="form-control" placeholder="Buscar clientes-servicios" name="query" value="" size="35" maxlength="45"/>
-							Seleccione un mes:
-							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="" autocomplete="off">
-							
+							<input type="text" autofocus class="form-control" placeholder="Buscar clientes-servicios" name="query" value="{{ $query }}" size="35" maxlength="45"/>
+							Fecha Desde:
+							<input type="text" class="form-control dateTimeFrom" id="dateTimeFrom" name="dateFrom" value="{{ $dateFrom }}" autocomplete="off">
+							Fecha Hasta:
+							<input type="text" class="form-control dateTimeUntil" id="dateTimeUntil" name="dateTo" value="{{ $dateTo }}"  autocomplete="off">
 						</div>
 						<button type="submit" class="btn btn-info">
 							<span >Buscar</span>
 						</button>
-			</form>
+					</form>
+			</div>
 		</div>
 			<table class="table">
 			    <thead>
@@ -58,20 +54,13 @@
 	</div>
 
 	<div class="row">
-	  <div class="col-md-4">{{ $listCommission->links() }}</div>
-	  <div class="col-md-4 text-left"></div>
+	  <div class="col-md-4"></div>
+	  <div class="col-md-4 text-left">{{ $listCommission->appends(['dateFrom' => $dateFrom, 'dateTo' => $dateTo, 'query' => $query ])->links() }}</div>
 	  <div class="col-md-3"></div>
 	  
 	</div>
 
 </div>
 
-<script type="text/javascript">
-
-	$('.datepicker').datepicker({
-	format: "dd-mm-yyyy"
-});
-
-</script>
 @include('includes.footer')
 @endsection

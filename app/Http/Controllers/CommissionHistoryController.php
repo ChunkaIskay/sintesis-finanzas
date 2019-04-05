@@ -15,12 +15,36 @@ use App\CommissionHistory;
 class CommissionHistoryController extends Controller
 {
     
+	
 	public function index(){
-
-		$listCommission = DB::table('commission_history')->paginate(10);
 		
-		return view('commission_history.index')->with(compact('listCommission'));
+		 date_default_timezone_set('America/La_Paz');
+
+		$query = "";
+		$dateTo = date('Y-m-j');
+		$calcularFecha = strtotime('-1 day',strtotime($dateTo));
+		$dateFrom = date('Y-m-j',$calcularFecha);
+
+		$listCommission = CommissionHistory::whereBetween('created_at', [$dateFrom, $dateTo])->paginate(20);
+
+		return view('commission_history.index')->with(compact('listCommission','query','dateTo','dateFrom'));
 	}
+
+	public function search(Request $Request){
+
+	  	$query = $Request->input('query');
+		$dateFrom = $Request->input('dateFrom');
+		$dateTo = $Request->input('dateTo');
+		
+		$listCommission = CommissionHistory::where('name','like',"%$query%")
+					->whereOr('description','like',"%$query%")
+					-> whereBetween('created_at', [$dateFrom, $dateTo])
+					->paginate(20);
+	
+		return view('commission_history.index')->with(compact('listCommission','query','dateTo','dateFrom'));
+	
+	}
+
 
 
 }

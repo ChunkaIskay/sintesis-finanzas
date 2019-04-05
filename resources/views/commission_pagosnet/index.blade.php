@@ -9,7 +9,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de Comisiones clientes - servicios </h2>
+		<h2> Listado de Comisiones clientes - servicios de Pagos Net</h2>
 			<div class="row">
 					<form action="{{ url('/search-pagosnet') }}"  method="post"  enctype="multipart/form-data" class="navbar-form navbar-left" >
 						 {{ csrf_field() }}

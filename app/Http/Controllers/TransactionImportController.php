@@ -67,6 +67,7 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->bja($dateFrom,$dateTo));
 			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
+			array_push($listReports, $this->magadealter_viva($dateFrom,$dateTo));
 
 			$listCommission = collect($listReports);
 		 	
@@ -2002,7 +2003,7 @@ class TransactionImportController extends Controller
 
 	} 
 
-		/**
+	/**
 	**   Precio unitario 2.50 bs
 	**   
 	**
@@ -2036,6 +2037,90 @@ class TransactionImportController extends Controller
 	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
 	  
 	    return array('name'=>'Uab', 'description'=>'UAB-UAB','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**   Porcentaje 0,10 %
+	**   
+	**
+	**/
+
+	public function magadealter_viva($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.10)
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $totalCollected = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('valTot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+	    $totalBilling = $arrayPrices[0]['percent'] * $totalCollected;
+			  
+	    return array('name'=>'Magadealers Viva', 'description'=>'MEGADEALERS-MEGADEALERS VIVA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**   Precio
+	**   
+	**
+	**/
+
+	public function magadealter_vivaxxx($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.10)
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $totalCollected = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('valTot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
+	    ->where('cli','=',67)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+	    $totalBilling = $arrayPrices[0]['percent'] * $totalCollected;
+			  
+	    return array('name'=>'Magadealers Viva', 'description'=>'MEGADEALERS-MEGADEALERS VIVA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 }

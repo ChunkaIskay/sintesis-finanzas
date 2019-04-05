@@ -13,7 +13,6 @@ use App\reportPagosNet;
 class reportPagosNetController extends Controller
 {
   
-	//public function get_detail(){
 	public function index(){
 		
 		 date_default_timezone_set('America/La_Paz');
