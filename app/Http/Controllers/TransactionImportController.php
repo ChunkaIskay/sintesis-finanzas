@@ -24,7 +24,6 @@ class TransactionImportController extends Controller
 		return view('commission.index')->with(compact('query','dateFrom','dateTo'));
 	}
 
-
 	public function search(Request $Request){
 
 		$listReports = array();
@@ -68,6 +67,7 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
 			array_push($listReports, $this->magadealter_viva($dateFrom,$dateTo));
+			array_push($listReports, $this->epsas($dateFrom,$dateTo));
 
 			$listCommission = collect($listReports);
 		 	
@@ -385,7 +385,7 @@ class TransactionImportController extends Controller
 	    }
 
 	     return array('name'=>'Credicasas', 'description'=>'NOVILLO-CREDICASAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
-//SELECT SUM(tot) FROM `transaction_import` WHERE servicio like ('%TUPPERWARE-TUPPERWARE%') ORDER BY enti ASC
+
 	} 
 
 	/**
@@ -494,7 +494,6 @@ class TransactionImportController extends Controller
 
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
-
 
 	    if ($totalTransaction > $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
@@ -2087,29 +2086,29 @@ class TransactionImportController extends Controller
 	**
 	**/
 
-	public function magadealter_vivaxxx($dateFrom, $dateTo){
+	public function epsas($dateFrom, $dateTo){
 
 		$arrayPrices = array(
-				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.10)
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.01)
 			);
 
 		$totalBilling = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
-	    ->where('cli','=',67)
+	    ->where('servicio', 'like', "%EPSAS-EPSAS%")
+	    ->where('cli','=',48)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
 	     $totalCollected = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
-	    ->where('cli','=',67)
+	    ->where('servicio', 'like', "%EPSAS-EPSAS%")
+	    ->where('cli','=',48)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('valTot');
 
 	    $firstDate = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%MEGADEALERS-MEGADEALERS VIVA%")
-	    ->where('cli','=',67)
+	    ->where('servicio', 'like', "%EPSAS-EPSAS%")
+	    ->where('cli','=',48)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->select('fecha')
 	    ->limit(1)
@@ -2120,7 +2119,7 @@ class TransactionImportController extends Controller
 
 	    $totalBilling = $arrayPrices[0]['percent'] * $totalCollected;
 			  
-	    return array('name'=>'Magadealers Viva', 'description'=>'MEGADEALERS-MEGADEALERS VIVA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    return array('name'=>'Epsas', 'description'=>'EPSAS-EPSAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 }
