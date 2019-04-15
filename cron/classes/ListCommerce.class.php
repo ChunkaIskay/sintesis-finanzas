@@ -18,7 +18,8 @@ class listCommerce extends Setup
 
 	public function restComercios(){
 
-		$siaf = "http://199.14.10.107:8081/SIIApp-rest/comelec/comercios";
+		//$siaf = "http://199.14.10.107:8081/SIIApp-rest/comelec/comercios";
+        $siaf = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/comercio";
 
 		$siaf_json = file_get_contents($siaf);
 		$siaf_array = json_decode($siaf_json, true);

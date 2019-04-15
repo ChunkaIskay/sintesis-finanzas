@@ -17,6 +17,7 @@ class TransactionImportController extends Controller
 	
 
 	public function index(){
+		
 		$query = "";
 		$dateFrom = "";
 		$dateTo = "";
