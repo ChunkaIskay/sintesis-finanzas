@@ -31,10 +31,10 @@
                     curl_close($ch);
 
                     $output = json_decode($output, true);
-                    print_r($output);exit;
+                    print_r($output);
                     if(!$output){
                         echo "cURL Error #:00001";
                     }
-
+exit;
                     //return (int) $status;
                 }
