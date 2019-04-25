@@ -31,7 +31,7 @@ class listCommerce extends Setup
 	private function loadData($rs1){
         
         $obj1 = new Setup();
-        $conectDB = $obj1->conectDataB(1);
+        $conectDB = $obj1->conectDataB(2);
         $query = "";
 
         foreach($rs1 as $rs => $data){
@@ -57,7 +57,7 @@ class listCommerce extends Setup
     public function loadDataReport($dateFrom, $dateTo){
 
         $obj1 = new Setup();
-        $conectDB = $obj1->conectDataB(2);
+        $conectDB = $obj1->conectDataB(3);
         
         $sql = "SELECT * FROM pagos_net_client ORDER BY codigo_unico_empresa";
 
@@ -70,7 +70,7 @@ class listCommerce extends Setup
 
         foreach($rs as $k => $rsValue){
            
-                $url = "http://199.14.10.109:9090/SIIApp-rest/comelec/cobro/comercio";
+                $url = "http://199.14.10.109/SIIApp-rest/comelec/reporte/cobro/comercio";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
