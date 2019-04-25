@@ -1,9 +1,10 @@
 <?php
 
-                $url = "http://199.14.10.109:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
+                $url = "http://199.14.10.107:8081/SIIApp-rest/comelec/reporte/cobro/comercio";
+
                 
                 $fields = array(
-                        "fechaDesde"=> '2019-01-01',
+                        "fechaDesde"=> '2018-01-01',
                         "fechaHasta"=> '2019-01-31',
                         "codigoUnicoEmpresa"=> 2,
                         "tipoDeCambioDolar"=> 6.96);
@@ -15,7 +16,7 @@
                
                 if($ch = curl_init($url))
                 {
-                    curl_setopt($ch, CURLOPT_PORT, '9090');
+                    curl_setopt($ch, CURLOPT_PORT, '8081');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
                     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
