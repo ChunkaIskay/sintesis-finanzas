@@ -70,7 +70,7 @@ class listCommerce extends Setup
 
         foreach($rs as $k => $rsValue){
            
-                $url = "http://199.14.10.109:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
+                $url = "http://199.14.10.109:9090/SIIApp-rest/comelec/cobro/comercio";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
