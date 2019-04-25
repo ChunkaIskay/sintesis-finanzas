@@ -50,7 +50,7 @@ class PayEntityCommissionController extends Controller
 			array_push($listReports, $this->cac_abierta_madre_maestra($dateFrom,$dateTo));
 			array_push($listReports, $this->cac_sarco_ltda($dateFrom,$dateTo));
 			array_push($listReports, $this->cac_asuncion_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_educadores_gran_chaco($dateFrom,$dateTo));
+			/*array_push($listReports, $this->cac_educadores_gran_chaco($dateFrom,$dateTo));
 			array_push($listReports, $this->cac_chorolque_ltda($dateFrom,$dateTo));
 			array_push($listReports, $this->cac_incahuasi_ltda($dateFrom,$dateTo));
 			array_push($listReports, $this->cac_fatima_ltda($dateFrom,$dateTo));
@@ -88,38 +88,44 @@ class PayEntityCommissionController extends Controller
 			array_push($listReports, $this->coop_san_pedro_aiquile($dateFrom,$dateTo));
 			array_push($listReports, $this->coop_crecer($dateFrom,$dateTo));
 			array_push($listReports, $this->diaconia_entidad_desarrollo($dateFrom,$dateTo));
-			array_push($listReports, $this->farmacorp_serviexpress($dateFrom,$dateTo));
-
-			
+			array_push($listReports, $this->farmacorp_serviexpress($dateFrom,$dateTo));*/
 
 			$listCommission = collect($listReports);
-		 	dd($listCommission);
+			//dd($listCommission);
 		 	// metodo para guardar datos en la tabla historico
 		 	//$this->saveCommissionHistory($listReports);
+
+			//	0 => array('entity'=>4, 'desc_enti'=>'BANCO BISA', 'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 'unitCost' => 0, 'percent' => 0.75, 'desc'=>'EPSAS'),
 
 			if(isset($query)){
 				
 					$arraySearch = array(); 
-
 					$count = 0;
 
 					foreach($listReports as $lKey => $report){
 							$queryDesc = trim(strtoupper($query));
 							$queryName = trim(ucfirst(strtolower($query)));
-				
-							if($this->searchStrpos($report['description'],$queryDesc)){
+					
+							if($this->searchStrpos($report['desc_enti'],$queryDesc)){
 								if($this->existsCounter($arraySearch,$lKey) == false){
 									$arraySearch[$count]=$lKey;
 								    $count++;
 								}
 							}
 							
-							if($this->searchStrpos($report['name'],$queryName)){
+							if($this->searchStrpos($report['servicio'],$queryName)){
 								if($this->existsCounter($arraySearch,$lKey) == false){
 									$arraySearch[$count]=$lKey;
 								    $count++;
 								}
 							}
+							if($this->searchStrpos($report['desc'],$queryName)){
+								if($this->existsCounter($arraySearch,$lKey) == false){
+									$arraySearch[$count]=$lKey;
+								    $count++;
+								}
+							}
+					
 					}
 
 					$countReport = count($listReports);
@@ -149,7 +155,7 @@ class PayEntityCommissionController extends Controller
 					$listCommission = collect($listReport);
 			}
 		}
-  
+  //dd($listCommission);
   	return view('commission_pay_entity.index')->with(compact('listCommission','query','dateFrom','dateTo'));
 		
 	}
@@ -232,7 +238,8 @@ class PayEntityCommissionController extends Controller
 			array_push($listPay, $arrayPut);
 		}
 							
-		return ['entity' => $valueb['entity'], 'desc_enti'=>$valueb['desc_enti'], $listPay];
+		//return ['entity' => $valueb['entity'], 'desc_enti'=>$valueb['desc_enti'], $listPay];
+		return $listPay;
 	} 
 
 	/**

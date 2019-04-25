@@ -17,7 +17,7 @@
 
 	$fecha = date('Y-m-j');
 	
-	$calcularFecha = strtotime('-1 day',strtotime($fecha));
+	$calcularFecha = strtotime('-3 day',strtotime($fecha));
 	$fechaDesde = date('Y-m-d',$calcularFecha);
 	
 	$fechaHasta = date('Y-m-d',strtotime($fecha));

@@ -40,19 +40,17 @@
 			    </thead>
 			    <tbody>
 			    	<!-- {{ $cont=1 }} -->
-			 		@foreach($pagosNet as $key => $value1) 
+			 		@foreach($listCommission as  $value1) 
 
-						@if(($key % 2) == 1 )
-						<tr style="background: #c5d9e6; padding-left:10px; padding-bottom:10px;">
-						@else
+						
 						<tr style="background: #edeffbe8; padding-left: 10px; padding-bottom:10px;">
-						@endif	
+						
 			            <td class="text-center">{{ $cont++ }}</td>
 			            <td>{{ $value1 }}</td>
-			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1->monto }}</strong></td>  
+			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1 }}</strong></td>  
 			            <td style="font-family: sans-serif;  font-size:100%;font-style: normal;"><strong>{{ $value1 }}</strong></td>  
 			            <td>{{ $value1 }}</td>
-			            <td class="text-left">{{ $value1->fecha_referencial }}</td>
+			            <td class="text-left">{{ $value1 }}</td>
 			        </tr>
 			   	 @endforeach
 			    </tbody>

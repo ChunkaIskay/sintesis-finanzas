@@ -70,7 +70,7 @@ class listCommerce extends Setup
 
         foreach($rs as $k => $rsValue){
            
-                $url = "http://199.14.10.107:8081/SIIApp-rest/comelec/reporte/cobro/comercio";
+                $url = "http://199.14.10.109:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
@@ -119,7 +119,7 @@ class listCommerce extends Setup
                   return "Error al intentar conectarse al servicio!. Comuniquese con su  administrador";
                 }
         }   
-
+print_r($listReportsCommerce);exit;
         $this->saveloadDataReport($listReportsCommerce);              
 
     }
