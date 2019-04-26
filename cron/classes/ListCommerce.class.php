@@ -94,6 +94,10 @@ class listCommerce extends Setup
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
+
+
+
+
                     $output = curl_exec($ch);
 
                     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -104,7 +108,8 @@ class listCommerce extends Setup
                     $output = json_decode($output, true);
 
                     if(!$output){
-                        echo "cURL Error #:00001";
+                        echo "outp:".$output;
+                        echo "cURL Error #:00001".$err;
                     }else{
 
                             $output += ["codigo_unico_empresa"=>$rsValue['codigo_unico_empresa'] , "razon_social"=>$rsValue['nombre'], "id_client"=>$rsValue['cli'], "fecha_referencial"=>$fechaDesde ];
