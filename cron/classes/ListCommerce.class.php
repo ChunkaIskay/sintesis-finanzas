@@ -70,8 +70,8 @@ class listCommerce extends Setup
 
         foreach($rs as $k => $rsValue){
             
-
-                $url = "http://199.14.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
+ 
+                $url = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
@@ -108,7 +108,7 @@ class listCommerce extends Setup
                     $output = json_decode($output, true);
 
                     if(!$output){
-                        echo "outp:".$output;
+                        //echo "outp:".$output;
                         echo "cURL Error #:00001".$err;
                     }else{
 
