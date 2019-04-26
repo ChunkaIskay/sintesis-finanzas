@@ -94,10 +94,6 @@ class listCommerce extends Setup
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-
-
-
-
                     $output = curl_exec($ch);
 
                     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -110,7 +106,7 @@ class listCommerce extends Setup
                     if(!$output){
                         //echo "outp:".$output;
                         echo "cURL Error #:00001".$err;
-                    }else{
+                    }else{ echo "iou:".$output."<br>";
 
                             $output += ["codigo_unico_empresa"=>$rsValue['codigo_unico_empresa'] , "razon_social"=>$rsValue['nombre'], "id_client"=>$rsValue['cli'], "fecha_referencial"=>$fechaDesde ];
                            
@@ -125,7 +121,7 @@ class listCommerce extends Setup
                   return "Error al intentar conectarse al servicio!. Comuniquese con su  administrador";
                 }
         }   
-print_r($listReportsCommerce); exit;
+
         $this->saveloadDataReport($listReportsCommerce);              
 
     }
