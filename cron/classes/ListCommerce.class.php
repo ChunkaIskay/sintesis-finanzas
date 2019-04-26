@@ -69,8 +69,9 @@ class listCommerce extends Setup
         $fechaHasta = str_replace("-", "", $dateTo);  
 
         foreach($rs as $k => $rsValue){
-           
-                $url = "http://199.14.10.109/SIIApp-rest/comelec/reporte/cobro/comercio";
+            
+
+                $url = "http://199.14.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
@@ -85,7 +86,7 @@ class listCommerce extends Setup
                
                 if($ch = curl_init($url))
                 {
-                    curl_setopt($ch, CURLOPT_PORT, '8081');
+                    curl_setopt($ch, CURLOPT_PORT, '9090');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
                     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
@@ -119,7 +120,7 @@ class listCommerce extends Setup
                   return "Error al intentar conectarse al servicio!. Comuniquese con su  administrador";
                 }
         }   
-
+print_r($listReportsCommerce); exit;
         $this->saveloadDataReport($listReportsCommerce);              
 
     }
