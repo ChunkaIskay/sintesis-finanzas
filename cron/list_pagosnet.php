@@ -19,8 +19,7 @@
 	
 	$calcularFecha = strtotime('-1 day',strtotime($fecha));
 	$fechaDesde = date('Y-m-d',$calcularFecha);
-	
 	$fechaHasta = date('Y-m-d',strtotime($fecha));
-	$obj->loadDataReport('2019-04-01','2019-04-25');
+	$obj->loadDataReport($fechaDesde, $fechaHasta);
 	//resto 1 mes
 	//date("m",strtotime($fecha."- 1 month"));
