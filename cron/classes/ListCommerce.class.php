@@ -57,7 +57,7 @@ class listCommerce extends Setup
     public function loadDataReport($dateFrom, $dateTo){
 
         $obj1 = new Setup();
-        $conectDB = $obj1->conectDataB(3);
+        $conectDB = $obj1->conectDataB(2);
         
         $sql = "SELECT * FROM pagos_net_client ORDER BY codigo_unico_empresa";
 
