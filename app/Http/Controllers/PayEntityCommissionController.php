@@ -17,10 +17,10 @@ class PayEntityCommissionController extends Controller
 		$query = "";
 		$dateFrom = "";
 		$dateTo = "";
-		$pagosNet = array();
+		$listCommission = array();
 
 
-		return view('commission_pay_entity.index')->with(compact('query','dateFrom','dateTo','pagosNet'));
+		return view('commission_pay_entity.index')->with(compact('query','dateFrom','dateTo','listCommission'));
 	}
 
 	public function search(Request $Request){
@@ -34,61 +34,61 @@ class PayEntityCommissionController extends Controller
 		
 		if(isset($dateFrom) && isset($dateTo))
 		{ 
-			array_push($listReports, $this->banco_bisa($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_credito_bolivia($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_economico($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_fassil($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_fie($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_fortaleza($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_ganadero($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_mercantil_santa_cruz($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_prodem($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_pyme_cominidad($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_pyme_ecofuturo($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_solidario($dateFrom,$dateTo));
-			array_push($listReports, $this->banco_union($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_abierta_madre_maestra($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_sarco_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_asuncion_ltda($dateFrom,$dateTo));
-			/*array_push($listReports, $this->cac_educadores_gran_chaco($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_chorolque_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_incahuasi_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_fatima_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_cooprole_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_san_carlos_borromeo($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_san_roque_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_ef_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cac_tri_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->cidre($dateFrom,$dateTo));
-			array_push($listReports, $this->comercializasdora_bolivia($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_a_c_magisterio_rural($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_comarapa_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_empetrol_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_hospicio_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_jesus_nazareno($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_la_cantera_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_la_sagrada_familia($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_mnsr_felix_ganza($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_paulo_VI_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_pio_x_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_progreso_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_quillacollo_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_joaquin_ltda($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_martin_porres($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_francisco_solano($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_la_merced($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_loyola($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_magisterio_tarija($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_bermejo($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_pedro($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_tukuypaj($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_cristo_rey($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_gra_grigota($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_mateo($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_san_pedro_aiquile($dateFrom,$dateTo));
-			array_push($listReports, $this->coop_crecer($dateFrom,$dateTo));
-			array_push($listReports, $this->diaconia_entidad_desarrollo($dateFrom,$dateTo));
-			array_push($listReports, $this->farmacorp_serviexpress($dateFrom,$dateTo));*/
+			$listReports=array_collapse([$listReports, $this->banco_bisa($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_credito_bolivia($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_economico($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_fassil($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_fie($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_fortaleza($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_ganadero($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_mercantil_santa_cruz($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_prodem($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_pyme_cominidad($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_pyme_ecofuturo($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_solidario($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->banco_union($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_abierta_madre_maestra($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_sarco_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_asuncion_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_educadores_gran_chaco($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_chorolque_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_incahuasi_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_fatima_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_cooprole_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_san_carlos_borromeo($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_san_roque_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_ef_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cac_tri_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->cidre($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->comercializasdora_bolivia($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_a_c_magisterio_rural($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_comarapa_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_empetrol_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_hospicio_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_jesus_nazareno($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_la_cantera_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_la_sagrada_familia($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_mnsr_felix_ganza($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_paulo_VI_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_pio_x_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_progreso_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_quillacollo_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_joaquin_ltda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_martin_porres($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_francisco_solano($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_la_merced($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_loyola($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_magisterio_tarija($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_bermejo($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_pedro($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_tukuypaj($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_cristo_rey($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_gra_grigota($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_mateo($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_san_pedro_aiquile($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->coop_crecer($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->diaconia_entidad_desarrollo($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->farmacorp_serviexpress($dateFrom,$dateTo)]);
 
 			$listCommission = collect($listReports);
 			//dd($listCommission);
@@ -113,19 +113,18 @@ class PayEntityCommissionController extends Controller
 								}
 							}
 							
-							if($this->searchStrpos($report['servicio'],$queryName)){
+							if($this->searchStrpos($report['servicio'],$queryDesc)){
 								if($this->existsCounter($arraySearch,$lKey) == false){
 									$arraySearch[$count]=$lKey;
 								    $count++;
 								}
 							}
-							if($this->searchStrpos($report['desc'],$queryName)){
+							if($this->searchStrpos($report['desc'],$queryDesc)){
 								if($this->existsCounter($arraySearch,$lKey) == false){
 									$arraySearch[$count]=$lKey;
 								    $count++;
 								}
 							}
-					
 					}
 
 					$countReport = count($listReports);
@@ -135,7 +134,6 @@ class PayEntityCommissionController extends Controller
 						$arrayDel[$i]=$i;		
 					}
 				
-				//	echo "<pre>"; print_r($arraySearch); echo"</pre>";
 				
 					foreach ($arrayDel as $c => $value) {
 						if(in_array($value,$arraySearch,true)){
@@ -155,6 +153,8 @@ class PayEntityCommissionController extends Controller
 					$listCommission = collect($listReport);
 			}
 		}
+
+
   //dd($listCommission);
   	return view('commission_pay_entity.index')->with(compact('listCommission','query','dateFrom','dateTo'));
 		
