@@ -4,7 +4,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, array(
   CURLOPT_PORT => "9090",
-  CURLOPT_URL => "http://199.14.10.109:9090/SIIApp-rest/comelec/reporte/cobro/comercio",
+  CURLOPT_URL => "http://199.14.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,
@@ -27,5 +27,5 @@ curl_close($curl);
 if ($err) {
   echo "cURL Error #:" . $err;
 } else {
-  echo $response;
+  echo $response;       
 }
