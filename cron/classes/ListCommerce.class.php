@@ -119,7 +119,7 @@ class listCommerce extends Setup
                   return "Error al intentar conectarse al servicio!. Comuniquese con su  administrador";
                 }
         }   
-print_r($listReportsCommerce);exit;
+
         $this->saveloadDataReport($listReportsCommerce);              
 
     }
