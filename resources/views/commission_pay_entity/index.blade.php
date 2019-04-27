@@ -9,7 +9,7 @@
             @endif
 	
 	<div class="row">
-		<h2> Listado de Comisiones clientes - servicios de Pagos Net</h2>
+		<h2> Listado de pago a Entidades </h2>
 			<div class="row">
 					<form action="{{ url('/search-pay-entity') }}"  method="post"  enctype="multipart/form-data" class="navbar-form navbar-left" >
 						 {{ csrf_field() }}
