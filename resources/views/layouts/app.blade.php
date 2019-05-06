@@ -78,7 +78,6 @@
                             <ul class="dropdown-menu">
                               <li><a href="{{ route('listTransantion') }}">Comisiones de clientes-Servicios</a></li>
                               <li><a href="{{ route('listCommissions') }}"> Historial Comisiones de clientes-Servicios</a></li>
-                              <li class="divider"></li>
                               <li><a href="{{ route('listPagosNet') }}"> Comisiones Pagos Net</a></li>
                               <li class="divider"></li>
                               <li><a href="{{ route('listPayEntity') }}"> Pago a entidades</a></li>
