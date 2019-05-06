@@ -82,6 +82,7 @@
                               <li><a href="{{ route('listPagosNet') }}"> Comisiones Pagos Net</a></li>
                               <li class="divider"></li>
                               <li><a href="{{ route('listPayEntity') }}"> Pago a entidades</a></li>
+                              <li><a href="{{ route('listPnetPay') }}"> Pago a entidades Pagos Net</a></li>
 
                             </ul>
                         </li>

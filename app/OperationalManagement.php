@@ -27,6 +27,4 @@ class OperationalManagement extends Model
     	return $this->hasMany('App\Contract', 'contract_id');
     }
 
-    
-
 }

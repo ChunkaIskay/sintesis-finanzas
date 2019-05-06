@@ -105,10 +105,10 @@ Route::get('/search-pay-entity', array('as' => 'searchPayEntity','middleware' =>
 
 Route::post('/search-pay-entity', array('as' => 'searchPayEntity','middleware' => 'auth',	'uses' => 'PayEntityCommissionController@search'));
 
-// pagos a pagosnet entidades   NOOOOOOO
+// pagos a pagosnet entidades   
 
-Route::get('/list-pay', array('as' => 'listPayEntity',	'middleware' => 'auth',	'uses' => 'PayEntityCommissionController@index'));
+Route::get('/list-pnet-pay', array('as' => 'listPnetPay',	'middleware' => 'auth',	'uses' => 'PayPnetEntityController@index'));
 
-Route::get('/search-pay-entity', array('as' => 'searchPayEntity','middleware' => 'auth',	'uses' => 'PayEntityCommissionController@search'));
+Route::get('/search-pay-pnet', array('as' => 'searchPnetPay','middleware' => 'auth',	'uses' => 'PayPnetEntityController@search'));
 
-Route::post('/search-pay-entity', array('as' => 'searchPayEntity','middleware' => 'auth',	'uses' => 'PayEntityCommissionController@search'));
+Route::post('/search-pay-pnet', array('as' => 'searchPnetPay','middleware' => 'auth',	'uses' => 'PayPnetEntityController@search'));
