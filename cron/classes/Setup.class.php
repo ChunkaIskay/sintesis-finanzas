@@ -46,15 +46,10 @@ class Setup {
                 $dataB = "Dataw";
 
             }elseif($ht == 2){
-                    $userDB = "root";
-                    $passwordDB = "";
-                    $serverDB = "localhost";
-                    $dataB = "finances";
-
-                    /*$userDB = "finanzas";
+                    $userDB = "finanzas";
                     $passwordDB = "chupete00";
                     $serverDB = "localhost";
-                    $dataB = "finances";*/
+                    $dataB = "finances";
             }
 
             $conectDB = mysqli_connect($serverDB,$userDB, $passwordDB, $dataB ) or die ("Error: No se es posible conectar a la db $ht, comuniquese con el administrador");
