@@ -41,7 +41,6 @@ class reportPagosNetController extends Controller
 					-> where('razon_social','like',"%$query%")->paginate(20);
 	
 		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
-	
 	}
 
 	public function testRESTFULL(){

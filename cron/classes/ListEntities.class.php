@@ -7,39 +7,43 @@ error_reporting(E_ERROR);
 require_once 'Setup.class.php';
 
 
-class ListCommerce extends Setup
+class ListEntities extends Setup
 {
 	
 	function __construct()
 	{
-		//$this->loadDataReport();
+
 	}
 
-	public function restComercios(){
+	public function restEntities(){
 
-	    $siaf = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/comercio";
-
+	    //$siaf = "http://199.14.10.109:9090/SIIApp-rest/comelec/entidades";
+	    // ip desarrollo
+	    $siaf = "http://199.14.10.107:8081/SIIApp-rest/comelec/entidades";
+	    
 		$siaf_json = file_get_contents($siaf);
 		$siaf_array = json_decode($siaf_json, true);
 
-        $this->loadData($siaf_array['empresas']);
+	    $this->loadData($siaf_array);
 
 	}
 	
 	private function loadData($rs1){
+		
         
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
         $query = "";
 
         foreach($rs1 as $rs => $data){
-            $query .= "INSERT INTO pagos_net_client(codigo_unico_empresa, nombre, reporte, total_cobrar)VALUES(
-                            ".$data['codigosUnicoEmpresa'].",
-                            '".$data['nombre']."',
-                            '".$data['reporte']."',
-                            ".$data['totalCobrar']."
-                           
-                        );";
+
+            $query .= "INSERT INTO pnet_entidades(cod_entidad, descripcion, tipo_entidad, estado)VALUES(
+                    ".$data['codEntidad'].",
+                    '".$data['descripcion']."',
+                    '".$data['tipoEntidad']."',
+                    '".$data['estado']."'
+                   
+                );";
         }
      
         $sendquery = mysqli_multi_query($conectDB,$query);
@@ -56,8 +60,8 @@ class ListCommerce extends Setup
 
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
-        
-        $sql = "SELECT * FROM pagos_net_client ORDER BY codigo_unico_empresa";
+
+        $sql = "SELECT * FROM pnet_entidades ORDER BY cod_entidad";
 
         $rs = $this->recordSet($conectDB,$sql);
         
@@ -67,15 +71,15 @@ class ListCommerce extends Setup
         $fechaHasta = str_replace("-", "", $dateTo);  
 
         foreach($rs as $k => $rsValue){
-           
-                $url = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio";
+                       
+                $url = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/pago/entidad";
                 
                 $fields = array(
                         "fechaDesde"=> $fechaDesde,
                         "fechaHasta"=> $fechaHasta,
-                        "codigoUnicoEmpresa"=> $rsValue['codigo_unico_empresa'],
-                        "tipoDeCambioDolar"=> 6.96);
-
+                        "codigoEntidad"=> $rsValue['cod_entidad'],
+                        "tipoDeCambioDolar"=> 6.96 );
+						
                 $header = array(
                     "cache-control: no-cache",
                     "content-type: application/json"
@@ -99,14 +103,17 @@ class ListCommerce extends Setup
                     curl_close($ch);
 
                     $output = json_decode($output, true);
-
+	
+	    
                     if(!$output){
                         //echo "outp:".$output;
                         echo "cURL Error #:00001".$err;
                     }else{ 
 
-                            $output += ["codigo_unico_empresa"=>$rsValue['codigo_unico_empresa'] , "razon_social"=>$rsValue['nombre'], "id_client"=>$rsValue['cli'], "fecha_referencial"=>$fechaDesde ];
-                           
+                            $output += ["codigo_entidad"=> $rsValue['cod_entidad'],
+                                        "descripcion"=>$rsValue['descripcion'],
+                                        "fecha_referencial"=>$fechaDesde ];
+                           // print_r($output);
                             array_push($listReportsCommerce, $output );
                            
                      }
@@ -128,24 +135,23 @@ class ListCommerce extends Setup
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
         $query = "";
-        
+
         foreach($rs2 as $krs => $dataR){
 
             $montoTotal = ($dataR['montoTotal'] != null)? $dataR['montoTotal']:0;
             $monto = ($dataR['monto'] != null)? $dataR['monto']:0;
             $cantidadTransacciones = ($dataR['cantidadTransacciones'] != null)? $dataR['cantidadTransacciones']:0;
       
-            $query .= "INSERT INTO pagos_net_client_import(codigo_unico_empresa, razon_social, monto_total_comision, monto, cantidad_transacciones, nombre_comercio, error, mensaje, id_client, fecha_referencial)VALUES(
-                            ".$dataR['codigo_unico_empresa'].",
-                            '".$dataR['razon_social']."',
+            $query .= "INSERT INTO pnet_entidades_import(codigo_entidad, razon_social, monto_total_comision, monto, cantidad_transacciones, error, mensaje, fecha_referencial,descripcion)VALUES(
+                            ".$dataR['codigo_entidad'].",
+                            '".$dataR['nombreEntidad']."',
                             ".$montoTotal.",
                             ".$monto.",
                             ".$cantidadTransacciones.",
-                            '".$dataR['nombreComercio']."',
                             '".$dataR['error']."',
                             '".$dataR['mensaje']."',
-                            ".$dataR['id_client'].",
-                            '".date('Y-m-d', strtotime($dataR['fecha_referencial']))."'
+                            '".date('Y-m-d', strtotime($dataR['fecha_referencial']))."',
+                            '".$dataR['descripcion']."'
                         );";
         }
  

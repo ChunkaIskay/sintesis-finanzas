@@ -97,7 +97,15 @@ Route::get('/search-pagosnet', array('as' => 'searchPagosnet','middleware' => 'a
 
 Route::post('/search-pagosnet', array('as' => 'searchList','middleware' => 'auth',	'uses' => 'reportPagosNetController@search'));
 
-// Trasaction import pagos a entidades
+//  pagos a entidades
+
+Route::get('/list-pay', array('as' => 'listPayEntity',	'middleware' => 'auth',	'uses' => 'PayEntityCommissionController@index'));
+
+Route::get('/search-pay-entity', array('as' => 'searchPayEntity','middleware' => 'auth',	'uses' => 'PayEntityCommissionController@search'));
+
+Route::post('/search-pay-entity', array('as' => 'searchPayEntity','middleware' => 'auth',	'uses' => 'PayEntityCommissionController@search'));
+
+// pagos a pagosnet entidades   NOOOOOOO
 
 Route::get('/list-pay', array('as' => 'listPayEntity',	'middleware' => 'auth',	'uses' => 'PayEntityCommissionController@index'));
 

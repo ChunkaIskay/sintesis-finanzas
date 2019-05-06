@@ -4,7 +4,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, array(
   CURLOPT_PORT => "9090",
-  CURLOPT_URL => "http://199.14.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio",
+  CURLOPT_URL => "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/cobro/comercio",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,
@@ -18,6 +18,8 @@ curl_setopt_array($curl, array(
     "postman-token: 1b08d707-6e7a-d1d2-6e9a-7c6690c73d62"
   ),
 ));
+
+
 
 $response = curl_exec($curl);
 $err = curl_error($curl);
