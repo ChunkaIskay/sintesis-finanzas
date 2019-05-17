@@ -34,10 +34,10 @@ class PayEntityCommissionController extends Controller
 		
 		if(isset($dateFrom) && isset($dateTo))
 		{ 
-			$listReports=array_collapse([$listReports, $this->banco_bisa($dateFrom,$dateTo)]);
-			$listReports=array_collapse([$listReports, $this->banco_credito_bolivia($dateFrom,$dateTo)]);
-			$listReports=array_collapse([$listReports, $this->banco_economico($dateFrom,$dateTo)]);
-			$listReports=array_collapse([$listReports, $this->banco_fassil($dateFrom,$dateTo)]);
+		  $listReports=array_collapse([$listReports, $this->banco_bisa($dateFrom,$dateTo)]);
+		  $listReports=array_collapse([$listReports, $this->banco_credito_bolivia($dateFrom,$dateTo)]);
+		  $listReports=array_collapse([$listReports, $this->banco_economico($dateFrom,$dateTo)]);
+		  $listReports=array_collapse([$listReports, $this->banco_fassil($dateFrom,$dateTo)]);
 			$listReports=array_collapse([$listReports, $this->banco_fie($dateFrom,$dateTo)]);
 			$listReports=array_collapse([$listReports, $this->banco_fortaleza($dateFrom,$dateTo)]);
 			$listReports=array_collapse([$listReports, $this->banco_ganadero($dateFrom,$dateTo)]);
@@ -89,6 +89,22 @@ class PayEntityCommissionController extends Controller
 			$listReports=array_collapse([$listReports, $this->coop_crecer($dateFrom,$dateTo)]);
 			$listReports=array_collapse([$listReports, $this->diaconia_entidad_desarrollo($dateFrom,$dateTo)]);
 			$listReports=array_collapse([$listReports, $this->farmacorp_serviexpress($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->fondeco($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->fubode($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->idepro($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->primera_ef_vivienda($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->mutual_progreso($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->mutual_promotora($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->pago_express($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->pro_mujer($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->pv_aned($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->san_francisco_asis($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->sembrar_sartawi($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->solucredit_silvestre($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->sudamericana($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->supermercado_tia($dateFrom,$dateTo)]);
+			$listReports=array_collapse([$listReports, $this->tigo_money($dateFrom,$dateTo)]);
+
 
 			$listCommission = collect($listReports);
 			//dd($listCommission);
@@ -194,7 +210,7 @@ class PayEntityCommissionController extends Controller
 		$totalPay1 = 0;
 		$listPay = array();
 		$arrayPut = array();
-
+		
 		foreach($arrayPrices as $kb => $valueb){
 				
 			$totalTransaction = DB::table('transaction_import')
@@ -231,7 +247,7 @@ class PayEntityCommissionController extends Controller
 								'tot'=>$totalTransaction[0]->tot, 
 								'total_billing'=>round($totalPay,2),
 								'created_at'=>$dateFrom,
-								'desc' => $valueb['desc']
+								'desc' =>$valueb['desc']
 							);
 
 
@@ -1896,7 +1912,7 @@ class PayEntityCommissionController extends Controller
 	}
 
 
-		private function farmacorp_serviexpress($dateFrom, $dateTo){
+	private function farmacorp_serviexpress($dateFrom, $dateTo){
 		//suma  alianza vida y alianza largo plazo
 		$arrayPrices = array(
 
@@ -1941,95 +1957,734 @@ class PayEntityCommissionController extends Controller
 		//suma  alianza vida y alianza largo plazo
 		$arrayPrices = array( 
 
-						0 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						0 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
 								   'unitCost' => 1.8, 'percent' => 0,
 								   'desc'=>'BONOS-JUANA AZURDUY'
 								),
-					
-
-						2 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE',
+						1 => array('entity'=>9040, 'desc_enti'=>'FONDECO',
 								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
-								   'unitCost' => 1.7, 'percent' => 0, 
+								   'unitCost' => 0, 'percent' => 0, 
 								   'desc'=>'ENROLAMIENTO BIOMETRICO'
 								),
-					
-
-						3 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						2 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 								  'cli' => 40, 'servicio' => 'KANTUTANI-KANTUTANI', 
 								  'unitCost' => 1.5, 'percent' => 0, 
 								  'desc'=>'GRUPO KANTUTANI'
 								),
-
-						11 => array('entity'=>7018, 'desc_enti'=>'CRECER IFD',
+						3 => array('entity'=>9040, 'desc_enti'=>'FONDECO',
 								   'cli' => 107 ,'servicio' => 'LA VITALICIA-LA VITALICIA', 
 								   'unitCost' => 2, 'percent' => 0, 
 								   'desc'=>'LA VITALICIA SEGUROS Y REASEGUROS'
 								),
-
-
-						4 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						4 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 								   'cli' => 76 ,'servicio' => 'TUPPERWARE-TUPPERWARE', 
 								   'unitCost' => 1, 'percent' => 0, 
 								   'desc'=>'JHALEA TUPPERWARE'
 								),
-
-
-						7 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						5 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 								   'cli' => 77 ,'servicio' => 'NALVIDA-NACIONAL SEGUROS', 
 								   'unitCost' => 2, 'percent' => 0, 
 								   'desc'=>'NACIONAL SEGUROS PATRIMONIALES Y FIANZAS'
 								),
-						8 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						6 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 							       'cli' => 77 ,'servicio' => 'NALVIDA-NACIONAL VIDA', 
 							       'unitCost' => 2, 'percent' => 0, 
 							       'desc'=>'NACIONAL VIDA SEGUROS DE PERSONAS'
 							   ),
-
-
-						9 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE',
+						7 => array('entity'=>9040, 'desc_enti'=>'FONDECO',
 									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
 									'unitCost' => 1, 'percent' => 0, 
 									'desc'=>'NATURA - ALTA ESTÉTICA'
 								),
-
-
-
-
-						10 =>array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE',
+						8 =>array('entity'=>9040, 'desc_enti'=>'FONDECO',
 									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
 									'unitCost' => 1.5, 'percent' => 0,
 									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
 								),
-						11 =>array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE',
+						9 =>array('entity'=>9040, 'desc_enti'=>'FONDECO',
 									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
 									'unitCost' => 2.2, 'percent' => 0, 
 									'desc'=>'RENTA DIGNIDAD PAGOS'
 								),
-						12 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						10 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
 									'unitCost' => 0.5, 'percent' => 0, 
 									'desc'=>'SEGIP CI'
 								),
-						13 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						11 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
 								   'unitCost' => 0.9, 'percent' => 0, 
 								   'desc'=>'SEGIP LICENCIA'
 								),
-						
-					
-						14 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						12 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
 									'unitCost' => 0, 'percent' => 1, 'desc'=>'TUVES TV'
 								),
-						15 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						13 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 									'cli' => 118 ,'servicio' => 'UNIVIDA-Recaudacion', 
 									'unitCost' => 0, 'percent' => 0.75, 
 									'desc'=>'UNIVIDA'
 								),
-						16 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+						14 => array('entity'=>9040, 'desc_enti'=>'FONDECO', 
 									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
 									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function fubode($dateFrom, $dateTo){
+		//suma  alianza vida y alianza largo plazo
+		$arrayPrices = array( 
+
+						0 => array('entity'=>223, 'desc_enti'=>'FUBODE', 
+								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
+								   'unitCost' => 1.8, 'percent' => 0,
+								   'desc'=>'BONOS-JUANA AZURDUY'
+								),
+						1 => array('entity'=>223, 'desc_enti'=>'FUBODE',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 1.2, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						2 => array('entity'=>223, 'desc_enti'=>'FUBODE',
+									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'NATURA - ALTA ESTÉTICA'
+								),
+						3 =>array('entity'=>223, 'desc_enti'=>'FUBODE',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						4 =>array('entity'=>223, 'desc_enti'=>'FUBODE',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						5 => array('entity'=>223, 'desc_enti'=>'FUBODE', 
+									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
+									'unitCost' => 0.5, 'percent' => 0, 
+									'desc'=>'SEGIP CI'
+								),
+						6 => array('entity'=>223, 'desc_enti'=>'FUBODE', 
+								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
+								   'unitCost' => 0.9, 'percent' => 0, 
+								   'desc'=>'SEGIP LICENCIA'
+								),
+						7 => array('entity'=>9065, 'desc_enti'=>'DIACONIA-ENTIDAD FINANCIERA DE', 
+									'cli' => 95 ,'servicio' => 'SEMAPA-SEMAPA', 
+									'unitCost' => 0, 'percent' => 0.35, 
+									'desc'=>'SEMAPA'
+								),
+						8 => array('entity'=>223, 'desc_enti'=>'FUBODE', 
+									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
+									'unitCost' => 0, 'percent' => 1, 'desc'=>'TUVES TV'
+								),
+						9 => array('entity'=>223, 'desc_enti'=>'FUBODE', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function idepro($dateFrom, $dateTo){
+		//suma  alianza vida y alianza largo plazo
+		$arrayPrices = array( 
+
+						0 => array('entity'=>9072, 'desc_enti'=>'IDEPRO', 
+								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
+								   'unitCost' => 1.8, 'percent' => 0,
+								   'desc'=>'BONOS-JUANA AZURDUY'
+								),
+						1 => array('entity'=>9072, 'desc_enti'=>'IDEPRO',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 2, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						2 => array('entity'=>9072, 'desc_enti'=>'IDEPRO', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								),
+						3 =>array('entity'=>9072, 'desc_enti'=>'IDEPRO',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						4 =>array('entity'=>9072, 'desc_enti'=>'IDEPRO',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						5 => array('entity'=>9072, 'desc_enti'=>'IDEPRO', 
+									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
+									'unitCost' => 0.5, 'percent' => 0, 
+									'desc'=>'SEGIP CI'
+								),
+						6 => array('entity'=>9072, 'desc_enti'=>'IDEPRO', 
+								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
+								   'unitCost' => 0.9, 'percent' => 0, 
+								   'desc'=>'SEGIP LICENCIA'
+								),
+						7 => array('entity'=>9072, 'desc_enti'=>'IDEPRO', 
+									'cli' => 118 ,'servicio' => 'UNIVIDA-Recaudacion', 
+									'unitCost' => 0, 'percent' => 0.75, 
+									'desc'=>'UNIVIDA'
+								)
+						
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function primera_ef_vivienda($dateFrom, $dateTo){
+		//suma  alianza vida y alianza largo plazo
+		$arrayPrices = array(
+						0 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+								   'cli' => 93 ,'servicio' => 'BOLIVIATEL-BOLIVIATEL', 
+								   'unitCost' => 1, 'percent' => 0, 
+								   'desc'=>'BOLIVIATEL COMTECO'
+								),
+						1 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.8, 
+								   'desc'=>'EPSAS'
+								), 
+						2 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+								  'cli' => 40, 'servicio' => 'KANTUTANI-KANTUTANI', 
+								  'unitCost' => 1.5, 'percent' => 0, 
+								  'desc'=>'GRUPO KANTUTANI'
+								),
+						3 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+								   'cli' => 44 ,'servicio' => 'LBC-COBROS', 
+								   'unitCost' => 2, 'percent' => 0, 
+								   'desc'=>'LA BOLIVIANA CIACRUZ-COBROS'
+								),
+						4 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+								   'cli' => 107 ,'servicio' => 'LA VITALICIA-LA VITALICIA', 
+								   'unitCost' => 2.2, 'percent' => 0, 
+								   'desc'=>'LA VITALICIA SEGUROS Y REASEGUROS'
+								),
+						5 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'NATURA - ALTA ESTÉTICA'
+								),
+						6 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						7 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						10 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+									'cli' => 95 ,'servicio' => 'SEMAPA-SEMAPA', 
+									'unitCost' => 0, 'percent' => 0.38, 
+									'desc'=>'SEMAPA'
+								),
+						8 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+						 		   'cli' => 21 ,'servicio' => 'FUTURO-FUTURO', 
+						 		   'unitCost' => 2, 'percent' => 0, 
+						 		   'desc'=>'SSO FUTURO'
+						 		),
+						9 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA',
+			 					   'cli' => 4 ,'servicio' => 'PREVISION-PREVISION', 
+			 					   'unitCost' => 2, 'percent' => 0, 
+			 					   'desc'=>'SSO PREVISION'
+			 					),
+						10 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
+									'unitCost' => 0, 'percent' => 1, 
+									'desc'=>'TUVES TV'
+								),
+						11 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+							        'cli' => 58 ,'servicio' => 'UMSA-UMSA', 
+							        'unitCost' => 1, 'percent' => 0, 
+							        'desc'=>'UNIVERSIDAD MAYOR DE SAN ANDRES'
+							    ),
+						12 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+									'cli' => 118 ,'servicio' => 'UNIVIDA-Recaudacion', 
+									'unitCost' => 0, 'percent' => 0.75, 
+									'desc'=>'UNIVIDA'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function mutual_progreso($dateFrom, $dateTo){
+	
+		$arrayPrices = array( 
+						
+						0 => array('entity'=>4010, 'desc_enti'=>'MUTUAL EL PROGRESO',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 2, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						1 => array('entity'=>4010, 'desc_enti'=>'MUTUAL EL PROGRESO',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						2 => array('entity'=>4010, 'desc_enti'=>'MUTUAL EL PROGRESO',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function mutual_promotora($dateFrom, $dateTo){
+		
+		$arrayPrices = array(
+						
+						0 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+								  'cli' => 40, 'servicio' => 'KANTUTANI-KANTUTANI', 
+								  'unitCost' => 1.5, 'percent' => 0, 
+								  'desc'=>'GRUPO KANTUTANI'
+								),
+						1 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+									'cli' => 76 ,'servicio' => 'TUPPERWARE-TUPPERWARE', 
+									'unitCost' => 0, 'percent' => 0, 
+									'desc'=>'JHALEA TUPPERWARE'
+								),
+						2 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						3 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						4 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
+									'unitCost' => 0.5, 'percent' => 0, 
+									'desc'=>'SEGIP CI'
+								),
+						5 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
+								   'unitCost' => 0.9, 'percent' => 0, 
+								   'desc'=>'SEGIP LICENCIA'
+								),
+						6 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+									'cli' => 95 ,'servicio' => 'SEMAPA-SEMAPA', 
+									'unitCost' => 0, 'percent' => 0.38, 
+									'desc'=>'SEMAPA'
+								),
+						7 => array('entity'=>2004, 'desc_enti'=>'MUTUAL LA PROMOTORA', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function pago_express($dateFrom, $dateTo){
+		
+		$arrayPrices = array(
+						
+						0 => array('entity'=>88, 'desc_enti'=>'LA PRIMERA E.F. DE VIVIENDA', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function pro_mujer($dateFrom, $dateTo){
+		
+		$arrayPrices = array( 
+
+						0 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
+								   'unitCost' => 1.8, 'percent' => 0,
+								   'desc'=>'BONOS-JUANA AZURDUY'
+								),
+						1 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								),
+						2 =>array('entity'=>9038, 'desc_enti'=>'PRO-MUJER',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						3 =>array('entity'=>9038, 'desc_enti'=>'PRO-MUJER',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						4 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
+									'unitCost' => 0.5, 'percent' => 0, 
+									'desc'=>'SEGIP CI'
+								),
+						5 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
+								   'unitCost' => 0.9, 'percent' => 0, 
+								   'desc'=>'SEGIP LICENCIA'
+								),
+						6 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+									'cli' => 95 ,'servicio' => 'SEMAPA-SEMAPA', 
+									'unitCost' => 0, 'percent' => 0.35, 
+									'desc'=>'SEMAPA'
+								),
+						7 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+									'cli' => 48 ,'servicio' => 'TRANSBEL-TRANSBEL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'TRANSBEL'
+								),
+						8 => array('entity'=>9038, 'desc_enti'=>'PRO-MUJER', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+	
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function pv_aned($dateFrom, $dateTo){
+	
+		$arrayPrices = array( 
+						
+						0 => array('entity'=>5009, 'desc_enti'=>'PV ANED',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 2, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						1 => array('entity'=>5009, 'desc_enti'=>'PV ANED',
+									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'NATURA - ALTA ESTÉTICA'
+								),
+						2 => array('entity'=>5009, 'desc_enti'=>'PV ANED',
+						 		   'cli' => 21 ,'servicio' => 'FUTURO-FUTURO', 
+						 		   'unitCost' => 2, 'percent' => 0, 
+						 		   'desc'=>'SSO FUTURO'
+						 		),
+						3 => array('entity'=>5009, 'desc_enti'=>'PV ANED',
+			 					   'cli' => 4 ,'servicio' => 'PREVISION-PREVISION', 
+			 					   'unitCost' => 2, 'percent' => 0, 
+			 					   'desc'=>'SSO PREVISION'
+			 					),
+						4 => array('entity'=>5009, 'desc_enti'=>'PV ANED', 
+									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
+									'unitCost' => 0, 'percent' => 1, 
+									'desc'=>'TUVES TV'
+								),
+						5 => array('entity'=>5009, 'desc_enti'=>'PV ANED', 
+							        'cli' => 58 ,'servicio' => 'UMSA-UMSA', 
+							        'unitCost' => 0.8, 'percent' => 0, 
+							        'desc'=>'UNIVERSIDAD MAYOR DE SAN ANDRES'
+							    ),
+						6 => array('entity'=>5009, 'desc_enti'=>'PV ANED', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function san_francisco_asis($dateFrom, $dateTo){
+	
+		$arrayPrices = array( 
+						
+						0 => array('entity'=>9043, 'desc_enti'=>'SAN FRANCISCO DE ASIS', 
+								   'cli' => 88 ,'servicio' => 'BDP-BDP',
+								   'unitCost' => 2, 'percent' => 0, 
+								   'desc'=>'BANCO DE DESARROLLO PRODUCTIVO'
+								),
+						1 => array('entity'=>9043, 'desc_enti'=>'SAN FRANCISCO DE ASIS',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						2 => array('entity'=>9043, 'desc_enti'=>'SAN FRANCISCO DE ASIS',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function sembrar_sartawi($dateFrom, $dateTo){
+		
+		$arrayPrices = array( 
+
+						0 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
+								   'unitCost' => 1.8, 'percent' => 0,
+								   'desc'=>'BONOS-JUANA AZURDUY'
+								),
+						1 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+								   'cli' => 78 ,'servicio' => 'BBR', 
+								   'unitCost' => 1.5, 'percent' => 0, 
+								   'desc'=>'BOLIVIANA BIENES RAICES'
+								),
+						2 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 1.2, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						3 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+								   'cli' => 76 ,'servicio' => 'TUPPERWARE-TUPPERWARE', 
+								   'unitCost' => 1, 'percent' => 0, 
+								   'desc'=>'JHALEA TUPPERWARE'
+								),
+						4 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI',
+									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'NATURA - ALTA ESTÉTICA'
+								),
+						5 =>array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						6 =>array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						7 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+									'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 CI', 
+									'unitCost' => 0.5, 'percent' => 0, 
+									'desc'=>'SEGIP CI'
+								),
+						8 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+								   'cli' => 108 ,'servicio' => 'SEGIP2-SEGIP2 LICENCIA', 
+								   'unitCost' => 0.9, 'percent' => 0, 
+								   'desc'=>'SEGIP LICENCIA'
+								),
+						9 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+									'cli' => 95 ,'servicio' => 'SEMAPA-SEMAPA', 
+									'unitCost' => 0, 'percent' => 0.35, 
+									'desc'=>'SEMAPA'
+								),
+						10 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
+									'unitCost' => 0, 'percent' => 1, 'desc'=>'TUVES TV'
+								),
+						11 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+									'cli' => 118 ,'servicio' => 'UNIVIDA-Recaudacion', 
+									'unitCost' => 0, 'percent' => 0.75, 
+									'desc'=>'UNIVIDA'
+								),
+						12 => array('entity'=>9001, 'desc_enti'=>'SEMBRAR SARTAWI', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function solucredit_silvestre($dateFrom, $dateTo){
+		
+		$arrayPrices = array( 
+
+						0 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA', 
+								   'cli' => 50 ,'servicio' => 'BONOS-JUANA AZURDUY', 
+								   'unitCost' => 1.8, 'percent' => 0,
+								   'desc'=>'BONOS-JUANA AZURDUY'
+								),
+						1 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA', 
+								   'cli' => 78 ,'servicio' => 'BBR', 
+								   'unitCost' => 1.5, 'percent' => 0, 
+								   'desc'=>'BOLIVIANA BIENES RAICES'
+								),
+						2 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								),
+						3 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA',
+								   'cli' => 0 ,'servicio' => 'ENROLAMIENTO BIOMETRICO', 
+								   'unitCost' => 0, 'percent' => 0, 
+								   'desc'=>'ENROLAMIENTO BIOMETRICO'
+								),
+						4 =>array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-ACTUALIZACIONES',
+									'unitCost' => 1.5, 'percent' => 0,
+									'desc'=>'ACTUALIZACIONES - RENTA DIGNIDAD'
+								),
+						5 =>array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA',
+									'cli' => 29 ,'servicio' => 'RENTA DIGNIDAD-PAGOS',
+									'unitCost' => 2.2, 'percent' => 0, 
+									'desc'=>'RENTA DIGNIDAD PAGOS'
+								),
+						6 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA',
+						 		   'cli' => 21 ,'servicio' => 'FUTURO-FUTURO', 
+						 		   'unitCost' => 2, 'percent' => 0, 
+						 		   'desc'=>'SSO FUTURO'
+						 		),
+						7 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA',
+			 					   'cli' => 4 ,'servicio' => 'PREVISION-PREVISION', 
+			 					   'unitCost' => 2, 'percent' => 0, 
+			 					   'desc'=>'SSO PREVISION'
+			 					),
+						8 => array('entity'=>4500, 'desc_enti'=>'SOLUCREDIT SAN SILVESTRE LTDA', 
+									'cli' => 58 ,'servicio' => 'UMSA-UMSA', 
+									'unitCost' => 0.8, 'percent' => 0, 
+									'desc'=>'UNIVERSIDAD MAYOR DE SAN ANDRES'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+	private function sudamericana($dateFrom, $dateTo){
+		
+		$arrayPrices = array(
+
+						0=> array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+								  'cli' => 84 ,'servicio' => 'ALIANZA-ALIANZA SEGUROS', 
+								  'unitCost' => 1.8, 'percent' => 0, 
+								  'desc'=>'ALIANZA SEGUROS'
+								),
+						1 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+							       'cli' => 84 ,'servicio' => 'ALIANZA-ALIANZA VIDA', 
+							       'unitCost' => 1.8, 'percent' => 0, 
+							       'desc'=>'ALIANZA VIDA'
+							    ),
+						2 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL',
+							       'cli' => 84 ,'servicio' => 'ALIANZA-ALIANZA VIDA LARGO PLAZO', 
+							       'unitCost' => 1.8, 'percent' => 0, 
+							       'desc'=>'ALIANZA VIDA - LARGO PLAZO'
+							    ),
+						3 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+								  'cli' => 84 ,'servicio' =>'ALIANZA-ALIANZA SEGUROS', 
+								  'unitCost' => 1.9, 'percent' => 0, 
+								  'desc'=>'ALIANZA SEGUROS'
+								),
+						4 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+									'cli' => 104 ,'servicio' => 'CREDINFORM-CREDINFORM', 
+									'unitCost' => 2, 'percent' => 0, 
+									'desc'=>'CREDINFORM'
+								),
+						5 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+									'cli' => 77 ,'servicio' => 'NALVIDA-NACIONAL SEGUROS', 
+									'unitCost' => 2, 'percent' => 0, 
+									'desc'=>'NACIONAL SEGUROS PATRIMONIALES Y FIANZAS'
+								),
+						6 => array('entity'=>8101, 'desc_enti'=>'SUDAMERICANA SRL', 
+									'cli' => 77 ,'servicio' => 'NALVIDA-NACIONAL VIDA', 
+									'unitCost' => 2, 'percent' => 0, 
+									'desc'=>'NACIONAL VIDA SEGUROS DE PERSONAS'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function supermercado_tia($dateFrom, $dateTo){
+		
+		$arrayPrices = array(
+
+						0 => array('entity'=>740, 'desc_enti'=>'SUPERMERCADO TIA', 
+								   'cli' => 67 ,'servicio' => 'MEGADEALERS-MEGADEALERS VIVA', 
+								   'unitCost' => 0, 'percent' => 3.5, 
+								   'desc'=>'MEGADEALERS - MEGADEALERS VIVA'
+								),
+						1 => array('entity'=>740, 'desc_enti'=>'SUPERMERCADO TIA', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'YANBAL'
+								)
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function tigo_money($dateFrom, $dateTo){
+		
+		$arrayPrices = array(
+
+						0 => array('entity'=>303, 'desc_enti'=>'TIGO MONEY', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								),
+
+			);
+
+		return $this->calculationCommissions($dateFrom, $dateTo, $arrayPrices);
+	}
+
+
+	private function vlink($dateFrom, $dateTo){
+		
+		$arrayPrices = array( 
+
+						0 => array('entity'=>000, 'desc_enti'=>'vlink', 
+								   'cli' => 48 ,'servicio' => 'EPSAS-EPSAS', 
+								   'unitCost' => 0, 'percent' => 0.75, 
+								   'desc'=>'EPSAS'
+								),
+						1 => array('entity'=>000, 'desc_enti'=>'vlink', 
+								  'cli' => 40, 'servicio' => 'KANTUTANI-KANTUTANI', 
+								  'unitCost' => 1.5, 'percent' => 0, 
+								  'desc'=>'GRUPO KANTUTANI'
+								),
+						
+						2 => array('entity'=>000, 'desc_enti'=>'vlink',
+									'cli' => 72 ,'servicio' => 'NATURA-NATURA', 
+									'unitCost' => 0, 'percent' => 0, 
+									'desc'=>'NATURA - ALTA ESTÉTICA'
+								),
+						3 => array('entity'=>000, 'desc_enti'=>'vlink', 
+									'cli' => 48 ,'servicio' => 'TRANSBEL-TRANSBEL', 
+									'unitCost' => 0, 'percent' => 0, 
+									'desc'=>'TRANSBEL'
+								),
+						4 => array('entity'=>000, 'desc_enti'=>'vlink', 
+									'cli' => 70 ,'servicio' => 'TUVES-TUVES', 
+									'unitCost' => 0, 'percent' => 1, 'desc'=>'TUVES TV'
+								),
+						5 => array('entity'=>000, 'desc_enti'=>'vlink', 
+									'cli' => 59 ,'servicio' => 'UAGRM-UAGRM', 
+									'unitCost' => 1, 'percent' => 0, 
+									'desc'=>'UNIVERSIDAD AUTÓNOMA GABRIEL RENE MORENO'
+								),
+						6 => array('entity'=>000, 'desc_enti'=>'vlink', 
+									'cli' => 118 ,'servicio' => 'UNIVIDA-Recaudacion', 
+									'unitCost' => 0, 'percent' => 1.2, 
+									'desc'=>'UNIVIDA'
+								),
+						7 => array('entity'=>000, 'desc_enti'=>'vlink', 
+									'cli' => 66 ,'servicio' => 'YANBAL-YANBAL', 
+									'unitCost' => 2, 'percent' => 0, 
 									'desc'=>'YANBAL'
 								)
 
@@ -2041,5 +2696,3 @@ class PayEntityCommissionController extends Controller
 
 
 }
-
-

@@ -36,39 +36,52 @@ class TransactionImportController extends Controller
 		
 		if(isset($dateFrom) && isset($dateTo))
 		{ 
-			array_push($listReports, $this->jhalea($dateFrom,$dateTo));
-			array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
-			array_push($listReports, $this->tierra($dateFrom,$dateTo));
-			array_push($listReports, $this->credicasas($dateFrom,$dateTo));
-			array_push($listReports, $this->cmp($dateFrom,$dateTo));
+			array_push($listReports, $this->actualizacion($dateFrom,$dateTo));
+			array_push($listReports, $this->alianza_vida($dateFrom,$dateTo));
+			array_push($listReports, $this->alianza_seguros($dateFrom,$dateTo));
 			array_push($listReports, $this->axs($dateFrom,$dateTo));
-			array_push($listReports, $this->misiones($dateFrom,$dateTo));
-			array_push($listReports, $this->kantutani($dateFrom,$dateTo));
-			array_push($listReports, $this->prever($dateFrom,$dateTo));
 			array_push($listReports, $this->bbr($dateFrom,$dateTo));
 			array_push($listReports, $this->bbr_renacer($dateFrom,$dateTo));
-			array_push($listReports, $this->digital($dateFrom,$dateTo));
-			array_push($listReports, $this->men_park($dateFrom,$dateTo));
-		    array_push($listReports, $this->nvida($dateFrom,$dateTo));
-			array_push($listReports, $this->nseguro($dateFrom,$dateTo));
-	        array_push($listReports, $this->bisa($dateFrom,$dateTo));
+			array_push($listReports, $this->bdp($dateFrom,$dateTo));
+			array_push($listReports, $this->bja($dateFrom,$dateTo));
+			array_push($listReports, $this->bisa($dateFrom,$dateTo));
 			array_push($listReports, $this->bisa_recaudaciones($dateFrom,$dateTo));
-	        array_push($listReports, $this->egpp($dateFrom,$dateTo));
-	        array_push($listReports, $this->bdp($dateFrom,$dateTo));
-			array_push($listReports, $this->la_vitalicia($dateFrom,$dateTo));
-			array_push($listReports, $this->alianza_vida($dateFrom,$dateTo));
 			array_push($listReports, $this->boliviatel($dateFrom,$dateTo));
-		    array_push($listReports, $this->cessa($dateFrom,$dateTo));
-			array_push($listReports, $this->actualizacion($dateFrom,$dateTo));
+			array_push($listReports, $this->digital($dateFrom,$dateTo));
+			array_push($listReports, $this->cessa($dateFrom,$dateTo));
+			array_push($listReports, $this->cmp($dateFrom,$dateTo));
+			array_push($listReports, $this->credicasas($dateFrom,$dateTo));
+			array_push($listReports, $this->credinform($dateFrom,$dateTo));
+			array_push($listReports, $this->egpp($dateFrom,$dateTo));
+			array_push($listReports, $this->epsas($dateFrom,$dateTo));
+			array_push($listReports, $this->fortaleza($dateFrom,$dateTo));
+			array_push($listReports, $this->futuro($dateFrom,$dateTo));
 			array_push($listReports, $this->gamch($dateFrom,$dateTo));
-			array_push($listReports, $this->uagrm($dateFrom,$dateTo));
+			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
+			array_push($listReports, $this->jhalea($dateFrom,$dateTo));
+			array_push($listReports, $this->kantutani($dateFrom,$dateTo));
+			array_push($listReports, $this->la_vitalicia($dateFrom,$dateTo));
+			array_push($listReports, $this->magadealter_viva($dateFrom,$dateTo));
+			array_push($listReports, $this->men_park($dateFrom,$dateTo));
+			array_push($listReports, $this->mi_rancho($dateFrom,$dateTo));
+			array_push($listReports, $this->misiones($dateFrom,$dateTo));
+			array_push($listReports, $this->nvida($dateFrom,$dateTo));
+			array_push($listReports, $this->nseguro($dateFrom,$dateTo));
 			array_push($listReports, $this->semapa($dateFrom,$dateTo));
 			array_push($listReports, $this->setar($dateFrom,$dateTo));
-			array_push($listReports, $this->bja($dateFrom,$dateTo));
-			array_push($listReports, $this->itacamba($dateFrom,$dateTo));
+			array_push($listReports, $this->segip($dateFrom,$dateTo));
+			array_push($listReports, $this->prever($dateFrom,$dateTo));
+			array_push($listReports, $this->prevision($dateFrom,$dateTo));
+			array_push($listReports, $this->tierra($dateFrom,$dateTo));
+			array_push($listReports, $this->transbel($dateFrom,$dateTo));
+			array_push($listReports, $this->uagrm($dateFrom,$dateTo));
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
-			array_push($listReports, $this->magadealter_viva($dateFrom,$dateTo));
-			array_push($listReports, $this->epsas($dateFrom,$dateTo));
+			
+			
+
+			
+
+			
 
 			$listCommission = collect($listReports);
 		 	
@@ -561,7 +574,8 @@ class TransactionImportController extends Controller
 		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-LAS MISIONES BS%')) 
 		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
 
-		if(count($totalBilling1[0]->billT) ==0)
+	
+		if(is_null($totalBilling1[0]->billT))
 			$totalBilling1[0]->billT=0;
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
@@ -638,7 +652,7 @@ class TransactionImportController extends Controller
 					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
 					) billingT"));
 
-		if(count($totalBilling1[0]->billT) ==0)
+		if(is_null($totalBilling1[0]->billT))
 			$totalBilling1[0]->billT=0;
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
@@ -715,7 +729,7 @@ class TransactionImportController extends Controller
 					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
 					) billingT"));
 
-		if(count($totalBilling1[0]->billT) ==0)
+		if(is_null($totalBilling1[0]->billT))
 			$totalBilling1[0]->billT=0;
 
     	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
@@ -1746,11 +1760,10 @@ class TransactionImportController extends Controller
 	**   
 	**
 	**/
-
 	public function gamch($dateFrom, $dateTo){
 
 		$arrayPrices = array(
-				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.82 )
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.82 )
 			);
 
 		$totalBilling = 0;
@@ -1830,7 +1843,7 @@ class TransactionImportController extends Controller
 	public function semapa($dateFrom, $dateTo){
 
 		$arrayPrices = array(
-				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost '=>0, 'percent'=>0.90 )
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0.90 )
 			);
 
 		$totalBilling = 0;
@@ -2121,6 +2134,506 @@ class TransactionImportController extends Controller
 	    $totalBilling = $arrayPrices[0]['percent'] * $totalCollected;
 			  
 	    return array('name'=>'Epsas', 'description'=>'EPSAS-EPSAS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+
+
+	/**
+	** La retribución y forma de pago
+	** l. La retribuciòn de los servicios, considerarà los siguiente:
+		Monto minimo
+	**    transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
+	**    De 1 a 5000                    bs. 10,000
+	**    5001 en adelante                                    bs. 1.59
+	**    
+	**    Transaciones minimas    de  5000/ 3  = 1667                  
+	**    Se saca el 3% 
+	**    como son un grupo de tres empresa, el precio fijo se divide en tres.. 10,000 / 3 y 
+	**/
+
+	public function transbel($dateFrom, $dateTo){
+
+		$totalBilling = 0;
+    	$totalBillingBPE = 0;
+    	$totalBillingCAB = 0;
+    	$totalBillingCML = 0;
+    	$totalBillingCI = 0; 
+    	$totalBillingPM = 0;
+    	$totalBillingDEFD = 0; 
+
+		$arrayPrices = array(
+						0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1, 'minimumTransactions' => 0, 'unitCostMin'=>0 )
+						);
+
+		$arrayPricesMP = array(
+						0 => array('from' => 0 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>1.10, 'minimumTransactions' => 0, 'unitCostMin'=>0 ),
+						1 => array('from' => 0 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>1, 'minimumTransactions' => 0, 'unitCostMin'=>0 ),
+						2 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.9, 'minimumTransactions' => 0, 'unitCostMin'=>0, 'additional'=>'si' )
+						);
+
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	    // suma de todas las entides con MP
+	    $totalTransactionMP = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('desc_enti', 'like', "MP%")
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+		// Total transaccion Banco Pyme ecofuturo
+	    $totalTransactionBPE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',5006)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    // Comercializadora action Bolivia
+	    $totalTransactionCAB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',8940)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	    
+	    //Coop la merced LTDA
+		$totalTransactionCML = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',42)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    // CRECER IFD
+	    $totalTransactionCI = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',7018)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    // Diacona entidad financiera de desarrollo
+	    $totalTransactionDEFD = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',9065)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    //Pro mujer
+	    $totalTransactionPM = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->where('enti','=',9038)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
+	    ->where('cli','=',60)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+    	$totalBilling = $totalTransaction * 1;
+    	$totalBillingBPE = $totalTransactionBPE * 1;
+    	$totalBillingCAB = $totalTransactionCAB * 1;
+    	$totalBillingCML = $totalTransactionCML * 1;
+    	$totalBillingCI = $totalTransactionCI * 1; 
+    	$totalBillingDEFD = $totalTransactionDEFD * 1;
+    	$totalBillingPM = $totalTransactionPM * 1;
+
+		$totalBillingAll =  $totalBillingBPE + $totalBillingCAB + $totalBillingCML+ $totalBillingCI + $totalBillingPM + $totalBillingDEFD ;
+
+
+    	$totalBillingMP = 0;
+    	$billingMP1   = 0;
+    	$billingMP2 = 0;
+
+	   if ($totalTransactionMP <= $arrayPricesMP[0]['until']){
+
+	     	 $totalBillingMP = $totalTransactionMP * $arrayPricesMP[0]['unitCost'];
+	    }else{
+	    		$totalBillingMP = $arrayPricesMP[0]['until'] * $arrayPricesMP[0]['unitCost'];
+
+	    		$billingMP =  $totalTransactionMP - $arrayPricesMP[0]['until'];
+
+	    		if($billingMP <= $arrayPricesMP[1]['until']){
+	    			$billingMP1 =  $billingMP * $arrayPricesMP[1]['unitCost'];
+	    		}else{
+	    				$billingMP1 = $arrayPricesMP[1]['until'] * $arrayPricesMP[1]['unitCost'];
+	    				
+	    				$billingMP = $billingMP - $arrayPricesMP[1]['until'];
+
+	    				$billingMP2 = $billingMP * $arrayPricesMP[2]['unitCost'];
+
+	    		}
+	    }
+
+	    $totalBillingPMAll = $totalBillingMP + $billingMP1 + $billingMP2;
+		$total = $totalBilling + $totalBillingAll + $totalBillingPMAll;
+
+	    return array('name'=>'Transbel', 'description'=>'TRANSBEL-TRANSBEL','total_transaction' => $totalTransaction, 'total_billing'=> round($total,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**   Precio unitario 4.1
+	**   
+	**
+	**/
+
+	public function alianza_seguros($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.1, 'percent'=>0 )
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ALIANZA-ALIANZA SEGUROS%")
+	    ->where('cli','=',84)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		$firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%ALIANZA-ALIANZA SEGUROS%")
+	    ->where('cli','=',84)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+
+	    $totalBilling = $arrayPrices[0]['unitCost'] * $totalTransaction;
+	  
+	    return array('name'=>'Alianza seguros', 'description'=>'ALIANZA-ALIANZA SEGUROS','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**   precio unitario sintesis y entidades recaudadoras.
+	**   
+	**/
+
+	public function segip($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0, 'sintesisCI'=>0.35, 'eerrCI'=>0.50, 'sumaCI'=>0.85 ),
+				1 => array('from' => 0,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0, 'percent'=>0, 'sintesisLIC'=>0.92, 'eerrLIC'=>0.90, 'sumaLIC'=>1.82 )
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransactionCI = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%SEGIP2-SEGIP2 CI%")
+	    ->where('cli','=',108)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $totalTransactionLIC = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%SEGIP2-SEGIP2 LICENCIA%")
+	    ->where('cli','=',108)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBU_CI = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%SEGIP2-SEGIP2 CI%")
+	    ->where('cli','=',108)
+	    ->where('enti','=',20)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBU_LIC = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%SEGIP2-SEGIP2 LICENCIA%")
+	    ->where('cli','=',108)
+	    ->where('enti','=',20)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	  
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "SEGIP2-SEGIP2%")
+	    ->where('cli','=',95)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+		$transactionNetoCI = $totalTransactionCI - $trasanctionBU_CI;
+		$transactionNetoLIC = $totalTransactionLIC - $trasanctionBU_LIC;
+		
+		$billingSystemCI = $transactionNetoCI * $arrayPrices[0]['sumaCI'];
+		$billingSystemLIC = $transactionNetoLIC * $arrayPrices[1]['sumaLIC'];
+
+		$billingBU_CI = $trasanctionBU_CI * $arrayPrices[0]['sintesisCI'];
+		$billingBU_LIC = $trasanctionBU_LIC * $arrayPrices[1]['sintesisLIC'];
+
+		$totalCI = $billingSystemCI + $billingBU_CI;
+		$totalLIC = $billingSystemLIC + $billingBU_LIC;
+		
+		$totalBilling = $totalCI + $totalLIC;
+		
+	     return array('name'=>'SEGIP', 'description'=>'SEGIP2-SEGIP2','total_transaction' => $totalTransactionCI + $totalTransactionLIC , 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**  
+	**    Esquema de cobro unitario
+	**    De 1 a 1000                                         bs. 4.7
+	**    De 1001 a 5000                                      bs. 4.7 
+	**    De 5001 a 10,000                                    bs. 4.3
+	**    Mayor 10,000                                        bs. 4
+	**
+	**/
+
+	public function credinform($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>1000, 'monthlyFixed' => 0, 'unitCost'=>4.7 ),
+				1 => array('from' => 1001 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>4.7),
+				2 => array('from' => 5001 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>4.3),
+				3 => array('from' => 10000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4)
+			);
+
+		$totalBilling = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%CREDINFORM-CREDINFORM EN BOLIVIANOS%")
+	    ->where('cli','=',104)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%CREDINFORM-CREDINFORM EN BOLIVIANOS%")
+	    ->where('cli','=',104)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+	    
+	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[0]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	    return array('name'=>'credinform', 'description'=>'CREDINFORM-CREDINFORM','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+	/**
+	**  
+	**    Esquema de cobro unitario
+	**    De 1 a 600                     bs.3000                     
+	**    De 601 a 1000                                      bs. 4.4 
+	**    De 1001 a 2,000                                    bs. 4.2
+	**    Mayor 2,000                                        bs. 4
+	**
+	**/
+
+	public function fortaleza($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 1 ,'until'=>600, 'monthlyFixed' => 3000, 'unitCost'=>0 ),
+				1 => array('from' => 601 ,'until'=>1000, 'monthlyFixed' => 0, 'unitCost'=>4.4),
+				2 => array('from' => 1001 ,'until'=>2000, 'monthlyFixed' => 0, 'unitCost'=>4.2),
+				3 => array('from' => 2000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4)
+			);
+		$arrayPricesBMSC = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.2 )
+			);
+
+		$totalBilling = 0;
+		$billingBMSC = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('cli','=',106)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $totalTransactionBMSC = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('cli','=',106)
+	    ->where('enti','=',9)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('cli','=',106)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+       if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
+
+	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    }
+	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    }
+	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    }
+
+	    $billingBMSC = $totalTransactionBMSC * $arrayPricesBMSC[0]['unitCost'];
+	    $totalBilling = $billingBMSC + $totalBilling;
+
+	    return array('name'=>'fortaleza', 'description'=>'FORTALEZA-FORTALESA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+/**
+	**  
+	**    Precios unitario
+	**		0.62 * 6.96  +  0.08 
+	**      1.00
+	**
+	**/
+
+	public function prevision($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.62, 'money'=>6.96, 'forms'=>0.08 )
+			);
+		$arrayPricesBU = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.00 )
+			);
+
+		$totalBilling = 0;
+		$billingBU = 0;
+		$unitCost = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%PREVISION-PREVISION%")
+	    ->where('cli','=',4)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $totalTransactionBU = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%PREVISION-PREVISION%")
+	    ->where('cli','=',4)
+	    ->where('enti','=',20)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%PREVISION-PREVISION%")
+	    ->where('cli','=',4)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+     	$unitCost = ($arrayPrices[0]['unitCost'] * $arrayPrices[0]['money']) + $arrayPrices[0]['forms'];
+		$billing = $totalTransaction * $unitCost;
+	    $billingBU = $totalTransactionBU * $arrayPricesBU[0]['unitCost'];
+	 
+	    $totalBilling = $billingBU + $billing;
+
+	    return array('name'=>'Previsión', 'description'=>'PREVISION-PREVISION','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	}
+
+/**
+	**  
+	**    Precios unitario
+	**	  4.43 	
+	**    1.50
+	**    1.00
+	**/
+
+	public function futuro($dateFrom, $dateTo){
+
+		$arrayPrices = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.43 )
+			);
+		$arrayPricesBE = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50 )
+			);
+		$arrayPricesBU = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.00 )
+			);
+
+		$totalBilling = 0;
+		$billingBU = 0;
+		$unitCost = 0;
+		
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FUTURO-FUTURO%")
+	    ->where('cli','=',21)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	    $totalTransactionBE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FUTURO-FUTURO%")
+	    ->where('cli','=',21)
+	    ->where('enti','=',21)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $totalTransactionBU = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FUTURO-FUTURO%")
+	    ->where('cli','=',21)
+	    ->where('enti','=',20)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%FUTURO-FUTURO%")
+	    ->where('cli','=',21)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    if(count($firstDate) == 1)
+			$dateFrom = $firstDate[0]->fecha;
+
+     	$billing = $totalTransaction * $arrayPrices[0]['unitCost'];
+		$billingBE = $totalTransactionBE * $arrayPricesBE[0]['unitCost'];
+     	$billingBU = $totalTransactionBU * $arrayPricesBU[0]['unitCost'];
+     	
+	    $totalBilling = $billing + $billingBE + $billingBU;
+
+	    return array('name'=>'Futuro', 'description'=>'FUTURO-FUTURO','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 }
