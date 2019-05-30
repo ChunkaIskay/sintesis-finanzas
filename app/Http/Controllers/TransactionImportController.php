@@ -86,7 +86,7 @@ class TransactionImportController extends Controller
 			$listCommission = collect($listReports);
 		 	
 		 	// metodo para guardar datos en la tabla historico
-		 	//$this->saveCommissionHistory($listReports);
+		 	$this->saveCommissionHistory($listReports);
 
 			if(isset($query)){
 				
