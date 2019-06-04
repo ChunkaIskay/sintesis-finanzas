@@ -76,15 +76,8 @@ class TransactionImportController extends Controller
 			array_push($listReports, $this->transbel($dateFrom,$dateTo));
 			array_push($listReports, $this->uagrm($dateFrom,$dateTo));
 			array_push($listReports, $this->uab($dateFrom,$dateTo));
-			
-			
-
-			
-
-			
-
 			$listCommission = collect($listReports);
-		 	
+		 	//dd($listReports);
 		 	// metodo para guardar datos en la tabla historico
 		 	//$this->saveCommissionHistory($listReports);
 
@@ -651,6 +644,7 @@ class TransactionImportController extends Controller
 					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI%')) 
 					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
 					) billingT"));
+		
 
 		if(is_null($totalBilling1[0]->billT))
 			$totalBilling1[0]->billT=0;
@@ -1147,18 +1141,21 @@ class TransactionImportController extends Controller
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
 
-
 	    $minimumTransactions = $arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCostMin'];
 	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  
 
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction < $arrayPrices[0]['until']){
+
+	    	$desctransacciones = "TRANSACCIONES MINIMAS";
 
 	    	 $totalBilling = $arrayPrices[0]['monthlyFixed'];
 	    	  return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	    }
 
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
+
+	    	$pu = $arrayPrices[1]['unitCost'];
+	    	$desctransacciones = "TRANSACCIONES ADICIONALES";
 
 	    	if ($additonialTransactions1 >0)
 				$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
@@ -1168,12 +1165,18 @@ class TransactionImportController extends Controller
 
 	     if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
 
+	     	$pu = $arrayPrices[2]['unitCost'];
+	     	$desctransacciones = "TRANSACCIONES ADICIONALES";
+
 	    	if ($additonialTransactions1 >0)
 				$additonialTransactions = $additonialTransactions1 * $arrayPrices[2]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
 	    }
 	    if ($totalTransaction > $arrayPrices[3]['from']){
+
+	    	$pu = $arrayPrices[3]['unitCost'];
+	    	$desctransacciones = "TRANSACCIONES ADICIONALES";
 
 	    	if ($additonialTransactions1 >0)
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[3]['unitCost'];
@@ -1184,7 +1187,11 @@ class TransactionImportController extends Controller
 	    if($totalTransaction <> 0 && $totalTransaction > 0) 
 	    	$totalBilling = $minimumTransactions + $additonialTransactions; 
 
-	    return array('name'=>'Nvida', 'description'=>'NALVIDA-NACIONAL VIDA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    return array(
+					0 => array('name'=>'Nacional Seguros Vida', 'description'=>'TRANSACCIONES MINIMAS','total_transaction' => $arrayPrices[0]['minimumTransactions'], 'total_billing'=> round($arrayPrices[0]['monthlyFixed'],2),'pu'=> round(($arrayPrices[0]['monthlyFixed']/$arrayPrices[0]['minimumTransactions']),2), 'created_at'=>$dateFrom,'cli' => 77),
+					1 => array('name'=>'Nacional Seguros Vida', 'description'=>$desctransacciones,'total_transaction' => $additonialTransactions1, 'total_billing'=> round($additonialTransactions,2),'pu'=> round($pu,2), 'created_at'=>$dateFrom,'cli' => 77),
+					2 =>array('name'=>'Nacional Seguros Vida', 'description'=>'TOTAL','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2),'pu'=>null, 'created_at'=>$dateFrom,'cli' => 77)
+					);
 	}
 
 	/**
@@ -1464,8 +1471,14 @@ class TransactionImportController extends Controller
 
 	  $totalTransactionCCD = $totalTransactionCert+$totalTransactionCur+$totalTransactionDipl;
 
+	  return array(
+					0 => array('name'=>'Egpp', 'description'=>'CERTIFICADOS TELE EDUCACION','total_transaction' => $totalTransactionCert, 'total_billing'=> round($totalBilling1,2),'pu'=> $arrayPrices[0]['unitCost'], 'created_at'=>$dateFrom, 'cli' => 85),
+					1 => array('name'=>'Egpp', 'description'=>'DIPLOMADOS','total_transaction' => $totalTransactionDipl, 'total_billing'=> round($totalBilling3,2),'pu'=>$arrayPrices[2]['unitCost'], 'created_at'=>$dateFrom, 'cli' => 85),
+					2 => array('name'=>'Egpp', 'description'=>'CURSOS CORTOS','total_transaction' => $totalTransactionCur, 'total_billing'=> round($totalBilling2,2),'pu'=> $arrayPrices[1]['unitCost'], 'created_at'=>$dateFrom, 'cli' => 85),
+					3 => array('name'=>'Egpp', 'description'=>'TOTAL','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2),'pu'=> null, 'created_at'=>$dateFrom, 'cli' => 85)
+				);
 
-	   return array('name'=>'Egpp', 'description'=>'EGPP-CERTIFICADOS-CURSOS-DIPLOMADOS','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	  /* return array('name'=>'Egpp', 'description'=>'EGPP-CERTIFICADOS-CURSOS-DIPLOMADOS','total_transaction' => $totalTransactionCCD, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);*/
 	}
 
 	/**
@@ -1482,19 +1495,31 @@ class TransactionImportController extends Controller
 
 		$arrayPrices = array(
 				0 => array('from' => 1 ,'until'=>1900, 'monthlyFixed' => 5700, 'unitCost'=>0 ),
-				1 => array('from' => 1901 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>3.00),
-				2 => array('from' => 5000 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>2.80),
-				3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.60)
+				1 => array('from' => 1901 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>1.00),
+				2 => array('from' => 5000 ,'until'=>15000, 'monthlyFixed' => 0, 'unitCost'=>0.80),
+				3 => array('from' => 15000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.60)
+			);
+		$arrayCost = array(
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>2.00, 'codEnti' => 0, 'desc_enti' =>'varias entidades'),
+				1 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>3.50, 'codEnti' => 20, 'desc_enti' =>'Banco Union S.A.')
 			);
 
 		$totalBilling = 0;
-		
+		$totalCanal = 0;
+		$totalCanalBU = 0;
+
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BDP-BDP%")
 	    ->where('cli','=',88)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
-
+		
+	    $listTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%BDP-BDP%")
+	    ->where('cli','=',88)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->get();
+	    
 	    $firstDate = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%BDP-BDP%")
 	    ->where('cli','=',88)
@@ -1502,6 +1527,18 @@ class TransactionImportController extends Controller
 	    ->select('fecha')
 	    ->limit(1)
 	    ->get();
+		
+		foreach($listTransaction as $csvalue){
+			
+			if($csvalue->enti == $arrayCost[1]['codEnti']){
+				$totalCanalBU = ($csvalue->tot * $arrayCost[1]['unitCost']);
+				
+			}else{
+				$totalCanal += ($csvalue->tot * $arrayCost[0]['unitCost']);
+			}
+		}
+
+	    
 
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
@@ -1509,22 +1546,24 @@ class TransactionImportController extends Controller
 	    
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	$totalBilling1 = $arrayPrices[0]['monthlyFixed'];
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[1]['unitCost'];
 	    }
 	    if ($totalTransaction > $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[2]['unitCost'];
 	    }
 	    if ($totalTransaction > $arrayPrices[3]['from']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[3]['unitCost'];
 	    }
 
-	     return array('name'=>'BDP', 'description'=>'BDP-BDP','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    $totalBilling = $totalBilling1+($totalCanal+$totalCanalBU);
+ 
+	   return array('name'=>'BDP', 'description'=>'BDP-BDP','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
 	}
 
 	/**
@@ -1927,7 +1966,7 @@ class TransactionImportController extends Controller
 			);
 
 		$totalBilling = 0;
-		
+
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "BONOS-JUANA AZURDUY%")
 	    ->where('cli','=',50)
@@ -1970,6 +2009,9 @@ class TransactionImportController extends Controller
 					2 => array('from' => 4001 ,'until'=>6000, 'monthlyFixed' => 0, 'unitCost'=>9.60 ),
 					3 => array('from' => 6001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>8.80 )
 					);
+		$conciliation = array(
+					0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 5000, 'unitCost'=>0, 'amountService'=> 1 )
+				);
 
 		$totalBilling = 0;
 		
@@ -1996,23 +2038,31 @@ class TransactionImportController extends Controller
 	    if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
 	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	$desctransacciones = "TRANSACCIONES";
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
 
 	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    	$desctransacciones = "TRANSACCIONES";
 	    }
 	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
 
 	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    	$desctransacciones = "TRANSACCIONES";
 	    }
 	    if ($totalTransaction >= $arrayPrices[3]['from']){
 
 	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    	$desctransacciones = "TRANSACCIONES";
 	    }
 
-	   /* return array('name'=>'Jhalea', 'description'=>'TUPPERWARE-TUPPERWARE','total_transaction' => $totalTransaction, 'total_billing'=> number_format($totalBilling, 2, ",", "."));*/
+		$pu =$arrayPrices[0]['monthlyFixed'] / $totalTransaction;
 
-	   return array('name'=>'ItaCamba', 'description'=>'ITACAMBA-Recaudacion','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	   return array(
+					0 => array('name'=>'ItaCamba', 'description'=> 'CARGO FIJO MENSUAL POR SERVICIO DE CONCILIACION','total_transaction' => $conciliation[0]['amountService'], 'total_billing'=> round($conciliation[0]['monthlyFixed'],2),'pu'=> round($conciliation[0]['monthlyFixed'],2), 'created_at'=>$dateFrom,'cli' => 121),
+					1 => array('name'=>'ItaCamba', 'description'=>$desctransacciones,'total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2),'pu'=> round($pu,2), 'created_at'=>$dateFrom,'cli' => 121),
+					2 =>array('name'=>'ItaCamba', 'description'=>'TOTAL','total_transaction' => null, 'total_billing'=> round(($arrayPrices[0]['monthlyFixed']+$conciliation[0]['monthlyFixed']),2),'pu'=> null, 'created_at'=>$dateFrom,'+cli' => 121)
+					);
 
 	} 
 
@@ -2384,8 +2434,17 @@ class TransactionImportController extends Controller
 		$totalLIC = $billingSystemLIC + $billingBU_LIC;
 		
 		$totalBilling = $totalCI + $totalLIC;
-		
-	     return array('name'=>'SEGIP', 'description'=>'SEGIP2-SEGIP2','total_transaction' => $totalTransactionCI + $totalTransactionLIC , 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+/*		
+	     return array('name'=>'SEGIP', 'description'=>'SEGIP2-SEGIP2','total_transaction' => $totalTransactionCI + $totalTransactionLIC , 'total_billing'=> round($totalBilling,2),'pu'=>null, 'created_at'=>$dateFrom,'cli' => 108);
+*/
+	      
+	     return array(
+					0 => array('name'=>'SEGIP', 'description'=>'TRANSACCIONES PROCESADAS POR EL SISTEMA - CEDULAS DE IDENTIDAD','total_transaction' => $transactionNetoCI, 'total_billing'=> round($billingSystemCI,2),'pu'=> round($arrayPrices[0]['sumaCI'],2), 'created_at'=>$dateFrom,'cli' => 108),
+					1 => array('name'=>'SEGIP', 'description'=>'TRANSACCIONES PROCESADAS POR EL SISTEMA - LICENCIA DE CONDUCIR','total_transaction' => $transactionNetoLIC, 'total_billing'=> round($billingSystemLIC,2),'pu'=> round($arrayPrices[1]['sumaLIC'],2), 'created_at'=>$dateFrom,'cli' => 108),
+					2 => array('name'=>'SEGIP', 'description'=>'TRANSACCIONES PROCESADAS POR EL BANCO UNION - CEDULAS DE IDENTIDAD','total_transaction' => $trasanctionBU_CI, 'total_billing'=> round($billingBU_CI,2),'pu'=> round($arrayPrices[0]['sintesisCI'],2), 'created_at'=>$dateFrom,'cli' => 108),
+					3 => array('name'=>'SEGIP', 'description'=>'TRANSACCIONES PROCESADAS POR EL BANCO UNION - LICENCIA DE CONDUCIR','total_transaction' => $trasanctionBU_LIC, 'total_billing'=> round($billingBU_LIC,2),'pu'=> round($arrayPrices[1]['sintesisLIC'],2), 'created_at'=>$dateFrom,'cli' => 108),
+					4 =>array('name'=>'SEGIP', 'description'=>'TOTAL','total_transaction' => $totalTransactionCI + $totalTransactionLIC , 'total_billing'=> round($totalBilling,2),'pu'=>null, 'created_at'=>$dateFrom,'cli' => 108)
+					);
 	}
 
 	/**
@@ -2470,23 +2529,24 @@ class TransactionImportController extends Controller
 			);
 
 		$totalBilling = 0;
+		$totalBilling1	 = 0;
 		$billingBMSC = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA%")
 	    ->where('cli','=',106)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
 	    $totalTransactionBMSC = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA%")
 	    ->where('cli','=',106)
 	    ->where('enti','=',9)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
 	    $firstDate = DB::table('transaction_import')
-	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA BS%")
+	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA%")
 	    ->where('cli','=',106)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->select('fecha')
@@ -2498,25 +2558,37 @@ class TransactionImportController extends Controller
 
        if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	    	$totalBilling = $arrayPrices[0]['monthlyFixed'];
+	    	$totalBilling1 = $arrayPrices[0]['monthlyFixed'];
+	    	$pu = $arrayPrices[0]['monthlyFixed'] / $totalTransaction;
+	    	$desctransacciones = "TRANSACIONES MINIMAS";
 	    }
 	    if ($totalTransaction >= $arrayPrices[1]['from'] && $totalTransaction <= $arrayPrices[1]['until']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[1]['unitCost'];
+	    	$pu = $arrayPrices[1]['unitCost'];
+	    	$desctransacciones = "TRANSACIONES";
 	    }
 	    if ($totalTransaction >= $arrayPrices[2]['from'] && $totalTransaction <= $arrayPrices[2]['until']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[2]['unitCost'];
+	    	$pu = $arrayPrices[2]['unitCost'];
+	    	$desctransacciones = "TRANSACIONES";
 	    }
 	    if ($totalTransaction > $arrayPrices[3]['from']){
 
-	    	$totalBilling = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    	$totalBilling1 = $totalTransaction * $arrayPrices[3]['unitCost'];
+	    	$pu = $arrayPrices[3]['unitCost'];
+	    	$desctransacciones = "TRANSACIONES";
 	    }
 
 	    $billingBMSC = $totalTransactionBMSC * $arrayPricesBMSC[0]['unitCost'];
-	    $totalBilling = $billingBMSC + $totalBilling;
+	    $totalBilling = $billingBMSC + $totalBilling1;
 
-	    return array('name'=>'fortaleza', 'description'=>'FORTALEZA-FORTALESA','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    return array(
+					0 => array('name'=>'Fortaleza', 'description'=> $desctransacciones,'total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling1,2),'pu'=> round($pu,2), 'created_at'=>$dateFrom,'cli' => 106),
+					1 => array('name'=>'Fortaleza', 'description'=>'TRANSACCIONES PROCESADAS POR EL BANCO MERCANTIL SANTA CRUZ','total_transaction' => $totalTransactionBMSC, 'total_billing'=> round($billingBMSC,2),'pu'=> $arrayPricesBMSC[0]['unitCost'], 'created_at'=>$dateFrom,'cli' => 106),
+					2 =>array('name'=>'Fortaleza', 'description'=>'TOTAL','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2),'pu'=> null, 'created_at'=>$dateFrom,'cli' => 106)
+				);
 	}
 
 /**
