@@ -2226,6 +2226,7 @@ class TransactionImportController extends Controller
 	    ->where('cli','=',60)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+	    
 	    // suma de todas las entides con MP
 	    $totalTransactionMP = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
@@ -2233,6 +2234,7 @@ class TransactionImportController extends Controller
 	    ->where('desc_enti', 'like', "MP%")
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
+
 		// Total transaccion Banco Pyme ecofuturo
 	    $totalTransactionBPE = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
@@ -2248,7 +2250,7 @@ class TransactionImportController extends Controller
 	    ->where('enti','=',8940)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
-	    
+    
 	    //Coop la merced LTDA
 		$totalTransactionCML = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%TRANSBEL-TRANSBEL%")
@@ -2291,8 +2293,9 @@ class TransactionImportController extends Controller
 
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
-
-    	$totalBilling = $totalTransaction * 1;
+//dd($totalTransaction);
+    	$totalBilling1 = $totalTransaction * 1;
+    	$totalBillingMP = $totalTransactionMP * 1;
     	$totalBillingBPE = $totalTransactionBPE * 1;
     	$totalBillingCAB = $totalTransactionCAB * 1;
     	$totalBillingCML = $totalTransactionCML * 1;
@@ -2300,14 +2303,18 @@ class TransactionImportController extends Controller
     	$totalBillingDEFD = $totalTransactionDEFD * 1;
     	$totalBillingPM = $totalTransactionPM * 1;
 
-		$totalBillingAll =  $totalBillingBPE + $totalBillingCAB + $totalBillingCML+ $totalBillingCI + $totalBillingPM + $totalBillingDEFD ;
+	
+		$totalTransactionAll = $totalTransactionMP+$totalTransactionBPE+$totalTransactionCAB+$totalTransactionCML+$totalTransactionCI+$totalTransactionDEFD+$totalTransactionPM;
 
+		$totalBillingAll = $totalBillingMP + $totalBillingBPE + $totalBillingCAB + $totalBillingCML + $totalBillingCI + $totalBillingDEFD + $totalBillingPM;
+
+		$totalBilling2 = $totalTransaction * $arrayPrices[0]['unitCost'];
 
     	$totalBillingMP = 0;
     	$billingMP1   = 0;
     	$billingMP2 = 0;
 
-	   if ($totalTransactionMP <= $arrayPricesMP[0]['until']){
+	   /*if ($totalTransactionMP <= $arrayPricesMP[0]['until']){
 
 	     	 $totalBillingMP = $totalTransactionMP * $arrayPricesMP[0]['unitCost'];
 	    }else{
@@ -2325,12 +2332,17 @@ class TransactionImportController extends Controller
 	    				$billingMP2 = $billingMP * $arrayPricesMP[2]['unitCost'];
 
 	    		}
-	    }
+	    }*/
 
-	    $totalBillingPMAll = $totalBillingMP + $billingMP1 + $billingMP2;
-		$total = $totalBilling + $totalBillingAll + $totalBillingPMAll;
+	    $totalBilling = $totalBilling1 + $totalBillingAll;
 
-	    return array('name'=>'Transbel', 'description'=>'TRANSBEL-TRANSBEL','total_transaction' => $totalTransaction, 'total_billing'=> round($total,2), 'created_at'=>$dateFrom);
+	    return array(
+					0 => array('name'=>'Transbel', 'description'=>'TRANSACCIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling2,2),'pu'=> round($arrayPrices[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 60),
+					1 => array('name'=>'Transbel', 'description'=>'COSTO COMISION A ENTIDADES FINANCIERAS','total_transaction' => 1, 'total_billing'=> round($totalBillingAll,2),'pu'=> round($totalTransactionAll,2), 'created_at'=>$dateFrom,'cli' => 60),
+					2 => array('name'=>'Transbel', 'description'=>'TOTAL','total_transaction' => null, 'total_billing'=> round($totalBilling,2), 'pu'=> null, 'created_at'=>$dateFrom,'cli' => 60)
+					);
+
+
 	}
 
 	/**
@@ -2602,7 +2614,7 @@ class TransactionImportController extends Controller
 	public function prevision($dateFrom, $dateTo){
 
 		$arrayPrices = array(
-				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>0.62, 'money'=>6.96, 'forms'=>0.08 )
+				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>4.34, 'money'=>6.96, 'forms'=>0.08 )
 			);
 		$arrayPricesBU = array(
 				0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.00 )
@@ -2637,12 +2649,17 @@ class TransactionImportController extends Controller
 			$dateFrom = $firstDate[0]->fecha;
 
      	$unitCost = ($arrayPrices[0]['unitCost'] * $arrayPrices[0]['money']) + $arrayPrices[0]['forms'];
-		$billing = $totalTransaction * $unitCost;
+	//	$billing = $totalTransaction * $unitCost;
+	    $billing = $totalTransaction * $arrayPrices[0]['unitCost'];
 	    $billingBU = $totalTransactionBU * $arrayPricesBU[0]['unitCost'];
 	 
 	    $totalBilling = $billingBU + $billing;
 
-	    return array('name'=>'Previsión', 'description'=>'PREVISION-PREVISION','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	    return array(
+					0 => array('name'=>'Previsión', 'description'=>'TRANSACCIONES ADICIONALES PROCESADAS POR EL BANCO UNION','total_transaction' => $totalTransactionBU, 'total_billing'=> round($billingBU,2),'pu'=> round($arrayPricesBU[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 4),
+					1 => array('name'=>'Previsión', 'description'=>'TRANSACCIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($billing,2), 'pu'=> round($arrayPrices[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 4),
+					2 => array('name'=>'Previsión', 'description'=>'TOTAL','total_transaction' => null, 'pu'=> null, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom, 'cli' => 4)
+					);
 	}
 
 /**
