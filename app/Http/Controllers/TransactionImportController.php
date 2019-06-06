@@ -609,13 +609,76 @@ class TransactionImportController extends Controller
 
 	public function kantutani($dateFrom, $dateTo){
 
-		$minMonthly = round((10000/3),2);
-		$minTrans = round(5000/3);
-		
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
-						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
+						0 => array('from' => 1 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>1.80, 'desc'=>'Transaciones minimas'),
+						1 => array('from' => 10000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50, 'desc'=>'Transaciones excedentes a las minimas' )
 						);
+		$arrayCommission = array(
+
+			'banco_bisa' => array('cli' => 40 ,'enti'=>4, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_credito' => array('cli' => 40 ,'enti'=>1005, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_fassil' => array('cli' => 40 ,'enti'=>54, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'banco_fie' => array('cli' => 40 ,'enti'=>5005, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_bmsc' => array('cli' => 40 ,'enti'=>9, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'banco_bnb' => array('cli' => 40 ,'enti'=>8, 'unitCost'=>2.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_prodem' => array('cli' => 40 ,'enti'=>5007, 'unitCost'=>1.70, 'desc'=>'comisiones_entidades'),
+
+			'banco_comunidad' => array('cli' => 40 ,'enti'=>71, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_ecofuturo' => array('cli' => 40 ,'enti'=>5006, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_solidario' => array('cli' => 40 ,'enti'=>1017, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'sarco' => array('cli' => 40 ,'enti'=>215, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'incahuasi' => array('cli' => 40 ,'enti'=>9075, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'action_bolivia' => array('cli' => 40 ,'enti'=>8940, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'jesus_nazareno' => array('cli' => 40 ,'enti'=>40, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'sagrada_familia' => array('cli' => 40 ,'enti'=>7004, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'san_juaquin' => array('cli' => 40 ,'enti'=>9047, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'smartin_porres' => array('cli' => 40 ,'enti'=>47, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'loyola' => array('cli' => 40 ,'enti'=>3006, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'san_pedro' => array('cli' => 40 ,'enti'=>44, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'cristo_rey' => array('cli' => 40 ,'enti'=>217, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'crecer' => array('cli' => 40 ,'enti'=>7018, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'primera_vivienda' => array('cli' => 40 ,'enti'=>88, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'cosmeticos_yovi' => array('cli' => 40 ,'enti'=>9376, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'farmalux' => array('cli' => 40 ,'enti'=>8403, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'fotoco_leo' => array('cli' => 40 ,'enti'=>9368, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'libreria_caliope' => array('cli' => 40 ,'enti'=>9439, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'myrstore' => array('cli' => 40 ,'enti'=>9124, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'puntoentel_perez' => array('cli' => 40 ,'enti'=>9139, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			's_belleza' => array('cli' => 40 ,'enti'=>8705, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			's_telefonia' => array('cli' => 40 ,'enti'=>8997, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'x_cobrar' => array('cli' => 40 ,'enti'=>9414, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'mutual_promotora' => array('cli' => 40 ,'enti'=>2004, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades')
+		);
 
 		$totalBilling = 0;
 		$totalBilling3 = 0;
@@ -626,6 +689,231 @@ class TransactionImportController extends Controller
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
+	     $trasanctionBISA = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',4)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionCREDITO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',1005)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	    
+	    $trasanctionFASSIL = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',54)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionFIE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5005)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBMSC = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBNB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionPRODEM = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5007)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionPCOMUNIDAD = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',71)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		$trasanctionPECOFUTURO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5006)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSOLIDARIO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',1017)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSARCO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',215)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		$trasanctionINCAHUASI = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9075)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionACTIONB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8940)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionJNazareno = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSagradaF = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',7004)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		$trasanctionSanJoaquin = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9047)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSanMartinPorres = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',47)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionLoyola = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',3006)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSanPedro = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',44)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionCristoRey = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',217)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionCrecer = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',7018)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionPrimeraVivienda = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',88)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionCosmeticos = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9376)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionFarmalux = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8403)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionFotocoLeon = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9368)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionLibreriaCaliope = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9439)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		 $trasanctionMYRSTORE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9124)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		 $trasanctionPuntoEPerez = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9139)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		 $trasanctionSBellezaCinthya = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8705)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		 $trasanctionServicioTeleco = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8997)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		 $trasanctionXcobrar = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9414)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionMutualPromotora = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',2004)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+
 	    $firstDate = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-KANTUTANI%")
 	    ->where('cli','=',40)
@@ -634,17 +922,54 @@ class TransactionImportController extends Controller
 	    ->limit(1)
 	    ->get();
 
+	    $billingbisa= $arrayCommission['banco_bisa']['unitCost'] * $trasanctionBISA; 
+		$billingcredito = $arrayCommission['banco_credito']['unitCost'] * $trasanctionCREDITO;
+		$billingfassil = $arrayCommission['banco_fassil']['unitCost'] * $trasanctionFASSIL; 
+		$billingfiel = $arrayCommission['banco_fie']['unitCost'] * $trasanctionFIE;
+		$billingbmsc = $arrayCommission['banco_bmsc']['unitCost'] * $trasanctionBMSC;
+		$billingbnb = $arrayCommission['banco_bnb']['unitCost'] * $trasanctionBNB; 
+		$billingprodem = $arrayCommission['banco_prodem']['unitCost'] * $trasanctionPRODEM;
+		$billingcomunidad = $arrayCommission['banco_comunidad']['unitCost'] * $trasanctionPCOMUNIDAD;
+		$billingeco = $arrayCommission['banco_ecofuturo']['unitCost'] * $trasanctionPECOFUTURO;
+		$billingsoliario = $arrayCommission['banco_solidario']['unitCost'] * $trasanctionSOLIDARIO;
+		$billingsarco = $arrayCommission['sarco']['unitCost'] * $trasanctionSARCO; 
+
+		$billinginca = $arrayCommission['incahuasi']['unitCost'] * $trasanctionINCAHUASI;
+		$billingaction = $arrayCommission['action_bolivia']['unitCost'] * $trasanctionACTIONB;
+		$billingjesus = $arrayCommission['jesus_nazareno']['unitCost'] * $trasanctionJNazareno;
+	    $billingsagrada = $arrayCommission['sagrada_familia']['unitCost'] * $trasanctionSagradaF;
+	   	$billingjoaquin = $arrayCommission['san_juaquin']['unitCost'] * $trasanctionSanJoaquin;
+	   	$billingporres = $arrayCommission['smartin_porres']['unitCost'] * $trasanctionSanMartinPorres;
+	  	$billingloyola = $arrayCommission['loyola']['unitCost'] * $trasanctionLoyola; 
+	   	$billingpedro = $arrayCommission['san_pedro']['unitCost'] * $trasanctionSanPedro;
+	   	$billingrey = $arrayCommission['cristo_rey']['unitCost'] * $trasanctionCristoRey;
+	    $billingcrecer = $arrayCommission['crecer']['unitCost'] * $trasanctionCrecer; 
+	    $billingprimera = $arrayCommission['primera_vivienda']['unitCost'] * $trasanctionPrimeraVivienda;
+	    $billingyovi = $arrayCommission['cosmeticos_yovi']['unitCost'] * $trasanctionCosmeticos;
+	    $billingfarmalux = $arrayCommission['farmalux']['unitCost'] * $trasanctionFarmalux;
+	   	$billingleo = $arrayCommission['fotoco_leo']['unitCost'] * $trasanctionFotocoLeon;
+	   	$billingcaliope = $arrayCommission['libreria_caliope']['unitCost'] * $trasanctionLibreriaCaliope;
+	    $billingstore = $arrayCommission['myrstore']['unitCost'] * $trasanctionMYRSTORE; 
+	    $billingPerez = $arrayCommission['puntoentel_perez']['unitCost'] * $trasanctionPuntoEPerez;
+	    $billingbelleza = $arrayCommission['s_belleza']['unitCost'] * $trasanctionSBellezaCinthya;
+	    $billingtelefonia = $arrayCommission['s_telefonia']['unitCost'] * $trasanctionServicioTeleco;
+	   	$billingcobrar = $arrayCommission['x_cobrar']['unitCost'] * $trasanctionXcobrar;
+	 	$billingmutual = $arrayCommission['mutual_promotora']['unitCost'] * $trasanctionMutualPromotora;
+
+ 		 
+ 		 $totalBilling1 = $billingbisa + $billingcredito + $billingfassil + $billingfiel + $billingbmsc + $billingbnb + $billingprodem + $billingcomunidad + $billingeco + $billingsoliario + $billingsarco + $billinginca + $billingaction + $billingjesus + $billingsagrada + $billingjoaquin + $billingporres + $billingloyola + $billingpedro + $billingrey + $billingcrecer + $billingprimera + $billingyovi + $billingfarmalux + $billingleo + $billingcaliope + $billingstore + $billingPerez + $billingbelleza + $billingtelefonia + $billingcobrar + $billingmutual;
+dd($totalBilling1);
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
 
 
-		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
-					SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti
-					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI%')) 
-					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
-					) billingT"));
-		
+		/*$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
+				SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
+				SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-KANTUTANI%') GROUP by enti, desc_enti
+				) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-KANTUTANI%')) 
+				GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
+				) billingT"));
+*/
 
 		if(is_null($totalBilling1[0]->billT))
 			$totalBilling1[0]->billT=0;

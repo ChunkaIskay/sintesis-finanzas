@@ -78,13 +78,12 @@
 							<tr style="background: #edeffbe8; padding-left: 10px; padding-bottom:10px;">
 							@endif	
 				            <td class="text-center">{{ $cont++ }}</td>
-				           
 
 				            @if(array_key_exists('0', $value1)) 
 				            	<td class="text-left" colspan="2">{{ $value1[0]['name'] }} 
 								</td>
 								<td class="text-left" colspan="3">
-								<a class="button" id="mostrar_{{ $value1[0]['cli'] }}" onclick="showTable('mostrar',{{ $value1[0]['cli'] }})" style="display: none;">Mostrar Detalle</a>
+								<a class="button" id="mostrar_{{ $value1[0]['cli'] }}" onclick="showTable('mostrar',{{ $value1[0]['cli'] }})" style="display: none;">Ver Detalle</a>
 								<a class="button1" id="ocultar_{{ $value1[0]['cli'] }}" onclick="showTable('ocultar',{{ $value1[0]['cli'] }})">Ocultar Detalle</a></td>
 				            </tr> 
 				            	<tr id="target_{{ $value1[0]['cli'] }}"><td colspan="6"><table width="100%">
