@@ -533,13 +533,86 @@ class TransactionImportController extends Controller
 
 	public function misiones($dateFrom, $dateTo){
 
-		$minMonthly = round((10000/3),2);
-		$minTrans = round(5000/3);
-		
+
+		/*$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
+		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-LAS MISIONES%') GROUP by enti, desc_enti
+		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-LAS MISIONES BS%')) 
+		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));*/
+
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
-						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
+						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 0, 'unitCost'=>1.80, 'desc'=>'Transaciones minimas', 'minimumTransactions' => 5000),
+						1 => array('from' => 5000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50, 'desc'=>'Transaciones excedentes a las minimas', 'minimumTransactions' => 0 )
 						);
+	
+		$arrayCommission = array(
+
+			'banco_bisa' => array('cli' => 40 ,'enti'=>4, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_credito' => array('cli' => 40 ,'enti'=>1005, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_fassil' => array('cli' => 40 ,'enti'=>54, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'banco_fie' => array('cli' => 40 ,'enti'=>5005, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_bmsc' => array('cli' => 40 ,'enti'=>9, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'banco_bnb' => array('cli' => 40 ,'enti'=>8, 'unitCost'=>2.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_prodem' => array('cli' => 40 ,'enti'=>5007, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_comunidad' => array('cli' => 40 ,'enti'=>71, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_ecofuturo' => array('cli' => 40 ,'enti'=>5006, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'banco_solidario' => array('cli' => 40 ,'enti'=>1017, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+
+			'incahuasi' => array('cli' => 40 ,'enti'=>9075, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'action_bolivia' => array('cli' => 40 ,'enti'=>8940, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'jesus_nazareno' => array('cli' => 40 ,'enti'=>40, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'sagrada_familia' => array('cli' => 40 ,'enti'=>7004, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'san_juaquin' => array('cli' => 40 ,'enti'=>9047, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'smartin_porres' => array('cli' => 40 ,'enti'=>47, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'lamerced' => array('cli' => 40 ,'enti'=>42, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'grigota' => array('cli' => 40 ,'enti'=>9034, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'loyola' => array('cli' => 40 ,'enti'=>3006, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'san_pedro' => array('cli' => 40 ,'enti'=>44, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'cristo_rey' => array('cli' => 40 ,'enti'=>217, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'crecer' => array('cli' => 40 ,'enti'=>7018, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'primera_vivienda' => array('cli' => 40 ,'enti'=>88, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'cosmeticos_yovi' => array('cli' => 40 ,'enti'=>9376, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'farmalux' => array('cli' => 40 ,'enti'=>8403, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'fotoco_leo' => array('cli' => 40 ,'enti'=>9368, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+			'fondeco' => array('cli' => 40 ,'enti'=>9368, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'libreria_caliope' => array('cli' => 40 ,'enti'=>9439, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'myrstore' => array('cli' => 40 ,'enti'=>9124, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'puntoentel_perez' => array('cli' => 40 ,'enti'=>9139, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			's_belleza' => array('cli' => 40 ,'enti'=>8705, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			's_telefonia' => array('cli' => 40 ,'enti'=>8997, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'x_cobrar' => array('cli' => 40 ,'enti'=>9414, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
+
+			'mutual_promotora' => array('cli' => 40 ,'enti'=>2004, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades')
+		);
 
 		$totalBilling = 0;
 		$totalBilling3 = 0;
@@ -558,40 +631,205 @@ class TransactionImportController extends Controller
 	    ->limit(1)
 	    ->get();
 
-	    if(count($firstDate) == 1)
-			$dateFrom = $firstDate[0]->fecha;
+	    
+		$totalTransaction = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
 
+	     $trasanctionBISA = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',4)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
 
-		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-		SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-LAS MISIONES%') GROUP by enti, desc_enti
-		) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-LAS MISIONES BS%')) 
-		GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC) billingT"));
+	    $trasanctionCREDITO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',1005)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+	    
+	    $trasanctionFASSIL = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',54)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
 
-	
-		if(is_null($totalBilling1[0]->billT))
-			$totalBilling1[0]->billT=0;
+	    $trasanctionFIE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5005)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
 
-    	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-    	$additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	
+	    $trasanctionBMSC = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBNB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionPRODEM = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5007)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionPCOMUNIDAD = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',71)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+		$trasanctionPECOFUTURO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5006)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSOLIDARIO = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',1017)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionACTIONB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8940)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionJNazareno = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionSanMartinPorres = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',47)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	   
+	    $trasanctionLaMerced = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',42)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionGrigota = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9034)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionCrecer = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',7018)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionFondeco = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',9040)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	     $trasanctionPrimeraVivienda = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',88)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $firstDate = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
+	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->select('fecha')
+	    ->limit(1)
+	    ->get();
+
+	    $billingbisa= $arrayCommission['banco_bisa']['unitCost'] * $trasanctionBISA; 
+		$billingcredito = $arrayCommission['banco_credito']['unitCost'] * $trasanctionCREDITO;
+		$billingfassil = $arrayCommission['banco_fassil']['unitCost'] * $trasanctionFASSIL; 
+		$billingfiel = $arrayCommission['banco_fie']['unitCost'] * $trasanctionFIE;
+		$billingbmsc = $arrayCommission['banco_bmsc']['unitCost'] * $trasanctionBMSC;
+		$billingbnb = $arrayCommission['banco_bnb']['unitCost'] * $trasanctionBNB; 
+		$billingprodem = $arrayCommission['banco_prodem']['unitCost'] * $trasanctionPRODEM;
+		$billingcomunidad = $arrayCommission['banco_comunidad']['unitCost'] * $trasanctionPCOMUNIDAD;
+		$billingeco = $arrayCommission['banco_ecofuturo']['unitCost'] * $trasanctionPECOFUTURO;
+		$billingsoliario = $arrayCommission['banco_solidario']['unitCost'] * $trasanctionSOLIDARIO;
+		$billingaction = $arrayCommission['action_bolivia']['unitCost'] * $trasanctionACTIONB;
+		$billingjesus = $arrayCommission['jesus_nazareno']['unitCost'] * $trasanctionJNazareno;
+	   	$billingporres = $arrayCommission['smartin_porres']['unitCost'] * $trasanctionSanMartinPorres;
+	  	$billinglamerced = $arrayCommission['lamerced']['unitCost'] * $trasanctionLaMerced; 
+	   	$billinggrigota = $arrayCommission['grigota']['unitCost'] * $trasanctionGrigota;
+	    $billingcrecer = $arrayCommission['crecer']['unitCost'] * $trasanctionCrecer; 
+ 		$billingfondeco = $arrayCommission['fondeco']['unitCost'] * $trasanctionFondeco;
+	    $billingprimera = $arrayCommission['primera_vivienda']['unitCost'] * $trasanctionPrimeraVivienda;
+ 		 
+ 		$totalBilling1 = $billingbisa + $billingcredito + $billingfassil + $billingfiel + $billingbmsc + $billingbnb + $billingprodem + $billingcomunidad + $billingeco + $billingsoliario + $billingaction + $billingjesus + $billingporres + $billinglamerced + $billinggrigota + $billingcrecer + $billingfondeco + $billingprimera;
+
+			if(count($firstDate) == 1)
+				$dateFrom = $firstDate[0]->fecha;
+
+		$additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+	  		
 		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	     	 $totalBilling3 = $minMonthly;
+	     	 $totalBilling3 =$arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCost'];
 
 	    }
-	    if ($totalTransaction >= $arrayPrices[1]['from']){
+	    if ($totalTransaction >= $arrayPrices[0]['minimumTransactions']){
 
 	    	if ($additonialTransactions1 >0)
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
 
-	        $totalBilling3 =  $minMonthly + $additonialTransactions;
+	        
+	        $totalBilling3 =$arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCost'];
 	    }
 
-	   $totalBilling = $totalBilling2 + $totalBilling3;
+	    
+	   $subBilling1 =  $totalBilling1* 0.03;
+	   $entitiesBilling = $totalBilling1 + $subBilling1;
+		   
+	   $totalBilling2 = $totalBilling3 + $additonialTransactions;
+	   
+	   $totalBilling = $entitiesBilling + $totalBilling2;
 
-	    return array('name'=>'Misiones', 'description'=>'KANTUTANI-LAS MISIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	     return array(
+			0 => array('name'=>'Kantutani Las Misiones', 'description'=>'TRANSACCIONES MINIMAS','total_transaction' => $arrayPrices[0]['minimumTransactions'], 'total_billing'=> round($totalBilling3,2),'pu'=> round($arrayPrices[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 40000),
+			1 => array('name'=>'Kantutani Las Misiones', 'description'=>'TRANSACCIONES ADICIONALES','total_transaction' => $additonialTransactions1, 'total_billing'=> round($additonialTransactions,2),'pu'=> round($arrayPrices[1]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 40000),
+			2 => array('name'=>'Kantutani Las Misiones', 'description'=>'COSTO COMISION ENTIDADES FINANCIERAS MAS IT','total_transaction' => 1, 'total_billing'=> round($entitiesBilling,2),'pu'=> round($entitiesBilling,2), 'created_at'=>$dateFrom,'cli' => 40000),
+			3 => array('name'=>'Kantutani Las Misiones', 'description'=>'TOTAL','total_transaction' => null, 'total_billing'=> round($totalBilling,2),'pu'=> null, 'created_at'=>$dateFrom,'cli' => 40000)
+			);
+	
 	}
 
 	/**
@@ -599,8 +837,8 @@ class TransactionImportController extends Controller
 	** l. La retribuciòn de los servicios, considerarà los siguiente:
 		Monto minimo
 	**    transacciones Mensuales    Cargo Fijo Mensual    Costo Unitario
-	**    De 1 a 5000                    bs. 10,000
-	**    5001 en adelante                                    bs. 1.59
+	**    De 1 a 10000                                        bs. 1.80
+	**    transaccion Adicional                               bs. 1.50
 	**    
 	**    Transaciones minimas    de  5000/ 3  = 1667                  
 	**    Se saca el 3% 
@@ -610,9 +848,10 @@ class TransactionImportController extends Controller
 	public function kantutani($dateFrom, $dateTo){
 
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>1.80, 'desc'=>'Transaciones minimas'),
-						1 => array('from' => 10000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50, 'desc'=>'Transaciones excedentes a las minimas' )
+						0 => array('from' => 1 ,'until'=>10000, 'monthlyFixed' => 0, 'unitCost'=>1.80, 'desc'=>'Transaciones minimas', 'minimumTransactions' => 10000),
+						1 => array('from' => 10000 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.50, 'desc'=>'Transaciones excedentes a las minimas', 'minimumTransactions' => 0 )
 						);
+	
 		$arrayCommission = array(
 
 			'banco_bisa' => array('cli' => 40 ,'enti'=>4, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades'),
@@ -957,8 +1196,9 @@ class TransactionImportController extends Controller
 	 	$billingmutual = $arrayCommission['mutual_promotora']['unitCost'] * $trasanctionMutualPromotora;
 
  		 
- 		 $totalBilling1 = $billingbisa + $billingcredito + $billingfassil + $billingfiel + $billingbmsc + $billingbnb + $billingprodem + $billingcomunidad + $billingeco + $billingsoliario + $billingsarco + $billinginca + $billingaction + $billingjesus + $billingsagrada + $billingjoaquin + $billingporres + $billingloyola + $billingpedro + $billingrey + $billingcrecer + $billingprimera + $billingyovi + $billingfarmalux + $billingleo + $billingcaliope + $billingstore + $billingPerez + $billingbelleza + $billingtelefonia + $billingcobrar + $billingmutual;
-dd($totalBilling1);
+ 		$totalBilling1 = $billingbisa + $billingcredito + $billingfassil + $billingfiel + $billingbmsc + $billingbnb + $billingprodem + $billingcomunidad + $billingeco + $billingsoliario + $billingsarco + $billinginca + $billingaction + $billingjesus + $billingsagrada + $billingjoaquin + $billingporres + $billingloyola + $billingpedro + $billingrey + $billingcrecer + $billingprimera + $billingyovi + $billingfarmalux + $billingleo + $billingcaliope + $billingstore + $billingPerez + $billingbelleza + $billingtelefonia + $billingcobrar + $billingmutual;
+
+
 	    if(count($firstDate) == 1)
 			$dateFrom = $firstDate[0]->fecha;
 
@@ -971,30 +1211,38 @@ dd($totalBilling1);
 				) billingT"));
 */
 
-		if(is_null($totalBilling1[0]->billT))
-			$totalBilling1[0]->billT=0;
-
-    	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
+		$additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
 	  		
 		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
 
-	     	 $totalBilling3 = $minMonthly;
+	     	 $totalBilling3 =$arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCost'];
 
 	    }
-	    if ($totalTransaction >= $arrayPrices[1]['from']){
+	    if ($totalTransaction > $arrayPrices[0]['minimumTransactions']){
 
 	    	if ($additonialTransactions1 >0)
 	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
 	    	else
 	    		$additonialTransactions=0;
 
-	        $totalBilling3 =  $minMonthly + $additonialTransactions;
+	        
+	        $totalBilling3 =$arrayPrices[0]['minimumTransactions'] * $arrayPrices[0]['unitCost'];
 	    }
 
-	   $totalBilling = $totalBilling2 + $totalBilling3;
+	    
+	   $subBilling1 =  $totalBilling1* 0.03;
+	   $entitiesBilling = $totalBilling1 + $subBilling1;
+		   
+	   $totalBilling2 = $totalBilling3 + $additonialTransactions;
+	   
+	   $totalBilling = $entitiesBilling + $totalBilling2;
 
-	   return array('name'=>'Kantutani', 'description'=>'KANTUTANI-KANTUTANI','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	     return array(
+			0 => array('name'=>'Kantutani', 'description'=>'TRANSACCIONES MINIMAS','total_transaction' => $arrayPrices[0]['minimumTransactions'], 'total_billing'=> round($totalBilling3,2),'pu'=> round($arrayPrices[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 40),
+			1 => array('name'=>'Kantutani', 'description'=>'TRANSACCIONES ADICIONALES','total_transaction' => $additonialTransactions1, 'total_billing'=> round($additonialTransactions,2),'pu'=> round($arrayPrices[1]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 40),
+			2 => array('name'=>'Kantutani', 'description'=>'COSTO COMISION ENTIDADES FINANCIERAS MAS IT','total_transaction' => 1, 'total_billing'=> round($entitiesBilling,2),'pu'=> round($entitiesBilling,2), 'created_at'=>$dateFrom,'cli' => 40),
+			3 => array('name'=>'Kantutani', 'description'=>'TOTAL','total_transaction' => null, 'total_billing'=> round($totalBilling,2),'pu'=> null, 'created_at'=>$dateFrom,'cli' => 40)
+			);
 	}
 
 	/**
@@ -1012,13 +1260,20 @@ dd($totalBilling1);
 
 	public function prever($dateFrom, $dateTo){
 
-		$minMonthly = round((10000/3),2);
-		$minTrans = round(5000/3);
-		
+/*		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
+					SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
+					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-PREVER%') GROUP by enti, desc_enti
+					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-PREVER%')) 
+					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
+					) billingT"));*/
 		$arrayPrices = array(
-						0 => array('from' => 1 ,'until'=>5000, 'monthlyFixed' => 10000, 'unitCost'=>0, 'minimumTransactions' => $minTrans, 'unitCostMin'=>2.00 ),
-						1 => array('from' => 5001 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.59 )
-						);
+			0 => array('from' => 0 ,'until'=>0, 'monthlyFixed' => 0, 'unitCost'=>1.80, 'desc'=>'Transaciones minimas', 'minimumTransactions' => 0)
+			);
+		$arrayCommission = array(
+
+			'banco_fie' => array('cli' => 40 ,'enti'=>5005, 'unitCost'=>2.00, 'desc'=>'comisiones_entidades'),
+			'banco_bnb' => array('cli' => 40 ,'enti'=>8, 'unitCost'=>1.50, 'desc'=>'comisiones_entidades')
+		);
 
 		$totalBilling = 0;
 		$totalBilling3 = 0;
@@ -1026,6 +1281,21 @@ dd($totalBilling1);
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-PREVER%")
 	    ->where('cli','=',40)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	   
+	    $trasanctionFIE = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-PREVER%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',5005)
+	    ->whereBetween('fecha', [$dateFrom, $dateTo])
+	    ->sum('tot');
+
+	    $trasanctionBNB = DB::table('transaction_import')
+	    ->where('servicio', 'like', "%KANTUTANI-PREVER%")
+	    ->where('cli','=',40)
+	    ->where('enti','=',8)
 	    ->whereBetween('fecha', [$dateFrom, $dateTo])
 	    ->sum('tot');
 
@@ -1037,41 +1307,29 @@ dd($totalBilling1);
 	    ->limit(1)
 	    ->get();
 
-	    if(count($firstDate) == 1)
-			$dateFrom = $firstDate[0]->fecha;
+	  
+		$billingfiel = $arrayCommission['banco_fie']['unitCost'] * $trasanctionFIE;
+		$billingbnb = $arrayCommission['banco_bnb']['unitCost'] * $trasanctionBNB; 
+		 
+ 		$totalBilling1 = $billingfiel + $billingbnb;
 
+		if(count($firstDate) == 1)
+				$dateFrom = $firstDate[0]->fecha;
+		
 
-		$totalBilling1 = DB::select(DB::raw("SELECT SUM(billingT.billingTotal) as billT FROM (
-					SELECT totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, ROUND( (transaction_import_fixed.price_fixed * totalEnti.total), 2) billingTotal FROM ( 
-					SELECT sum(tot) as total , enti,desc_enti FROM `transaction_import` WHERE fecha BETWEEN CAST( '$dateFrom' AS DATE) AND CAST('$dateTo' AS DATE) and cli=40 and servicio like ('%KANTUTANI-PREVER%') GROUP by enti, desc_enti
-					) totalEnti inner join transaction_import_fixed on ( totalEnti.enti=transaction_import_fixed.enti and transaction_import_fixed.servicio like('%KANTUTANI-PREVER%')) 
-					GROUP BY totalEnti.total, totalEnti.enti, totalEnti.desc_enti, transaction_import_fixed.price_fixed, billingTotal  ORDER BY totalEnti.desc_enti ASC
-					) billingT"));
+	   $totalBilling3 = $totalTransaction * $arrayPrices[0]['unitCost'];
+	   $subBilling1 =  $totalBilling1* 0.03;
+	   $entitiesBilling = $totalBilling1 + $subBilling1;
+		   
+	  
+	   
+	   $totalBilling = $entitiesBilling + $totalBilling3;
 
-		if(is_null($totalBilling1[0]->billT))
-			$totalBilling1[0]->billT=0;
-
-    	$totalBilling2 = round(($totalBilling1[0]->billT * 3)/100, 2 ) + $totalBilling1[0]->billT;
-	    $additonialTransactions1 = $totalTransaction - $arrayPrices[0]['minimumTransactions'];
-	  		
-		if ($totalTransaction >= $arrayPrices[0]['from'] && $totalTransaction <= $arrayPrices[0]['until']){
-
-	     	 $totalBilling3 = $minMonthly;
-
-	    }
-	    if ($totalTransaction >= $arrayPrices[1]['from']){
-
-	    	if ($additonialTransactions1 >0)
-	    		$additonialTransactions = $additonialTransactions1 * $arrayPrices[1]['unitCost'];
-	    	else
-	    		$additonialTransactions=0;
-
-	        $totalBilling3 =  $minMonthly + $additonialTransactions;
-	    }
-
-	   $totalBilling = $totalBilling2 + $totalBilling3;
-
-	    return array('name'=>'Prever', 'description'=>'KANTUTANI-PREVER','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling,2), 'created_at'=>$dateFrom);
+	     return array(
+			0 => array('name'=>'Kantutani Prever', 'description'=>'TRANSACCIONES','total_transaction' => $totalTransaction, 'total_billing'=> round($totalBilling3,2),'pu'=> round($arrayPrices[0]['unitCost'],2), 'created_at'=>$dateFrom,'cli' => 40001),
+			1 => array('name'=>'Kantutani Prever', 'description'=>'COSTO COMISION ENTIDADES FINANCIERAS MAS IT','total_transaction' => 1, 'total_billing'=> round($entitiesBilling,2),'pu'=> round($entitiesBilling,2), 'created_at'=>$dateFrom,'cli' => 40001),
+			2 => array('name'=>'Kantutani Prever', 'description'=>'TOTAL','total_transaction' => null, 'total_billing'=> round($totalBilling,2),'pu'=> null, 'created_at'=>$dateFrom,'cli' => 40001)
+			);
 	}
 
 /**
@@ -2771,9 +3029,6 @@ dd($totalBilling1);
 		$totalLIC = $billingSystemLIC + $billingBU_LIC;
 		
 		$totalBilling = $totalCI + $totalLIC;
-/*		
-	     return array('name'=>'SEGIP', 'description'=>'SEGIP2-SEGIP2','total_transaction' => $totalTransactionCI + $totalTransactionLIC , 'total_billing'=> round($totalBilling,2),'pu'=>null, 'created_at'=>$dateFrom,'cli' => 108);
-*/
 	      
 	     return array(
 					0 => array('name'=>'SEGIP', 'description'=>'TRANSACCIONES PROCESADAS POR EL SISTEMA - CEDULAS DE IDENTIDAD','total_transaction' => $transactionNetoCI, 'total_billing'=> round($billingSystemCI,2),'pu'=> round($arrayPrices[0]['sumaCI'],2), 'created_at'=>$dateFrom,'cli' => 108),

@@ -83,10 +83,10 @@
 				            	<td class="text-left" colspan="2">{{ $value1[0]['name'] }} 
 								</td>
 								<td class="text-left" colspan="3">
-								<a class="button" id="mostrar_{{ $value1[0]['cli'] }}" onclick="showTable('mostrar',{{ $value1[0]['cli'] }})" style="display: none;">Ver Detalle</a>
-								<a class="button1" id="ocultar_{{ $value1[0]['cli'] }}" onclick="showTable('ocultar',{{ $value1[0]['cli'] }})">Ocultar Detalle</a></td>
+								<a class="button" id="mostrar_{{ $value1[0]['cli'] }}" onclick="showTable('mostrar',{{ $value1[0]['cli'] }})" >Ver Detalle</a>
+								<a class="button1" id="ocultar_{{ $value1[0]['cli'] }}" style="display: none;" onclick="showTable('ocultar',{{ $value1[0]['cli'] }})">Ocultar Detalle</a></td>
 				            </tr> 
-				            	<tr id="target_{{ $value1[0]['cli'] }}"><td colspan="6"><table width="100%">
+				            	<tr id="target_{{ $value1[0]['cli'] }}" style="display: none;"><td colspan="6"><table width="100%">
 								<tr style="background: #c5d9e6; padding-left: 10px; padding-bottom:10px;">
 									<td class="text-center">&nbsp;</td>
 									<th class="text-center">Nombre</th>
@@ -162,6 +162,7 @@
 </div>
 
 <script type="text/javascript">
+
 
 		function showTable(mostrar, code){ 
 
