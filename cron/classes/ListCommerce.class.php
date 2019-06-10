@@ -154,10 +154,12 @@ class ListCommerce extends Setup
 
                     if($intevalosCobro > 0){ echo "entro";
 
+                        $subImportId = mysqli_insert_id($conectDB);
+
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
                          $query1 .= "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, subcod_empresa,fecha_referencial)VALUES(
-                                    LAST_INSERT_ID(),
+                                    ".$subImportId.",
                                     '".$vIntervalo['descripcionIntervalo']."',
                                     ".$vIntervalo['cantidadTransacciones'].",
                                     ".$vIntervalo['montoTotal'].",
