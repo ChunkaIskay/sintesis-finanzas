@@ -168,7 +168,7 @@ class ListCommerce extends Setup
                                     '".date('Y-m-d', strtotime($fechaRef))."'
                                 );";
                         }
-                        echo $query1;
+                        
                         $insertMulti = mysqli_multi_query($conectDB,$query1);
 
                         if($insertMulti==1 || $insertMulti == true){
