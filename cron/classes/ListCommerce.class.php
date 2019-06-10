@@ -148,7 +148,7 @@ class ListCommerce extends Setup
 
 
             if (mysqli_query($conectDB,$query)) {
-                    $subImportId = mysql_insert_id($conectDB);
+                  //  $subImportId = mysql_insert_id($conectDB);
                     $codEmpresa = $dataR['codigo_unico_empresa']; 
                     $fechaRef = $dataR['fecha_referencial'];
 
@@ -157,7 +157,7 @@ class ListCommerce extends Setup
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
                          $query1 .= "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, fecha_referencial)VALUES(
-                                    ".$subImportId.",
+                                    ".LAST_INSERT_ID().",
                                     '".$vIntervalo['descripcionIntervalo']."',
                                     ".$vIntervalo['cantidadTransacciones'].",
                                     ".$vIntervalo['montoTotal'].",
@@ -170,7 +170,7 @@ class ListCommerce extends Setup
                         $insertMulti = mysqli_multi_query($conectDB,$query1);
 
                         if($insertMulti==1 || $insertMulti == true){
-                            echo"OK";
+                            echo"OK1";
                         }else{ echo "Error00!!";}
                     }
             } else {
@@ -181,9 +181,7 @@ class ListCommerce extends Setup
                 
         
 
-        if($sendquery==1 || $sendquery == true){
-            echo"OK";
-        }else{ echo "Error00!!";}
+        
        
         mysqli_close($conectDB);
     
