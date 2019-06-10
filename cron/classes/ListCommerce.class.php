@@ -152,7 +152,7 @@ class ListCommerce extends Setup
                     $codEmpresa = $dataR['codigo_unico_empresa']; 
                     $fechaRef = $dataR['fecha_referencial'];
 
-                    if($intevalosCobro > 0){
+                    if($intevalosCobro > 0){ echo "entro";
 
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
