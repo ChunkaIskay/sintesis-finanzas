@@ -125,9 +125,7 @@ class ListCommerce extends Setup
 
     private function saveloadDataReport($rs2){
         
-        print_r($rs2);
-        exit;
-
+    
 
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
