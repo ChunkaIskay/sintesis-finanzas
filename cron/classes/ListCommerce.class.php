@@ -152,7 +152,7 @@ class ListCommerce extends Setup
                     $codEmpresa = $dataR['codigo_unico_empresa']; 
                     $fechaRef = $dataR['fecha_referencial'];
 
-                    if($intevalosCobro > 0){ echo "entro";
+                    if($intevalosCobro > 0){
 
                         $subImportId = mysqli_insert_id($conectDB);
 
@@ -172,19 +172,16 @@ class ListCommerce extends Setup
                         $insertMulti = mysqli_multi_query($conectDB,$query1);
 
                         if($insertMulti==1 || $insertMulti == true){
+                            mysqli_free_result($query1);
                             echo"OK1";
                         }else{ echo "Error00!!";}
                     }
             } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conectDB);
+            echo "Errorooooo: " . $query . "<br>" . mysqli_error($conectDB);
             }
             
         }
-                
-        
 
-        
-       
         mysqli_close($conectDB);
     
     }
