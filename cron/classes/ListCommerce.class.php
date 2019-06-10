@@ -18,7 +18,7 @@ class ListCommerce extends Setup
 	public function restComercios(){
 
 	    $siaf = "http://199.3.0.90:9090/SIIApp-rest/comelec/reporte/comercio";
-
+ 
 		$siaf_json = file_get_contents($siaf);
 		$siaf_array = json_decode($siaf_json, true);
 
@@ -139,21 +139,51 @@ class ListCommerce extends Setup
             $monto = ($dataR['monto'] != null)? $dataR['monto']:0;
             $cantidadTransacciones = ($dataR['cantidadTransacciones'] != null)? $dataR['cantidadTransacciones']:0;
       
-            $query .= "INSERT INTO pagos_net_client_import(codigo_unico_empresa, razon_social, monto_total_comision, monto, cantidad_transacciones, nombre_comercio, error, mensaje, id_client, fecha_referencial)VALUES(
+            $query = "INSERT INTO pagos_net_client_import(codigo_unico_empresa, razon_social, nombre_comercio, intervalos_cobro ,error, mensaje, id_client, fecha_referencial)VALUES(
                             ".$dataR['codigo_unico_empresa'].",
                             '".$dataR['razon_social']."',
-                            ".$montoTotal.",
-                            ".$monto.",
-                            ".$cantidadTransacciones.",
                             '".$dataR['nombreComercio']."',
+                            ".$dataR['intervalos_cobro'].",
                             '".$dataR['error']."',
                             '".$dataR['mensaje']."',
                             ".$dataR['id_client'].",
                             '".date('Y-m-d', strtotime($dataR['fecha_referencial']))."'
                         );";
+
+
+            if (mysqli_query($conectDB,$query)) {
+            echo "ok";
+            } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conectDB);
+            }
+            $subImportId = mysql_insert_id();
+            $codEmpresa = $dataR['codigo_unico_empresa']; 
+            $fechaRef = $dataR['fecha_referencial'];
+
+            if(is_array($dataR['intervalos'])){
+
+                foreach($dataR['intervalos'] as $k => $vIntervalo){
+
+                 $query1 .= "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, fecha_referencial)VALUES(
+                            ".$subImportId.",
+                            '".$vIntervalo['descripcionIntervalo']."',
+                            ".$vIntervalo['cantidadTransacciones'].",
+                            ".$vIntervalo['montoTotal'].",
+                            ".$vIntervalo['montoTotalParaCobrar'].",
+                            ".$codEmpresa.",
+                            '".date('Y-m-d', strtotime($fechaRef))."'
+                        );";
+                }
+
+                $insertMulti = mysqli_multi_query($conectDB,$query1);
+
+                if($insertMulti==1 || $insertMulti == true){
+                    echo"OK";
+                }else{ echo "Error00!!";}
+                    }
         }
- 
-        $sendquery = mysqli_multi_query($conectDB,$query);
+                
+        
 
         if($sendquery==1 || $sendquery == true){
             echo"OK";
