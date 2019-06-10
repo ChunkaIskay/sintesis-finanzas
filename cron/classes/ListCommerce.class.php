@@ -176,10 +176,11 @@ class ListCommerce extends Setup
                             echo"OK1";
                         }else{ echo "Error00!!";}
                     }
+
             } else {
             echo "Errorooooo: " . $query . "<br>" . mysqli_error($conectDB);
             }
-            
+             mysqli_free_result($query);
         }
 
         mysqli_close($conectDB);
