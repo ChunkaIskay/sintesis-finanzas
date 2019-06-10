@@ -170,9 +170,9 @@ class ListCommerce extends Setup
                         }
                         
                         $insertMulti = mysqli_multi_query($conectDB,$query1);
-
+                        
                         if($insertMulti==1 || $insertMulti == true){
-                            mysqli_free_result($query1);
+                          mysqli_free_result($query1);  
                             echo"OK1";
                         }else{ echo "Error00!!";}
                     }
@@ -180,9 +180,9 @@ class ListCommerce extends Setup
             } else {
             echo "Errorooooo: " . $query . "<br>" . mysqli_error($conectDB);
             }
-             mysqli_free_result($query);
+             
         }
-
+            mysqli_free_result($query);
         mysqli_close($conectDB);
     
     }
