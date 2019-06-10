@@ -133,15 +133,13 @@ class ListCommerce extends Setup
         
         foreach($rs2 as $krs => $dataR){
 
-            $montoTotal = ($dataR['montoTotal'] != null)? $dataR['montoTotal']:0;
-            $monto = ($dataR['monto'] != null)? $dataR['monto']:0;
-            $cantidadTransacciones = ($dataR['cantidadTransacciones'] != null)? $dataR['cantidadTransacciones']:0;
+            $intevalosCobro = ($dataR['intervalosDeCobro'] != null)? $dataR['cantidadTransacciones']:0;
       
             $query = "INSERT INTO pagos_net_client_import(codigo_unico_empresa, razon_social, nombre_comercio, intervalos_cobro ,error, mensaje, id_client, fecha_referencial)VALUES(
                             ".$dataR['codigo_unico_empresa'].",
                             '".$dataR['razon_social']."',
                             '".$dataR['nombreComercio']."',
-                            ".$dataR['intervalos_cobro'].",
+                            ".$intevalosCobro.",
                             '".$dataR['error']."',
                             '".$dataR['mensaje']."',
                             ".$dataR['id_client'].",
