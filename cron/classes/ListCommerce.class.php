@@ -157,7 +157,7 @@ class ListCommerce extends Setup
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
                          $query1 .= "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, fecha_referencial)VALUES(
-                                    ".LAST_INSERT_ID().",
+                                    LAST_INSERT_ID(),
                                     '".$vIntervalo['descripcionIntervalo']."',
                                     ".$vIntervalo['cantidadTransacciones'].",
                                     ".$vIntervalo['montoTotal'].",
