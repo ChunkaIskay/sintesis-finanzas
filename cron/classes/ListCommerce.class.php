@@ -154,7 +154,7 @@ class ListCommerce extends Setup
                     $fechaRef = $dataR['fecha_referencial'];
 
                     if($intevalosCobro > 0){
-                        
+
                         $subImportId = mysqli_insert_id($conectDB);
                         echo "<br>id:".$subImportId;
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
@@ -171,7 +171,7 @@ class ListCommerce extends Setup
                         
                                 if($resulq=mysqli_query($conectDB,$query1)){
                                     mysqli_free_result($resulq);  
-                                    echo"<br>OKk:";
+                                    echo"<br>OKk:".$query1."<br>";
                                 }
 
                         }
