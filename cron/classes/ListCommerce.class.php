@@ -170,7 +170,7 @@ class ListCommerce extends Setup
                                 )";
                         
                                 if($resulq=mysqli_query($conectDB,$query1)){
-                                    mysqli_free_result($resulq);  
+                                    //mysqli_free_result($resulq);  
                                     echo"<br>OKk:".$query1."<br>";
                                 }
 
