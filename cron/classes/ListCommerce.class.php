@@ -156,7 +156,7 @@ class ListCommerce extends Setup
                     if($intevalosCobro > 0){
 
                         $subImportId = mysqli_insert_id($conectDB);
-                        echo "<br>id:".$subImportId;
+                        
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
                          $query1 = "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, subcod_empresa,fecha_referencial)VALUES(
@@ -171,7 +171,7 @@ class ListCommerce extends Setup
                         
                                 if($resulq=mysqli_query($conectDB,$query1)){
                                     //mysqli_free_result($resulq);  
-                                    echo"<br>OKk:".$query1."<br>";
+                                    echo"<br>OK";
                                 }
 
                         }
@@ -196,7 +196,7 @@ class ListCommerce extends Setup
             }
              
         }
-            mysqli_free_result($resulq);
+            //mysqli_free_result($resulq);
         mysqli_close($conectDB);
     
     }
