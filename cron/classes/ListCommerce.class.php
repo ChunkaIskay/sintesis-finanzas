@@ -130,6 +130,7 @@ class ListCommerce extends Setup
         $obj1 = new Setup();
         $conectDB = $obj1->conectDataB(2);
         $query = "";
+        $query1 = "";
         
         foreach($rs2 as $krs => $dataR){
 
