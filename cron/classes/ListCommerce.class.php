@@ -167,7 +167,7 @@ class ListCommerce extends Setup
                                     ".$vIntervalo['montoTotalParaCobrar'].",
                                     ".$codEmpresa.",
                                     '".date('Y-m-d', strtotime($fechaRef))."'
-                                );";
+                                )";
                         
                                 if($resulq=mysqli_query($conectDB,$query)){
                                    // mysqli_free_result($resulq);  
