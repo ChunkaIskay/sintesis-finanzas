@@ -154,13 +154,13 @@ class ListCommerce extends Setup
                     $fechaRef = $dataR['fecha_referencial'];
 
                     if($intevalosCobro > 0){
-
+                        
                         $subImportId = mysqli_insert_id($conectDB);
                         echo "<br>id:".$subImportId;
                         foreach($dataR['intervalos'] as $k => $vIntervalo){
 
                          $query1 = "INSERT INTO pagos_net_client_import(sub_import_id, descripcion_intervalo,cantidad_transacciones, monto_total, monto_total_cobrar, subcod_empresa,fecha_referencial)VALUES(
-                                    ".1.",
+                                    ".$subImportId.",
                                     '".$vIntervalo['descripcionIntervalo']."',
                                     ".$vIntervalo['cantidadTransacciones'].",
                                     ".$vIntervalo['montoTotal'].",
@@ -169,8 +169,8 @@ class ListCommerce extends Setup
                                     '".date('Y-m-d', strtotime($fechaRef))."'
                                 )";
                         
-                                if($resulq=mysqli_query($conectDB,$query)){
-                                   // mysqli_free_result($resulq);  
+                                if($resulq=mysqli_query($conectDB,$query1)){
+                                    mysqli_free_result($resulq);  
                                     echo"<br>OKk:";
                                 }
 
