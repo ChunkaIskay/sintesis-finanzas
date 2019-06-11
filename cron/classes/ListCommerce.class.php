@@ -167,14 +167,27 @@ class ListCommerce extends Setup
                                     ".$codEmpresa.",
                                     '".date('Y-m-d', strtotime($fechaRef))."'
                                 );";
+                        
+                                if($resulq=mysqli_query($conectDB,$query)){
+                                   // mysqli_free_result($resulq);  
+                                    echo"OK1";
+                                }
+
                         }
                         
-                        $insertMulti = mysqli_multi_query($conectDB,$query1);
-                        
-                        if($insertMulti==1 || $insertMulti == true){
-                          mysqli_free_result($query1);  
+
+                       // $insertMulti = mysqli_multi_query($conectDB,$query1);
+/*
+                        if($resulq=mysqli_query($conectDB,$query)){
+                            mysqli_free_result($resulq);  
                             echo"OK1";
-                        }else{ echo "Error00!!";}
+                        }
+*/
+
+                        /*if($insertMulti==1 || $insertMulti == true){
+                          mysqli_free_result($insertMulti);  
+                            echo"OK1";
+                        }else{ echo "Error00!!";}*/
                     }
 
             } else {
