@@ -195,7 +195,7 @@ class ListCommerce extends Setup
             }
              
         }
-            mysqli_free_result($query);
+            mysqli_free_result($resulq);
         mysqli_close($conectDB);
     
     }
