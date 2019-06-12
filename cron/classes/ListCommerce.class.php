@@ -192,7 +192,7 @@ class ListCommerce extends Setup
                     }
 
             } else {
-            echo "Errorooooo: " . $query . "<br>" . mysqli_error($conectDB);
+            echo "Error: " . $query . "<br>" . mysqli_error($conectDB);
             }
              
         }

@@ -36,11 +36,21 @@ class reportPagosNetController extends Controller
 		$dateFrom = $Request->input('dateFrom');
 		$dateTo = $Request->input('dateTo');
 		
-		$pagosNet = reportPagosNet::where('error','=','N')
+		/*$pagosNet = reportPagosNet::where('error','=','N')
 					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
-					-> where('razon_social','like',"%$query%")->paginate(20);
-	
-		return view('commission_pagosnet.index')->with(compact('pagosNet','query','dateTo','dateFrom'));
+					-> where('razon_social','like',"%$query%")->paginate(20);*/
+		$pagosNet = reportPagosNet::where('razon_social','like',"%$query%")
+					-> where('intervalos_cobro','<>','0')
+					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
+					-> orderBy('nombre_comercio', 'ASC')->paginate(30);
+
+		$pagosNetSub = reportPagosNet::where('sub_import_id','<>','0')
+					-> where('subcod_empresa','<>','0')
+					-> whereBetween('fecha_referencial', [$dateFrom, $dateTo])
+					-> orderBy('sub_import_id', 'ASC')->get();
+		
+
+		return view('commission_pagosnet.index')->with(compact('pagosNet','pagosNetSub','query','dateTo','dateFrom'));
 	}
 
 	public function testRESTFULL(){
