@@ -9,7 +9,6 @@
 
 	require_once 'classes/ListCommerce.class.php';
  
-
 	$obj= new ListCommerce();
 
 	// Guardar listado de nombres y sus id de empresa, se ejecuta una sola vez. 
@@ -20,8 +19,22 @@
 	$calcularFecha = strtotime('-1 day',strtotime($fecha));
 	$fechaDesde = date('Y-m-d',$calcularFecha);
 	$fechaHasta = date('Y-m-d',strtotime($fecha));
+
+	$fechaDesde = first_month_day();
+	$fechaHasta = last_month_day();
+
 	//$obj->loadDataReport($fechaDesde, $fechaHasta);
 	$obj->loadDataReport('2019-04-01', '2019-04-30');
 
-	//resto 1 mes
-	//date("m",strtotime($fecha."- 1 month"));
+	function last_month_day() { 
+	  $month = date('m');
+	  $year = date('Y');
+	  $day = date("d", mktime(0,0,0, $month, 0, $year));
+	  return date('Y-m-d', mktime(0,0,0, $month-1, $day, $year));
+	}
+
+	function first_month_day() {
+	  $month = date('m');
+	  $year = date('Y');
+	  return date('Y-m-d', mktime(0,0,0, $month-1, 1, $year));
+	}

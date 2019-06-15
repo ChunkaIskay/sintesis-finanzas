@@ -3,9 +3,7 @@
     ini_set('memory_limit', "3072M");
     //Tiempo maximo de ejecucion
     set_time_limit(300);
-  	//require_once '/svpn/www/htdocs/reports/classes/Setup.class.php';
-	//require_once '/svpn/www/htdocs/reports/classes/Sql.class.php';
-	//require_once '/classes/Setup.class.php';
+  
 	echo "hola"; 
 
 	require_once 'classes/Sql.class.php';

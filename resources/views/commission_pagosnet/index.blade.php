@@ -103,7 +103,6 @@
 		  
 		  <div class="col-md-3"></div>
 	</div>
-
 </div>
 
 <script type="text/javascript">
