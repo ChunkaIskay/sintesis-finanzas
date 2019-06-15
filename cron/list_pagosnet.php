@@ -24,7 +24,7 @@
 	$fechaHasta = last_month_day();
 
 	//$obj->loadDataReport($fechaDesde, $fechaHasta);
-	$obj->loadDataReport('2019-04-01', '2019-04-30');
+	$obj->loadDataReport('2019-05-01', '2019-05-31');
 
 	function last_month_day() { 
 	  $month = date('m');
