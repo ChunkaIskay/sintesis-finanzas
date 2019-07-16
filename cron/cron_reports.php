@@ -24,8 +24,8 @@
         $fechaDesde = $fechaAntes5;
       
     }
-/*$fechaDesde = '2019-04-01';
-$fechaHasta = '2019-04-30';*/
+$fechaDesde = '2019-06-01';
+$fechaHasta = '2019-06-30';
 
     $obj->importData($fechaDesde, $fechaHasta); 
     //resto 1 mes
