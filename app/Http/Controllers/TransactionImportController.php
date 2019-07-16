@@ -2602,6 +2602,8 @@ class TransactionImportController extends Controller
 				);
 
 		$totalBilling = 0;
+		$desctransacciones = '';
+		$pu = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%ITACAMBA-Recaudacion%")
