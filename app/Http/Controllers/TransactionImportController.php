@@ -1709,6 +1709,7 @@ class TransactionImportController extends Controller
 		$desctransacciones ='';
 		$additonialTransactions = 0;
 		$additonialTransactions1 = 0;
+		$pu = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NALVIDA-NACIONAL VIDA%")
