@@ -11,24 +11,13 @@
     $obj = new Sql();	
     
     $fecha = date('Y-m-j');
-
-    $calcularFecha5 = strtotime('-5 day',strtotime($fecha));
-    $fechaAntes5 = date('Y-m-j',$calcularFecha5);
-    $fechaHasta = date('Y-m-d');
-
-    if(date('d') == '02' || date('d') == '03' || date('d') == '04' || date('d') == '05'){ 
-        
-        $fechaDesde = date('Y').'-'.date("m").'-01'; 
+    $fecha = date('Y-m-j');
     
-    }else{
-        $fechaDesde = $fechaAntes5;
-      
-    }
-$fechaDesde = '2019-06-01';
-$fechaHasta = '2019-06-30';
-
+    $calcularFecha = strtotime('-1 day',strtotime($fecha));
+    $fechaDesde = date('Y-m-d',$calcularFecha);
+    $fechaHasta = date('Y-m-d',strtotime($fecha));
+//$fechaDesde = '2019-06-01';
+//$fechaHasta = '2019-06-30';
     $obj->importData($fechaDesde, $fechaHasta); 
-    //resto 1 mes
-    //date("m",strtotime($fecha."- 1 month"));
 
 ?>
