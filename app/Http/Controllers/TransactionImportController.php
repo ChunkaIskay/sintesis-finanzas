@@ -616,6 +616,7 @@ class TransactionImportController extends Controller
 
 		$totalBilling = 0;
 		$totalBilling3 = 0;
+		$additonialTransactions = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%KANTUTANI-LAS MISIONES%")
