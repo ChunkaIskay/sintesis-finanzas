@@ -16,8 +16,8 @@
     $calcularFecha = strtotime('-1 day',strtotime($fecha));
     $fechaDesde = date('Y-m-d',$calcularFecha);
     $fechaHasta = date('Y-m-d',strtotime($fecha));
-//$fechaDesde = '2019-06-01';
-//$fechaHasta = '2019-06-30';
+$fechaDesde = '2019-07-01';
+$fechaHasta = '2019-07-16';
     $obj->importData($fechaDesde, $fechaHasta); 
 
 ?>

@@ -3127,6 +3127,7 @@ class TransactionImportController extends Controller
 
 		$totalBilling = 0;
 		$totalBilling1	 = 0;
+		$desctransacciones ='';
 		$billingBMSC = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
