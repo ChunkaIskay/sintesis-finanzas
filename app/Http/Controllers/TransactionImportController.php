@@ -1706,6 +1706,7 @@ class TransactionImportController extends Controller
 						);
 
 		$totalBilling = 0;
+		$desctransacciones ='';
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%NALVIDA-NACIONAL VIDA%")
@@ -2088,6 +2089,7 @@ class TransactionImportController extends Controller
 			);
 
 		$totalBilling = 0;
+		$totalBilling1 = 0;
 		$totalCanal = 0;
 		$totalCanalBU = 0;
 
