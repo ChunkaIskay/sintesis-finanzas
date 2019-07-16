@@ -2644,7 +2644,8 @@ class TransactionImportController extends Controller
 	    	$desctransacciones = "TRANSACCIONES";
 	    }
 
-		$pu =$arrayPrices[0]['monthlyFixed'] / $totalTransaction;
+		if($totalTransaction > 0)
+			$pu =$arrayPrices[0]['monthlyFixed'] / $totalTransaction;
 
 	   return array(
 					0 => array('name'=>'ItaCamba', 'description'=> 'CARGO FIJO MENSUAL POR SERVICIO DE CONCILIACION','total_transaction' => $conciliation[0]['amountService'], 'total_billing'=> round($conciliation[0]['monthlyFixed'],2),'pu'=> round($conciliation[0]['monthlyFixed'],2), 'created_at'=>$dateFrom,'cli' => 121),
