@@ -3129,6 +3129,7 @@ class TransactionImportController extends Controller
 		$totalBilling1	 = 0;
 		$desctransacciones ='';
 		$billingBMSC = 0;
+		$pu = 0;
 		
 		$totalTransaction = DB::table('transaction_import')
 	    ->where('servicio', 'like', "%FORTALEZA-FORTALESA%")
